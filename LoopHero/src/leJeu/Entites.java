@@ -25,7 +25,7 @@ public abstract class Entites implements InterfaceEntites {
 
 	@Override
 	public int degat(){
-		return Math.round(force);
+		return (int) force;
 	}
 
 	

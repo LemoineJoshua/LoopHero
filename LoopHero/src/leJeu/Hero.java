@@ -25,7 +25,7 @@ public class Hero extends Entites {
 
     public int degat(){
         //fonction qui inflige entre 
-        return Math.round(4+(Math.random()*2));
+        return (int) (4+(Math.random()*2));
     }
 
 

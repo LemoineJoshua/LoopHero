@@ -7,6 +7,8 @@ public class Plateau {
     private int position;
     private final Coord[] listeCoord;
 	private final Cases[][] matricePlateau;
+	private final Hero hero = new Hero(100,100,100,100,100,100,100,"image");
+	
 	
 	public Plateau() {
 		this.boucle=0;
@@ -19,8 +21,10 @@ public class Plateau {
         //initialise le plateau de jeu (vide avec une route)
         Cases[][] matricePlateau = new Cases[21][12];
 
-        for(Coord coord : listeCoord){
-            matricePlateau[coord.x()][coord.y()]= new Cases();
+        for(int x=0;x<21;x++){
+        	for(int y=0;y<12;y++) {
+            	matricePlateau[x][y]= new Cases();//m�me les cases de vide sont des cases
+        	}
         }
         return matricePlateau;
     }
@@ -34,7 +38,7 @@ public class Plateau {
     public void combat(int x, int y){
 		//Fonction appelee apres isCombat qui serait dans Case
         if(matricePlateau[heroX()][heroY()].isCombat()){
-            Hero.perteHP(6);
+            hero.perteHP(6);
             Temps.combat();
         }
     }
@@ -51,11 +55,11 @@ public class Plateau {
 
 	private int heroX(){
         //facilite l'accès a la coordonnée X du héro
-		return listeCoord[position][0];
+		return listeCoord[position].x();
     }
 
 	private int heroY(){
         //facilite l'accès a la coordonnée Y du héro
-		return listeCoord[position][1];
+		return listeCoord[position].y();
     }
 }

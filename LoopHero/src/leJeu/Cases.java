@@ -11,7 +11,6 @@ public class Cases {
     public Cases(){
         this.monstresPresent = new ArrayList<Monstre>();
         this.monstresSpawnable = new ArrayList<Monstre>();
-        monstresSpawnable.add(Slime); //toutes les cases peuvent spawn des slimes
         this.casesImpactes = new ArrayList<Coord>();
     }
 
