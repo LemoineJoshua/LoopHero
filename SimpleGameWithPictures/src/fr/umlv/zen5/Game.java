@@ -2,9 +2,19 @@ package fr.umlv.zen5;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import javax.imageio.ImageIO;
+
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
@@ -18,6 +28,7 @@ public class Game {
 	float heigth;
 	
 	
+		
 	
 	public void potiCare(Graphics2D graphics) {
 		graphics.setColor(Color.RED);
@@ -34,29 +45,42 @@ public class Game {
 		
 		
 		
-		float heigthPlayingZone = heigth-(heigth/6+heigth/10);
-		float squareSize = heigthPlayingZone / 12;
-		float widthPlayingZone = squareSize*21;
-		float xPlayingZone = 0;
-		float yPlayingZone =heigth/10;
+		int heigthPlayingZone = Math.round(heigth-(heigth/6+heigth/10));
+		int squareSize = Math.round(heigthPlayingZone/12);
+		int widthPlayingZone = Math.round(squareSize*21);
+		int xPlayingZone = 0;
+		int yPlayingZone =Math.round(heigth/10);
 		
 		graphics.setColor(Color.WHITE);
 		
 		for (int i = 0; i <= 12; i++) {
-			float line = yPlayingZone + i * squareSize;
+			int line = yPlayingZone + i * squareSize;
 			graphics.draw(new Line2D.Float(xPlayingZone, line, widthPlayingZone, line));
 		}
 
 		for (int i = 0; i <= 21; i++) {
-			float column = xPlayingZone + i * squareSize;
+			int column = xPlayingZone + i * squareSize;
 			graphics.draw(new Line2D.Float(column, yPlayingZone, column, yPlayingZone+heigthPlayingZone));
 		}
-		
 		
 		//graphics.setColor(Color.BLUE);
 		//graphics.fill(new Rectangle2D.Float(xPlayingZone,yPlayingZone,widthPlayingZone,heigthPlayingZone));
 		
+		String pictureName = "pictures/chemin.png";
+		Path path = Path.of(pictureName);
+		try (InputStream in = Files.newInputStream(path)) {
+			BufferedImage img = ImageIO.read(in);
+			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(squareSize / (double) img.getWidth(), squareSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, xPlayingZone + 3 * squareSize, yPlayingZone + 5 * squareSize);
+		} catch (IOException e) {
+			throw new RuntimeException("problème d'affichage : " + path.getFileName());
+		}
 	}
+		
+		
+	
 	
 	private void DrawFrame(Graphics2D graphics) {
 		
