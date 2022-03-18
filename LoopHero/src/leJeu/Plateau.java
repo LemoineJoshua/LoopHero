@@ -19,7 +19,7 @@ public class Plateau {
 	
 	private Cases[][] initCases(){
         //initialise le plateau de jeu (vide avec une route)
-        Cases[][] matricePlateau = new Cases[21][12];
+        Cases[][] matricePlateau = new Cases[12][21];
 
         for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
