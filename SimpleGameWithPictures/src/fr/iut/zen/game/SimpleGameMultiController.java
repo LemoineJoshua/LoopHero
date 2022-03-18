@@ -6,7 +6,7 @@ import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
-
+//potat
 public class SimpleGameMultiController {
 	private final SimpleGameData data = new SimpleGameData(5, 8);
 	private final SimpleGameView view = SimpleGameView.initGameGraphics(200, 50, 600, data);
