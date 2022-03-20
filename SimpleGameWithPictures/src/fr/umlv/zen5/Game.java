@@ -82,7 +82,7 @@ public class Game {
 		
 	
 	
-	private void DrawFrame(Graphics2D graphics) {
+	private void DrawFrame(Graphics2D graphics,int test) {
 		
 		// on dessine un poti caré
 		menu(graphics);
@@ -110,7 +110,7 @@ public class Game {
 		//Puis affiche ta fonction (d'ou le fait qu'on mette une fonction en parametre)
 		//Puis range proprement toutes les données graphiques
 		//le paramètre qu'il envoie en premier à ta fonction c'est un object Graphics2D
-		this.ctx.renderFrame(this::DrawFrame); 
+		this.ctx.renderFrame(graphics -> DrawFrame(graphics,2)); 
 		
 		Event e = ctx.pollOrWaitEvent(200);//on récupère tout evenement sur la machine (temps d'attente max 200 millisecondes)
 		

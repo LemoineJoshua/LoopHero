@@ -1,6 +1,8 @@
-package leJeu;
+package leJeu.inventories;
 
 import java.util.ArrayList;
+
+import leJeu.boardGame.Coord;
 
 public class Carte {
     private final String image;

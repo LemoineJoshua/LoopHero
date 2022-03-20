@@ -1,4 +1,4 @@
-package leJeu;
+package leJeu.entities;
 
 public class Monstre extends Entites {
 	

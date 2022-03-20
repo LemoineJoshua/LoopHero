@@ -1,4 +1,4 @@
-package leJeu;
+package leJeu.inventories;
 
 import java.util.ArrayList;
 

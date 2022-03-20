@@ -1,6 +1,8 @@
-package leJeu;
+package leJeu.boardGame;
 
 import java.util.ArrayList;
+
+import leJeu.Entities.Monstre;
 
 public class Cases {
     private final ArrayList<Monstre> monstresPresent;   //les monstres sur la case
@@ -36,6 +38,7 @@ public class Cases {
         monstresSpawnable.remove(spawnable);
     }
 
+    
     public void clearCase(){ //Fonction pour le Oblivion
         for (Cases case : casesImpactes){
             
@@ -43,6 +46,7 @@ public class Cases {
         
         clearMob();
     }
+    
 
     public void SpawnTour(){
         //fait spawner des mobs sur la case pour le tour actuel, en verifiant la proba de spawn

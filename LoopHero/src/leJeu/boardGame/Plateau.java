@@ -1,6 +1,8 @@
-package leJeu;
+package leJeu.boardGame;
 
 import java.util.ArrayList;
+
+import leJeu.entities.Hero;
 
 public class Plateau {
 	private int boucle;

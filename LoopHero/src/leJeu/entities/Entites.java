@@ -1,4 +1,4 @@
-package leJeu;
+package leJeu.entities;
 
 public abstract class Entites implements InterfaceEntites {
 	protected long maxHp;
