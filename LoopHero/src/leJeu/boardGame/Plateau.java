@@ -17,7 +17,7 @@ public class Plateau {
 	public Plateau() {
 		this.boucle=0;
         this.position=0;
-        this.listeCoord =initCoord();
+        this.listeCoord =initPath();
 		this.matricePlateau=initCases();
 	}
 	
@@ -35,8 +35,8 @@ public class Plateau {
         return matricePlateau;
     }
 
-    private Coord[] initCoord(){
-        //renvoie le chemin que doit parcourir le héro coordonées par coordonées
+    private Coord[] initPath(){
+        //renvoie le chemin que doit parcourir le hero coordonees par coordonées
         Coord[] listCoord = 
         		{
         		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
@@ -66,12 +66,12 @@ public class Plateau {
         position+=1;
 	}
 
-	private int heroX(){
+	public int heroX(){
         //facilite l'accès a la coordonnée X du héro
 		return listeCoord[position].x();
     }
 
-	private int heroY(){
+	public int heroY(){
         //facilite l'accès a la coordonnée Y du héro
 		return listeCoord[position].y();
     }
@@ -80,6 +80,12 @@ public class Plateau {
 		return listeCoord;
 	}
 	
+	public void moveHero() {
+		position +=1;
+		if (position == 34) {
+			position =0;
+		}
+	}
 	
 	
 	
