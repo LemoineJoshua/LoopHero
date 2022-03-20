@@ -1,5 +1,7 @@
 package leJeu.boardGame;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import leJeu.entities.Hero;
@@ -25,15 +27,24 @@ public class Plateau {
 
         for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
-            	matricePlateau[x][y]= new Cases();//m�me les cases de vide sont des cases
+            	matricePlateau[y][x]= new Cases();//m�me les cases de vide sont des cases
         	}
         }
+        
+        
         return matricePlateau;
     }
 
     private Coord[] initCoord(){
         //renvoie le chemin que doit parcourir le héro coordonées par coordonées
-        Coord[] listCoord = new Coord[34];
+        Coord[] listCoord = 
+        		{
+        		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
+        		new Coord(11,4),new Coord(11,3),new Coord(11,2),new Coord(12,2),new Coord(13,2),new Coord(13,3),new Coord(14,3),
+        		new Coord(14,4), new Coord(14,5),new Coord(14,6),new Coord(13,6),new Coord(13,7),new Coord(12,7),new Coord(11,7),
+        		new Coord(11,8),new Coord(10,8),new Coord(9,8),new Coord(9,7),new Coord(8,7),new Coord(7,7),new Coord(6,7),new Coord(6,6),
+        		new Coord(6,5),new Coord(5,5),new Coord(5,4),new Coord(5,3)
+        		};
         return listCoord;
     }
 
@@ -41,7 +52,7 @@ public class Plateau {
 		//Fonction appelee apres isCombat qui serait dans Case
         if(matricePlateau[heroX()][heroY()].isCombat()){
             hero.perteHP(6);
-            Temps.combat();
+            //Temps.combat();
         }
     }
 
@@ -64,4 +75,15 @@ public class Plateau {
         //facilite l'accès a la coordonnée Y du héro
 		return listeCoord[position].y();
     }
+	
+	public Coord[] listeCoord() {
+		return listeCoord;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

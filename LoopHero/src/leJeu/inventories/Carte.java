@@ -23,7 +23,7 @@ public class Carte {
 
 
 
-    public boolean isDropped();
+   // public boolean isDropped();
     // A faire avec la reponse de Carine Pivoteau
 
     

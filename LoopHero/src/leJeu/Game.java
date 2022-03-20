@@ -1,4 +1,4 @@
-package fr.umlv.zen5;
+package leJeu;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,37 +19,54 @@ import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
+import leJeu.boardGame.Coord;
+import leJeu.boardGame.Plateau;
 
 
 public class Game {
 	
-	ApplicationContext ctx; //on stocke le contexte directement dans la classe pour pas avoir à l'appeler
-	float width;
-	float heigth;
+	private ApplicationContext ctx; //on stocke le contexte directement dans la classe pour pas avoir à l'appeler
+	
+	private float width;
+	private float heigth;
+	
+	private int heigthPlayingZone;
+	private int squareSize;
+	private int widthPlayingZone;
+	private int xPlayingZone;
+	private int yPlayingZone;
 	
 	
-		
+	private Plateau Board = new Plateau();
 	
-	public void potiCare(Graphics2D graphics) {
-		graphics.setColor(Color.RED);
-		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth));
-	}
 	
-	public void menu(Graphics2D graphics) {
+	public void drawInterface(Graphics2D graphics) {
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
 		graphics.fill(new Rectangle2D.Float(width-(width/5), 0, width/5, heigth));
 		
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fill(new Rectangle2D.Float(0, heigth-(heigth/6), width-(width/5), heigth));
+	}
+	
+	public BufferedImage stringToImage(String pictureName) {
+		Path path = Path.of(pictureName);
+		try (InputStream in = Files.newInputStream(path)) {
+			BufferedImage img = ImageIO.read(in);
+			return img;
+		} catch (IOException e) {
+			throw new RuntimeException("probleme de dossier : " + path.getFileName());
+		}
+	}
+	
+	public void drawATile(Graphics2D graphics, int x, int y, BufferedImage img) {
+			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(squareSize / (double) img.getWidth(), squareSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, xPlayingZone + x * squareSize, yPlayingZone + y * squareSize);
+	}
 		
-		
-		
-		int heigthPlayingZone = Math.round(heigth-(heigth/6+heigth/10));
-		int squareSize = Math.round(heigthPlayingZone/12);
-		int widthPlayingZone = Math.round(squareSize*21);
-		int xPlayingZone = 0;
-		int yPlayingZone =Math.round(heigth/10);
+	public void drawBoard(Graphics2D graphics) {
 		
 		graphics.setColor(Color.WHITE);
 		
@@ -63,31 +80,18 @@ public class Game {
 			graphics.draw(new Line2D.Float(column, yPlayingZone, column, yPlayingZone+heigthPlayingZone));
 		}
 		
-		//graphics.setColor(Color.BLUE);
-		//graphics.fill(new Rectangle2D.Float(xPlayingZone,yPlayingZone,widthPlayingZone,heigthPlayingZone));
-		
-		String pictureName = "pictures/chemin.png";
-		Path path = Path.of(pictureName);
-		
-		try (InputStream in = Files.newInputStream(path)) {
-			BufferedImage img = ImageIO.read(in);
-			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
-					.getScaleInstance(squareSize / (double) img.getWidth(), squareSize / (double) img.getHeight()),
-					AffineTransformOp.TYPE_BILINEAR);
-			graphics.drawImage(img, scaling, xPlayingZone + 3 * squareSize, yPlayingZone + 5 * squareSize);
-			
-		} catch (IOException e) {
-			throw new RuntimeException("problÃ¨me d'affichage : " + path.getFileName());
+		BufferedImage img = stringToImage("pictures/chemin.png");
+		for(Coord coord : Board.listeCoord()) {
+			drawATile(graphics,coord.x(),coord.y(),img);
 		}
-	}
 		
-		
-	
-	
+    }
+ 
 	private void DrawFrame(Graphics2D graphics,int test) {
 		
 		// on dessine un poti caré
-		menu(graphics);
+		drawInterface(graphics);
+		drawBoard(graphics);
 
 	}
 
@@ -97,6 +101,12 @@ public class Game {
 		ScreenInfo screen = ctx.getScreenInfo();
 		this.width = screen.getWidth();
 		this.heigth = screen.getHeight();
+		
+		this.heigthPlayingZone = Math.round(heigth-(heigth/6+heigth/10));
+		this.squareSize = Math.round(heigthPlayingZone/12);
+		this.widthPlayingZone = Math.round(squareSize*21);
+		this.xPlayingZone = 0;
+		this.yPlayingZone =Math.round(heigth/10);
 		
 		while(true) {
 			

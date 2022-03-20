@@ -1,8 +1,8 @@
 package leJeu.boardGame;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
-
-import leJeu.Entities.Monstre;
+import leJeu.entities.Monstre;
 
 public class Cases {
     private final ArrayList<Monstre> monstresPresent;   //les monstres sur la case
@@ -14,6 +14,7 @@ public class Cases {
         this.monstresPresent = new ArrayList<Monstre>();
         this.monstresSpawnable = new ArrayList<Monstre>();
         this.casesImpactes = new ArrayList<Coord>();
+        this.apparence = null;
     }
 
     public void addMob(Monstre newMonster){
@@ -38,7 +39,7 @@ public class Cases {
         monstresSpawnable.remove(spawnable);
     }
 
-    
+    /*
     public void clearCase(){ //Fonction pour le Oblivion
         for (Cases case : casesImpactes){
             
@@ -46,6 +47,7 @@ public class Cases {
         
         clearMob();
     }
+    */
     
 
     public void SpawnTour(){
@@ -61,5 +63,13 @@ public class Cases {
         //renvoie vrai si un combat doit etre lance
         return (!monstresPresent.isEmpty());
     }
+    
+    public void AfficheCase(Graphics2D graphics) {
+    	if(apparence!=null) {
+    		
+    	}
+    }
+    
+    
 }
 
