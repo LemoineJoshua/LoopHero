@@ -1,8 +1,8 @@
-package leJeu.entities;
+package theGame.entities;
 
 public abstract class Entites implements InterfaceEntites {
 	protected long maxHp;
-	protected long hp;
+	public long hp;
 	protected double force;
 	protected double defence;
 	protected double counterAttack;
@@ -23,6 +23,10 @@ public abstract class Entites implements InterfaceEntites {
 		this.image=image;
 	}
 
+	public String image() {
+		return image;
+	}
+	
 	@Override
 	public int degat(){
 		return (int) force;

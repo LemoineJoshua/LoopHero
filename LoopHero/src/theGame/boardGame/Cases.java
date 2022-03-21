@@ -1,23 +1,24 @@
-package leJeu.boardGame;
+package theGame.boardGame;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import leJeu.entities.Monstre;
+
+import theGame.entities.Monster;
 
 public class Cases {
-    private final ArrayList<Monstre> monstresPresent;   //les monstres sur la case
-    private final ArrayList<Monstre> monstresSpawnable; //les monstres qui peuvent apparaitre
+    private final ArrayList<Monster> monstresPresent;   //les monstres sur la case
+    private final ArrayList<Monster> monstresSpawnable; //les monstres qui peuvent apparaitre
     private final ArrayList<Coord> casesImpactes;       //les cases impactés par cette case (comme avec le phare apr exemple)
     private String apparence; //je crois que c'est un chemin absolu qui faut
 
     public Cases(){
-        this.monstresPresent = new ArrayList<Monstre>();
-        this.monstresSpawnable = new ArrayList<Monstre>();
+        this.monstresPresent = new ArrayList<Monster>();
+        this.monstresSpawnable = new ArrayList<Monster>();
         this.casesImpactes = new ArrayList<Coord>();
         this.apparence = null;
     }
 
-    public void addMob(Monstre newMonster){
+    public void addMob(Monster newMonster){
         //ajouter un monstre sur la case
         if(monstresPresent.size()<1){
             monstresPresent.add(newMonster);
@@ -29,12 +30,12 @@ public class Cases {
         monstresPresent.clear();; 
     }
 
-    public void addSpawnable(Monstre newSpawnable){
+    public void addSpawnable(Monster newSpawnable){
         //ajouter un monstre pouvant apparaitre sur la case
         monstresSpawnable.add(newSpawnable); //pas d'anti doublon, on veut que les chances de spawn évolue en fonction des batiments autours
     }
     
-    public void removeSpawnable(Monstre spawnable){
+    public void removeSpawnable(Monster spawnable){
         //enlever un monstre pouvant apparaitre sur la case (oblivion)
         monstresSpawnable.remove(spawnable);
     }
@@ -52,7 +53,7 @@ public class Cases {
 
     public void SpawnTour(){
         //fait spawner des mobs sur la case pour le tour actuel, en verifiant la proba de spawn
-        for (Monstre spawningMonstre : monstresSpawnable){
+        for (Monster spawningMonstre : monstresSpawnable){
             if (spawningMonstre.doSpawn()){
                 addMob(spawningMonstre);
             }
@@ -68,6 +69,10 @@ public class Cases {
     	if(apparence!=null) {
     		
     	}
+    }
+    
+    public ArrayList<Monster> monstresPresent(){
+    	return monstresPresent;
     }
     
     

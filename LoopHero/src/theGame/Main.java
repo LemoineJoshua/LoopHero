@@ -1,4 +1,4 @@
-package leJeu;
+package theGame;
 
 import java.awt.Color;
 

@@ -1,9 +1,10 @@
-package leJeu;
+package theGame;
 
 public class TimeData {
 	private long tick = System.currentTimeMillis();
 	private long elapsedTotal = 0; 	// temps écoulé depuis le début
 	private long elapsedHero = 0; 	// temps écoulé depuis la dernière action de Hero
+	private long elapsedDay = 0;
 	private boolean stopped;
 	public static double DAY_MILLISECONDS = 20_000; //nombre de milliseconde dans une journée
 	public static int HERO_DELAY = 1000; //temps entre deux actions de Hero
@@ -14,6 +15,7 @@ public class TimeData {
 		long tock = System.currentTimeMillis();
 		elapsedTotal += (tock - tick) * timeModifier;
 		elapsedHero += (tock - tick) * timeModifier;
+		elapsedDay += (tock - tick) * timeModifier;
 		tick = tock;
 	}
 
@@ -24,6 +26,18 @@ public class TimeData {
 		return (elapsedTotal % DAY_MILLISECONDS) / (double) DAY_MILLISECONDS;
 	}
 
+	public void resetelapsedDay() {
+		elapsedDay = 0;
+	}
+	
+	public long elapsedDay() {
+		if (stopped) {
+			return 0;
+		}
+		tickTock();
+		return elapsedDay;
+	}
+	
 	public long elapsedHero() {
 		if (stopped) {
 			return 0;

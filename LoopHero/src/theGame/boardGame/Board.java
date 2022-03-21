@@ -1,20 +1,21 @@
-package leJeu.boardGame;
+package theGame.boardGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import leJeu.entities.Hero;
+import theGame.entities.Hero;
+import theGame.entities.Monster;
 
-public class Plateau {
+public class Board {
 	private int boucle;
     private int position;
     private final Coord[] listeCoord;
 	private final Cases[][] matricePlateau;
-	private final Hero hero = new Hero(100,100,100,100,100,100,100,"image");
+	private final Hero hero = new Hero(100,100,100,100,100,100,100,"NoImage");
 	
 	
-	public Plateau() {
+	public Board() {
 		this.boucle=0;
         this.position=0;
         this.listeCoord =initPath();
@@ -31,13 +32,12 @@ public class Plateau {
         	}
         }
         
-        
         return matricePlateau;
     }
 
     private Coord[] initPath(){
         //renvoie le chemin que doit parcourir le hero coordonees par coordonées
-        Coord[] listCoord = 
+        Coord[] listeCoord = 
         		{
         		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
         		new Coord(11,4),new Coord(11,3),new Coord(11,2),new Coord(12,2),new Coord(13,2),new Coord(13,3),new Coord(14,3),
@@ -45,13 +45,27 @@ public class Plateau {
         		new Coord(11,8),new Coord(10,8),new Coord(9,8),new Coord(9,7),new Coord(8,7),new Coord(7,7),new Coord(6,7),new Coord(6,6),
         		new Coord(6,5),new Coord(5,5),new Coord(5,4),new Coord(5,3)
         		};
-        return listCoord;
+        return listeCoord;
     }
 
-    public void combat(int x, int y){
+    public void initSlime(Monster mob) {
+    	for(Coord coord: listeCoord) {
+    		matricePlateau[coord.y()][coord.x()].addSpawnable(mob);
+    	}
+    }
+    
+    public void SpawningTime() {
+    	for(Coord coord: listeCoord) {
+    		matricePlateau[coord.y()][coord.x()].SpawnTour();
+    	}
+    }
+    
+    public void combat(){
 		//Fonction appelee apres isCombat qui serait dans Case
-        if(matricePlateau[heroX()][heroY()].isCombat()){
+        if(matricePlateau[heroY()][heroX()].isCombat()){
+        	matricePlateau[heroY()][heroX()].clearMob();
             hero.perteHP(6);
+            System.out.println(hero.hp); //faut remettre les hps en protected
             //Temps.combat();
         }
     }
@@ -87,8 +101,13 @@ public class Plateau {
 		}
 	}
 	
+	public void addSpawnable(Monster mob, int x, int y) {
+		matricePlateau[y][x].addSpawnable(mob);
+	}
 	
-	
+	public Cases[][] matricePlateau(){
+		return matricePlateau;
+	}
 	
 	
 	

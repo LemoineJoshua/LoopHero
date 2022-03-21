@@ -1,10 +1,10 @@
-package leJeu.entities;
+package theGame.entities;
 
-public class Monstre extends Entites {
+public class Monster extends Entites {
 	
     private final float chanceSpawn;
 
-    public Monstre(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image,float chanceSpawn){
+    public Monster(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image,float chanceSpawn){
         super(maxHp,force,defence,counterAttack,regen,esquive,vampirisme,image);
         this.chanceSpawn=chanceSpawn;
     }

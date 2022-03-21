@@ -1,4 +1,4 @@
-package leJeu;
+package theGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -15,38 +15,48 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
-import leJeu.TimeData;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
-import leJeu.boardGame.Coord;
-import leJeu.boardGame.Plateau;
+import theGame.TimeData;
+import theGame.boardGame.Coord;
+import theGame.boardGame.Board;
 
 
 public class Game {
 	
 	private ApplicationContext ctx; //on stocke le contexte directement dans la classe pour pas avoir à l'appeler
 	private GameView gameView;
-	private Plateau board;
+	private GameData gameData;
 	private TimeData timeData;
 	
 	private void moveHeroAndDraw(ApplicationContext context) {
-		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
-			board.moveHero();
-			gameView.drawFrame(context, board, timeData);
+		if (timeData.elapsedHero() >= timeData.HERO_DELAY) {
+			gameData.moveHero();
+			gameView.drawFrame(context, gameData, timeData);
 			timeData.resetElapsedHero();
+			gameData.fight();
 		}
 	}
+	
+	private void dayAction(ApplicationContext ctx) {
+		if(timeData.elapsedDay()>= timeData.DAY_MILLISECONDS) {
+			gameData.SpawningTime();
+			gameView.drawFrame(ctx, gameData,timeData);
+			timeData.resetelapsedDay();
+		}
+	}
+	
 
 	public void Run(ApplicationContext ctx) { //Application ctx c'est une variable rentrée automatiquement par Application.run
 		
 		this.ctx = ctx;		
 		this.gameView = new GameView(ctx);		
-		this.board = new Plateau();
+		this.gameData = new GameData();
 		this.timeData = new TimeData();
 		
-		gameView.drawFrame(ctx, board, timeData);		
+		gameView.drawFrame(ctx, gameData, timeData);		
 		while(true) {
 			
 			Update(); // Fonction execute a chaque frame
@@ -62,11 +72,9 @@ public class Game {
 		//le paramètre qu'il envoie en premier à ta fonction c'est un object Graphics2D
 		
 		moveHeroAndDraw(ctx);
+		dayAction(ctx);
 		
 		Event e = ctx.pollOrWaitEvent(200);//on récupère tout evenement sur la machine (temps d'attente max 200 millisecondes)
-		
-		System.out.println("un tour un");//un print à chaque tour
-		System.out.println(timeData.HERO_DELAY);
 		
 		if(e == null) return; //200 milliseconde c'est court du coup y'a moyen que l'event soit null et donc qu'on puisse pas en tirer de touche
 		
@@ -87,7 +95,7 @@ public class Game {
 			default -> System.out.println("touche inactive "+e.getKey()); //sinon on dit quelle touche on à appuyer
 	
 		}
-		gameView.drawFrame(ctx, board, timeData);
+		gameView.drawFrame(ctx, gameData, timeData);
 		
 	}
 	

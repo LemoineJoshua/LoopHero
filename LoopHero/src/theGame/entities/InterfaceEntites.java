@@ -1,4 +1,4 @@
-package leJeu.entities;
+package theGame.entities;
 
 public interface InterfaceEntites {
 

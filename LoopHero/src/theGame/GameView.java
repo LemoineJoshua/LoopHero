@@ -1,4 +1,4 @@
-package leJeu;
+package theGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,8 +16,9 @@ import javax.imageio.ImageIO;
 
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
-import leJeu.boardGame.Coord;
-import leJeu.boardGame.Plateau;
+import theGame.boardGame.Coord;
+import theGame.entities.Monster;
+import theGame.boardGame.Board;
 
 public class GameView {
 	private float width;
@@ -74,19 +75,30 @@ public class GameView {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(squareSize / ((double) img.getWidth()*2), squareSize / ((double) img.getHeight()*2)),
 				AffineTransformOp.TYPE_BILINEAR);
-		graphics.drawImage(img, scaling, xPlayingZone + x * squareSize, yPlayingZone + y * squareSize);
+		graphics.drawImage(img, scaling, (int) Math.round(xPlayingZone + x * squareSize + squareSize*0.25), (int) Math.round(yPlayingZone + y * squareSize + squareSize * 0.25 ));
+	}
+	
+	public void drawAllMob(Graphics2D graphics, GameData gameData) {
+		for (Coord coord: gameData.board().listeCoord()) {
+			for (Monster mob: gameData.board().matricePlateau()[coord.y()][coord.x()].monstresPresent()) {
+				BufferedImage img = stringToImage(mob.image());
+				drawAnEntity(graphics, coord.x(),coord.y(),img);
+				
+			}
+		}
+		
 	}
 	
 	public void drawTimeBar(Graphics2D graphics, double timeFraction) {
 		graphics.setColor(Color.LIGHT_GRAY);
-		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 100, widthPlayingZone, 30));
+		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 50, widthPlayingZone, 30));
 		graphics.setColor(Color.WHITE);
-		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 100, widthPlayingZone * timeFraction, 30));
+		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 50, widthPlayingZone * timeFraction, 30));
 		graphics.setColor(Color.BLACK);
-		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 100, widthPlayingZone, 30));
+		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 50, widthPlayingZone, 30));
 	}
 	
-	public void drawBoard(Graphics2D graphics, Plateau board) {
+	public void drawBoard(Graphics2D graphics, GameData gameData) {
 		
 		graphics.setColor(Color.WHITE);
 		
@@ -101,24 +113,26 @@ public class GameView {
 		}
 		
 		BufferedImage img = stringToImage("pictures/chemin.png");
-		for(Coord coord : board.listeCoord()) {
+		for(Coord coord : gameData.board().listeCoord()) {
 			drawATile(graphics,coord.x(),coord.y(),img);
 		}
 		
 		img = stringToImage("pictures/heroB.png");
-		drawAnEntity(graphics,board.heroX(),board.heroY(),img);
+		drawAnEntity(graphics,gameData.board().heroX(),gameData.board().heroY(),img);
+		
+		drawAllMob(graphics,gameData);
 		
     }
  
-	public void drawFrame(Graphics2D graphics, Plateau board, TimeData timeData) {
+	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
 		
 		// on dessine un poti caré
 		drawInterface(graphics, timeData.timeFraction());
-		drawBoard(graphics, board);
+		drawBoard(graphics, gameData);
 
 	}
 	
-	public void drawFrame(ApplicationContext ctx, Plateau board, TimeData timeData) {
-		ctx.renderFrame(graphics -> drawFrame(graphics, board, timeData)); 
+	public void drawFrame(ApplicationContext ctx, GameData gameData, TimeData timeData) {
+		ctx.renderFrame(graphics -> drawFrame(graphics, gameData, timeData)); 
 	}
 }

@@ -1,4 +1,4 @@
-package leJeu.entities;
+package theGame.entities;
 
 public class Hero extends Entites {
 
