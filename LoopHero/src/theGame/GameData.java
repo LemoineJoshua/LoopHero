@@ -20,7 +20,7 @@ public class GameData {
 	}
 	
 	private void initDictMob() {
-		mobs.add("Slime", new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/panda.png",(float)0.05));
+		mobs.add("Slime", new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/slimeS.png",(float)0.05));
 	}
 	
 	private void addSpawnable(Monster mob, int x, int y) {

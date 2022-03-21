@@ -98,7 +98,9 @@ public class Board {
 		position +=1;
 		if (position == 34) {
 			position =0;
+			boucle += 1;
 		}
+		
 	}
 	
 	public void addSpawnable(Monster mob, int x, int y) {
@@ -109,6 +111,8 @@ public class Board {
 		return matricePlateau;
 	}
 	
-	
+	public int boucle() {
+		return boucle;
+	}
 	
 }

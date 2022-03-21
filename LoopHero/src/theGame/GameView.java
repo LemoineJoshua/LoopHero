@@ -1,6 +1,7 @@
 package theGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
@@ -43,7 +44,7 @@ public class GameView {
 	}
 	
 	
-	public void drawInterface(Graphics2D graphics, double timeFraction) {
+	public void drawInterface(Graphics2D graphics, double timeFraction, int loop) {
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
 		graphics.fill(new Rectangle2D.Float(width-(width/5), 0, width/5, heigth));
@@ -52,6 +53,12 @@ public class GameView {
 		graphics.fill(new Rectangle2D.Float(0, heigth-(heigth/6), width-(width/5), heigth));
 		
 		drawTimeBar(graphics, timeFraction);
+				
+		BufferedImage img = stringToImage("pictures/hourglass.png"); // Dessin du sablier fait un peu à l'arrache
+		drawAnEntity(graphics, 0, -1, img);
+				
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
+		graphics.drawString("Boucle : "+ loop, xPlayingZone + squareSize , yPlayingZone/2 + 30 );
 	}
 	
 	public BufferedImage stringToImage(String pictureName) {
@@ -91,11 +98,11 @@ public class GameView {
 	
 	public void drawTimeBar(Graphics2D graphics, double timeFraction) {
 		graphics.setColor(Color.LIGHT_GRAY);
-		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 50, widthPlayingZone, 30));
+		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
 		graphics.setColor(Color.WHITE);
-		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 50, widthPlayingZone * timeFraction, 30));
+		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone * timeFraction, 30));
 		graphics.setColor(Color.BLACK);
-		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone - 50, widthPlayingZone, 30));
+		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
 	}
 	
 	public void drawBoard(Graphics2D graphics, GameData gameData) {
@@ -117,6 +124,9 @@ public class GameView {
 			drawATile(graphics,coord.x(),coord.y(),img);
 		}
 		
+		img = stringToImage("pictures/fireCamp.png");
+		drawATile(graphics,gameData.board().listeCoord()[0].x(),gameData.board().listeCoord()[0].y(), img);
+		
 		img = stringToImage("pictures/heroB.png");
 		drawAnEntity(graphics,gameData.board().heroX(),gameData.board().heroY(),img);
 		
@@ -127,7 +137,7 @@ public class GameView {
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
 		
 		// on dessine un poti caré
-		drawInterface(graphics, timeData.timeFraction());
+		drawInterface(graphics, timeData.timeFraction(), gameData.board().boucle());
 		drawBoard(graphics, gameData);
 
 	}
