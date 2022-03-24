@@ -19,6 +19,8 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
 import theGame.entities.Monster;
+import theGame.tiles.AbstractCase;
+import theGame.tiles.EmptyField;
 import theGame.boardGame.Board;
 
 public class GameView {
@@ -71,7 +73,7 @@ public class GameView {
 		}
 	}
 	
-	public void drawATile(Graphics2D graphics, int x, int y, BufferedImage img) {
+	public void drawATile(Graphics2D graphics, int x, int y, BufferedImage img) {		
 			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(squareSize / (double) img.getWidth(), squareSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -87,7 +89,7 @@ public class GameView {
 	
 	public void drawAllMob(Graphics2D graphics, GameData gameData) {
 		for (Coord coord: gameData.board().listeCoord()) {
-			for (Monster mob: gameData.board().matricePlateau()[coord.y()][coord.x()].monstresPresent()) {
+			for (Monster mob: gameData.board().matricePlateau()[coord.y()][coord.x()].aliveMonster()) {
 				BufferedImage img = stringToImage(mob.image());
 				drawAnEntity(graphics, coord.x(),coord.y(),img);
 				
@@ -119,15 +121,16 @@ public class GameView {
 			graphics.draw(new Line2D.Float(column, yPlayingZone, column, yPlayingZone+heigthPlayingZone));
 		}
 		
-		BufferedImage img = stringToImage("pictures/chemin.png");
-		for(Coord coord : gameData.board().listeCoord()) {
-			drawATile(graphics,coord.x(),coord.y(),img);
-		}
-		
-		img = stringToImage("pictures/fireCamp.png");
-		drawATile(graphics,gameData.board().listeCoord()[0].x(),gameData.board().listeCoord()[0].y(), img);
-		
-		img = stringToImage("pictures/heroB.png");
+		 for(int x=0;x<21;x++){
+	        	for(int y=0;y<12;y++) {
+	        		if (!(gameData.board().matricePlateau()[y][x].picture==null)) {
+	        			drawATile(graphics, x, y, gameData.board().matricePlateau()[y][x].picture);
+	        		}
+	        		
+	        	}
+	        }
+		 
+		BufferedImage img = stringToImage("pictures/heroB.png");
 		drawAnEntity(graphics,gameData.board().heroX(),gameData.board().heroY(),img);
 		
 		drawAllMob(graphics,gameData);

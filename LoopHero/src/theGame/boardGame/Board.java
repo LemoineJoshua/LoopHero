@@ -6,29 +6,34 @@ import java.util.ArrayList;
 
 import theGame.entities.Hero;
 import theGame.entities.Monster;
+import theGame.tiles.AbstractCase;
+import theGame.tiles.CampFire;
+import theGame.tiles.EmptyField;
+import theGame.tiles.EmptyRoadSide;
+import theGame.tiles.Wastelands;
 
 public class Board {
 	private int boucle;
     private int position;
     private final Coord[] listeCoord;
-	private final Cases[][] matricePlateau;
+	private final AbstractCase[][] matricePlateau;
 	private final Hero hero = new Hero(100,100,100,100,100,100,100,"NoImage");
 	
 	
 	public Board() {
 		this.boucle=0;
         this.position=0;
-        this.listeCoord =initPath();
 		this.matricePlateau=initCases();
+		this.listeCoord =initPath();
 	}
 	
-	private Cases[][] initCases(){
+	private AbstractCase[][] initCases(){
         //initialise le plateau de jeu (vide avec une route)
-        Cases[][] matricePlateau = new Cases[12][21];
+		AbstractCase[][] matricePlateau = new AbstractCase[12][21];
 
         for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
-            	matricePlateau[y][x]= new Cases();//même les cases de vide sont des cases
+            	matricePlateau[y][x]= new EmptyField();//même les cases de vide sont des cases
         	}
         }
         
@@ -45,18 +50,45 @@ public class Board {
         		new Coord(11,8),new Coord(10,8),new Coord(9,8),new Coord(9,7),new Coord(8,7),new Coord(7,7),new Coord(6,7),new Coord(6,6),
         		new Coord(6,5),new Coord(5,5),new Coord(5,4),new Coord(5,3)
         		};
+        
+        boolean sideIsRoadSide=true;
+    	boolean topIsRoadSide=true;
+        
+        for (Coord coord:listeCoord) {
+        	matricePlateau[coord.y()][coord.x()]= new Wastelands();
+      	
+        	for (int n = -1; n<2 ; n+=2) {
+        		sideIsRoadSide=true;
+            	topIsRoadSide=true;
+        		for (Coord coord2:listeCoord) {
+        			if ((!sideIsRoadSide) && (!topIsRoadSide)) {break;}
+        			
+        			if (new Coord(coord.x()+n,coord.y()).equals(coord2)){
+            			sideIsRoadSide = false;
+            		}
+        			if (new Coord(coord.x(),coord.y()+n).equals(coord2)){
+        				topIsRoadSide = false;
+            		}
+        		}
+        		
+        		if (sideIsRoadSide) {
+        			matricePlateau[coord.y()][coord.x()+n] = new EmptyRoadSide();
+        		}
+        		if (topIsRoadSide) {
+        			matricePlateau[coord.y()+n][coord.x()] = new EmptyRoadSide();
+        		}
+        		
+        	}
+        }
+        
+        matricePlateau[listeCoord[0].y()][listeCoord[0].x()] = new CampFire();
         return listeCoord;
     }
 
-    public void initSlime(Monster mob) {
-    	for(Coord coord: listeCoord) {
-    		matricePlateau[coord.y()][coord.x()].addSpawnable(mob);
-    	}
-    }
-    
+       
     public void SpawningTime() {
     	for(Coord coord: listeCoord) {
-    		matricePlateau[coord.y()][coord.x()].SpawnTour();
+    		matricePlateau[coord.y()][coord.x()].dailyEffect(this);
     	}
     }
     
@@ -98,16 +130,13 @@ public class Board {
 		position +=1;
 		if (position == 34) {
 			position =0;
-			boucle += 1;
+			plusBoucle();
 		}
 		
 	}
 	
-	public void addSpawnable(Monster mob, int x, int y) {
-		matricePlateau[y][x].addSpawnable(mob);
-	}
 	
-	public Cases[][] matricePlateau(){
+	public AbstractCase[][] matricePlateau(){
 		return matricePlateau;
 	}
 	
@@ -115,4 +144,7 @@ public class Board {
 		return boucle;
 	}
 	
+	public Hero hero() {
+		return hero;
+	}
 }
