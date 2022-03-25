@@ -44,7 +44,7 @@ public class Game {
 	
 	private void dayAction(ApplicationContext ctx) {
 		if(timeData.elapsedDay()>= timeData.DAY_MILLISECONDS) {
-			gameData.SpawningTime();
+			gameData.dailyEffect();
 			gameView.drawFrame(ctx, gameData,timeData);
 			timeData.resetelapsedDay();
 		}
@@ -67,11 +67,6 @@ public class Game {
 	}
 	
 	private void Update() {
-		
-		//en gros renderFrame est une methode de applicationContexte qui prépare le terrain à l'affichage
-		//Puis affiche ta fonction (d'ou le fait qu'on mette une fonction en parametre)
-		//Puis range proprement toutes les données graphiques
-		//le paramètre qu'il envoie en premier à ta fonction c'est un object Graphics2D
 		
 		moveHeroAndDraw(ctx);
 		dayAction(ctx);

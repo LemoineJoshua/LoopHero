@@ -1,8 +1,8 @@
 package theGame.entities;
 
 public abstract class Entites implements InterfaceEntites {
-	protected long maxHp;
-	public long hp;
+	public long maxHp; /////////////
+	public long hp; ////////////////
 	protected double force;
 	protected double defence;
 	protected double counterAttack;

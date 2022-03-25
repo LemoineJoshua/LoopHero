@@ -2,12 +2,12 @@ package theGame.inventories;
 
 import java.util.ArrayList;
 
-public class InventaireRessources {
+public class RessourcesInventory {
     private final ArrayList<String> inventaireRessourceNom;
 	private final ArrayList<Integer> inventaireRessourceQuantite;
 	
 	
-	public InventaireRessources() {
+	public RessourcesInventory() {
 		this.inventaireRessourceNom = new ArrayList<String>();
         initNom();
 		this.inventaireRessourceQuantite = new ArrayList<Integer>();

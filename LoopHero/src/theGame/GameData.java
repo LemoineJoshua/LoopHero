@@ -2,14 +2,14 @@ package theGame;
 
 import theGame.boardGame.Board;
 import theGame.entities.Monster;
-import theGame.inventories.InventaireCarte;
-import theGame.inventories.InventaireRessources;
+import theGame.inventories.CardInventory;
+import theGame.inventories.RessourcesInventory;
 import tools.Dictionnary;
 
 public class GameData {
 	private Board board = new Board();
-	private InventaireCarte cardInventory = new InventaireCarte();
-	private InventaireRessources ressourcesInventory = new InventaireRessources();
+	private CardInventory cardInventory = new CardInventory();
+	private RessourcesInventory ressourcesInventory = new RessourcesInventory();
 	private Dictionnary mobs;
 	
 	public GameData() {
@@ -23,8 +23,8 @@ public class GameData {
 	}
 	
 
-	public void SpawningTime() {
-		board.SpawningTime();
+	public void dailyEffect() {
+		board.dailyEffect();
 	}
 	
 	public Board board() {

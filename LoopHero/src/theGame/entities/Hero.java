@@ -15,9 +15,16 @@ public class Hero extends Entites {
         return false;
     }
 
-    public void regenHP(){
-        //fonction qui régénères les HP du joueur
-        hp+=regen;
+    public void regenHPturn(){
+        //fonction qui régénères les HP du joueur � chaque tour de boucle
+        hp*=1.2;
+        if (hp>maxHp){
+            hp = maxHp;
+        }
+    }
+    
+    public void regenHPdaily(int heal) {
+    	hp+=heal;
         if (hp>maxHp){
             hp = maxHp;
         }
@@ -26,6 +33,10 @@ public class Hero extends Entites {
     public int degat(){
         //fonction qui inflige entre 
         return (int) (4+(Math.random()*2));
+    }
+    
+    public void modifMaxHP(float modif) {
+    	maxHp*=1.01;
     }
 
 

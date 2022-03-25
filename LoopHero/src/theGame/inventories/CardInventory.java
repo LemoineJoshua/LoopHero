@@ -2,10 +2,10 @@ package theGame.inventories;
 
 import java.util.ArrayList;
 
-public class InventaireCarte {
+public class CardInventory {
     private final ArrayList<Carte> listeCarte;
 
-    public InventaireCarte(){
+    public CardInventory(){
         this.listeCarte=new ArrayList<Carte>();
     }
 

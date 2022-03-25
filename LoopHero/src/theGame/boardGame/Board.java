@@ -10,6 +10,8 @@ import theGame.tiles.AbstractCase;
 import theGame.tiles.CampFire;
 import theGame.tiles.EmptyField;
 import theGame.tiles.EmptyRoadSide;
+import theGame.tiles.Meadow;
+import theGame.tiles.Rock;
 import theGame.tiles.Wastelands;
 
 public class Board {
@@ -82,13 +84,17 @@ public class Board {
         }
         
         matricePlateau[listeCoord[0].y()][listeCoord[0].x()] = new CampFire();
+        matricePlateau[4][3] = new Meadow();
+        matricePlateau[4][2] = new Rock(this,4,2);
         return listeCoord;
     }
 
        
-    public void SpawningTime() {
-    	for(Coord coord: listeCoord) {
-    		matricePlateau[coord.y()][coord.x()].dailyEffect(this);
+    public void dailyEffect() {
+    	for(int x=0;x<21;x++){
+        	for(int y=0;y<12;y++) {
+        		matricePlateau[y][x].dailyEffect(this);
+        	}
     	}
     }
     

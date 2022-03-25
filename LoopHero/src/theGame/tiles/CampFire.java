@@ -15,7 +15,7 @@ public class CampFire extends AbstractCase{
 	
 	//@Override
 	public void loopEffect(Board board){
-		board.hero().regenHP();		
+		board.hero().regenHPturn();		
 	}
 	
 }
