@@ -75,4 +75,10 @@ public class TimeData {
 			timeModifier *=2;
 		}
 	}
+	
+	public void fight() {
+		elapsedTotal+=2000;
+		elapsedHero+=2000;
+		elapsedDay+=2000;
+	}
 }

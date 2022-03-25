@@ -35,7 +35,7 @@ public class GameData {
 		board.moveHero();
 	}
 	
-	public void fight() {
-		board.combat();
+	public boolean fight() {
+		return board.combat();
 	}
 }

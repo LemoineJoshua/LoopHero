@@ -36,7 +36,9 @@ public class Game {
 			gameData.moveHero();
 			gameView.drawFrame(context, gameData, timeData);
 			timeData.resetElapsedHero();
-			gameData.fight();
+			if(gameData.fight()) {
+				timeData.fight();
+			}
 		}
 	}
 	

@@ -92,14 +92,15 @@ public class Board {
     	}
     }
     
-    public void combat(){
+    public boolean combat(){
 		//Fonction appelee apres isCombat qui serait dans Case
         if(matricePlateau[heroY()][heroX()].isCombat()){
         	matricePlateau[heroY()][heroX()].clearMob();
             hero.perteHP(6);
             System.out.println(hero.hp); //faut remettre les hps en protected
-            //Temps.combat();
+            return true;
         }
+        return false;
     }
 
 	public void plusBoucle(){
