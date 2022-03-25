@@ -21,8 +21,8 @@ public class Grove extends AbstractCase {
 		return true;
 	}
 	
-	@Override
 	/*
+	@Override
 	public void dailyEffect(Board board) {
 		if(day%2==0) {
 			double test = Math.random();
