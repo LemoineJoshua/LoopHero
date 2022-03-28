@@ -16,13 +16,14 @@ import theGame.boardGame.Board;
 import theGame.entities.Monster;
 
 public abstract class AbstractTile {
-	public String type;
-	public String pathToPicture;
-	public BufferedImage picture;
+	private final  String type;
+	private final  String pathToPicture;
+	private final BufferedImage picture;
 	
 	public AbstractTile(String type, String pathToPicture) {
 		this.type = type;
 		this.picture = stringToImage(pathToPicture);
+		this.pathToPicture = pathToPicture;
 	}
 	
 	public BufferedImage stringToImage(String pictureName) {
@@ -36,6 +37,9 @@ public abstract class AbstractTile {
 		}
 	}
 	
+	public BufferedImage picture() {
+		return picture;
+	}
 		
 	public void dailyEffect(Board board){}
 	public void loopEffect(Board board){}

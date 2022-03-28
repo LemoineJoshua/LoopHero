@@ -23,7 +23,7 @@ public class AbstractRoad extends AbstractTile {
 	
 	public ArrayList<Monster> aliveMonster(){
 		 return aliveMonster;
-	 }
+	}
 	
 	public void addMob(Monster newMonster){
         if(aliveMonster.size()<1) {

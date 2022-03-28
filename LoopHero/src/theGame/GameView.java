@@ -89,8 +89,7 @@ public class GameView {
 	}
 	
 	public void drawAllMob(Graphics2D graphics, GameData gameData) {
-		for (Coord coord: gameData.board().listeCoord()) {
-			
+		for (Coord coord: gameData.board().listeCoord()) {	
 			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().matricePlateau()[coord.y()][coord.x()];
 			for (Monster mob: caseAffiche.aliveMonster()) {
 				BufferedImage img = stringToImage(mob.image());
@@ -127,8 +126,8 @@ public class GameView {
 		
 		 for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
-	        		if (!(gameData.board().matricePlateau()[y][x].picture==null)) {
-	        			drawATile(graphics, x, y, gameData.board().matricePlateau()[y][x].picture);
+	        		if (!(gameData.board().matricePlateau()[y][x].picture()==null)) {
+	        			drawATile(graphics, x, y, gameData.board().matricePlateau()[y][x].picture());
 	        		}
 	        		
 	        	}
