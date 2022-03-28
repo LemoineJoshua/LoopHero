@@ -69,7 +69,7 @@ public class GameView {
 	}
 	
 	public void drawHud(Graphics2D graphics) {
-		BufferedImage img = stringToImage("pictures/Hud.png");
+		BufferedImage img = stringToImage("pictures/Hud2.png");
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance((width/5) / (double) img.getWidth(), heigth / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
