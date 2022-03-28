@@ -62,6 +62,18 @@ public class GameView {
 				
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
 		graphics.drawString("Boucle : "+ loop, xPlayingZone + squareSize , yPlayingZone/2 + 30 );
+		
+		drawHud(graphics);
+		
+		
+	}
+	
+	public void drawHud(Graphics2D graphics) {
+		BufferedImage img = stringToImage("pictures/Hud.png");
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance((width/5) / (double) img.getWidth(), heigth / (double) img.getHeight()),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(img, scaling, (int)Math.round((4*width)/5),0);
 	}
 	
 	public BufferedImage stringToImage(String pictureName) {
