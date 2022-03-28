@@ -8,9 +8,9 @@ import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 
 public class GameData {
-	private Board board = new Board();
-	private CardInventory cardInventory = new CardInventory();
-	private RessourcesInventory ressourcesInventory = new RessourcesInventory();
+	private final Board board = new Board();
+	private final CardInventory cardInventory = new CardInventory();
+	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();
 
 	public void dailyEffect() {
 		board.dailyEffect();
@@ -30,5 +30,9 @@ public class GameData {
 	
 	public boolean fight() {
 		return board.fight(ressourcesInventory,cardInventory);
+	}
+	
+	public CardInventory cardInventory() {
+		return cardInventory;
 	}
 }

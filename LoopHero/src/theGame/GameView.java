@@ -19,9 +19,11 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
 import theGame.entities.Monster;
+import theGame.inventories.CardInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.AbstractTile;
 import theGame.tiles.EmptyField;
+import theGame.Cards.Card;
 import theGame.boardGame.Board;
 
 public class GameView {
@@ -50,10 +52,8 @@ public class GameView {
 	public void drawInterface(Graphics2D graphics, double timeFraction, int loop) {
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
-		//graphics.fill(new Rectangle2D.Float(width-(width/5), 0, width/5, heigth));
 		
-		graphics.setColor(Color.LIGHT_GRAY);
-		graphics.fill(new Rectangle2D.Float(0, heigth-(heigth/6), width-(width/5), heigth));
+		
 		
 		drawTimeBar(graphics, timeFraction);
 				
@@ -122,6 +122,24 @@ public class GameView {
 		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
 	}
 	
+	public void drawCards(Graphics2D graphics,CardInventory cards) {
+		int y = Math.round(heigth-(heigth/6));
+		int x = 0;
+		int cardWidth = Math.round((4*width/5)/13);
+		
+		for(Card card:cards.cardList()) {
+			drawACard(graphics,x,y,card.img());
+			x+=cardWidth;
+		}
+	}
+	
+	public void drawACard(Graphics2D graphics, int x, int y, BufferedImage img) {
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance( (width/10) / ((double) img.getWidth()*2), (heigth/4) / ((double) img.getHeight()*2)),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(img, scaling, x, y);
+	}
+	
 	public void drawBoard(Graphics2D graphics, GameData gameData) {
 		
 		graphics.setColor(Color.WHITE);
@@ -147,8 +165,9 @@ public class GameView {
 		 
 		BufferedImage img = stringToImage("pictures/heroB.png");
 		drawAnEntity(graphics,gameData.board().heroX(),gameData.board().heroY(),img);
-		
 		drawAllMob(graphics,gameData);
+		drawCards(graphics,gameData.cardInventory());
+		
 		
     }
  
