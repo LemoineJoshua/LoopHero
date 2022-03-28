@@ -2,7 +2,7 @@ package theGame.tiles;
 
 import theGame.boardGame.Board;
 
-public class Rock extends AbstractCase {
+public class Rock extends AbstractTile {
 
 	public Rock(Board board, int y,int x) {
 		super("Field","pictures/rock.png"); 

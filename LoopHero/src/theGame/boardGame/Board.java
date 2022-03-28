@@ -1,15 +1,12 @@
 package theGame.boardGame;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
-
 import theGame.entities.Hero;
-import theGame.entities.Monster;
-import theGame.tiles.AbstractCase;
+import theGame.tiles.AbstractRoad;
+import theGame.tiles.AbstractTile;
 import theGame.tiles.CampFire;
 import theGame.tiles.EmptyField;
 import theGame.tiles.EmptyRoadSide;
+import theGame.tiles.Grove;
 import theGame.tiles.Meadow;
 import theGame.tiles.Rock;
 import theGame.tiles.Wastelands;
@@ -18,7 +15,7 @@ public class Board {
 	private int boucle;
     private int position;
     private final Coord[] listeCoord;
-	private final AbstractCase[][] matricePlateau;
+	private final AbstractTile[][] matricePlateau;
 	private final Hero hero = new Hero(100,100,100,100,100,100,100,"NoImage");
 	
 	
@@ -29,9 +26,9 @@ public class Board {
 		this.listeCoord =initPath();
 	}
 	
-	private AbstractCase[][] initCases(){
+	private AbstractTile[][] initCases(){
         //initialise le plateau de jeu (vide avec une route)
-		AbstractCase[][] matricePlateau = new AbstractCase[12][21];
+		AbstractTile[][] matricePlateau = new AbstractTile[12][21];
 
         for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
@@ -84,8 +81,11 @@ public class Board {
         }
         
         matricePlateau[listeCoord[0].y()][listeCoord[0].x()] = new CampFire();
+        
         matricePlateau[4][3] = new Meadow();
         matricePlateau[4][2] = new Rock(this,4,2);
+        matricePlateau[4][9] = new Grove(6);
+        
         return listeCoord;
     }
 
@@ -100,8 +100,9 @@ public class Board {
     
     public boolean combat(){
 		//Fonction appelee apres isCombat qui serait dans Case
-        if(matricePlateau[heroY()][heroX()].isCombat()){
-        	matricePlateau[heroY()][heroX()].clearMob();
+    	AbstractRoad caseHero = (AbstractRoad) matricePlateau[heroY()][heroX()]; 
+        if( caseHero.isCombat()){
+        	caseHero.clearMob();
             hero.perteHP(6);
             System.out.println(hero.hp); //faut remettre les hps en protected
             return true;
@@ -143,7 +144,7 @@ public class Board {
 	}
 	
 	
-	public AbstractCase[][] matricePlateau(){
+	public AbstractTile[][] matricePlateau(){
 		return matricePlateau;
 	}
 	

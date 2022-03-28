@@ -2,10 +2,10 @@ package theGame.tiles;
 
 import theGame.boardGame.Board;
 
-public class CampFire extends AbstractCase{
+public class CampFire extends AbstractRoad{
 
 	public CampFire() {
-		super("Road","pictures/campFire.png");
+		super("pictures/campFire.png");
 	}
 	
 	@Override
@@ -15,6 +15,7 @@ public class CampFire extends AbstractCase{
 	
 	//@Override
 	public void loopEffect(Board board){
+		System.out.println("pouet");
 		board.hero().regenHPturn();		
 	}
 	

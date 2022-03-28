@@ -19,7 +19,8 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
 import theGame.entities.Monster;
-import theGame.tiles.AbstractCase;
+import theGame.tiles.AbstractRoad;
+import theGame.tiles.AbstractTile;
 import theGame.tiles.EmptyField;
 import theGame.boardGame.Board;
 
@@ -89,11 +90,14 @@ public class GameView {
 	
 	public void drawAllMob(Graphics2D graphics, GameData gameData) {
 		for (Coord coord: gameData.board().listeCoord()) {
-			for (Monster mob: gameData.board().matricePlateau()[coord.y()][coord.x()].aliveMonster()) {
+			
+			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().matricePlateau()[coord.y()][coord.x()];
+			for (Monster mob: caseAffiche.aliveMonster()) {
 				BufferedImage img = stringToImage(mob.image());
 				drawAnEntity(graphics, coord.x(),coord.y(),img);
 				
 			}
+			
 		}
 		
 	}

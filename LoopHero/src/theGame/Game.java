@@ -32,7 +32,7 @@ public class Game {
 	private TimeData timeData;
 	
 	private void moveHeroAndDraw(ApplicationContext context) {
-		if (timeData.elapsedHero() >= timeData.HERO_DELAY) {
+		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
 			gameData.moveHero();
 			gameView.drawFrame(context, gameData, timeData);
 			timeData.resetElapsedHero();
@@ -43,7 +43,7 @@ public class Game {
 	}
 	
 	private void dayAction(ApplicationContext ctx) {
-		if(timeData.elapsedDay()>= timeData.DAY_MILLISECONDS) {
+		if(timeData.elapsedDay()>= TimeData.DAY_MILLISECONDS) {
 			gameData.dailyEffect();
 			gameView.drawFrame(ctx, gameData,timeData);
 			timeData.resetelapsedDay();

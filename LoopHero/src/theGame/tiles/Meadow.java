@@ -2,7 +2,7 @@ package theGame.tiles;
 
 import theGame.boardGame.Board;
 
-public class Meadow extends AbstractCase {
+public class Meadow extends AbstractTile {
 
 	public Meadow() {
 		super("Field","pictures/meadow.png");

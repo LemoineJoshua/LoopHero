@@ -15,12 +15,12 @@ import javax.imageio.ImageIO;
 import theGame.boardGame.Board;
 import theGame.entities.Monster;
 
-public abstract class AbstractCase {
+public abstract class AbstractTile {
 	public String type;
 	public String pathToPicture;
 	public BufferedImage picture;
 	
-	public AbstractCase(String type, String pathToPicture) {
+	public AbstractTile(String type, String pathToPicture) {
 		this.type = type;
 		this.picture = stringToImage(pathToPicture);
 	}
@@ -44,13 +44,4 @@ public abstract class AbstractCase {
 		return true;
 	}
 	
-	public boolean isCombat() {
-		return false;
-	}
-	
-	public void clearMob(){}
-	
-	public ArrayList<Monster> aliveMonster(){
-		 return new ArrayList<Monster>();
-	 }
 }

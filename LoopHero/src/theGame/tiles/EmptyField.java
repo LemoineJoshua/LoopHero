@@ -1,9 +1,9 @@
 package theGame.tiles;
 
-public class EmptyField extends AbstractCase{
+public class EmptyField extends AbstractTile{
 	
 	public EmptyField() {
-		super("Field","pictures/selectFields.png");
+		super("Field","");
 	}
 	
 }

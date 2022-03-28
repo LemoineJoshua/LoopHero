@@ -6,8 +6,8 @@ public class TimeData {
 	private long elapsedHero = 0; 	// temps écoulé depuis la dernière action de Hero
 	private long elapsedDay = 0;
 	private boolean stopped;
-	public static double DAY_MILLISECONDS = 24_000; //nombre de milliseconde dans une journée
-	public static int HERO_DELAY = 1500; //temps entre deux actions de Hero
+	static double DAY_MILLISECONDS = 24_000; //nombre de milliseconde dans une journée
+	static int HERO_DELAY = 1500; //temps entre deux actions de Hero
 	private float timeModifier =1;
 	
 
