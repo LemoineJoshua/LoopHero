@@ -15,8 +15,7 @@ public class CampFire extends AbstractRoad{
 	
 	//@Override
 	public void loopEffect(Board board){
-		System.out.println("pouet");
-		board.hero().regenHPturn();		
+		board.hero().regenHPloop();		
 	}
 	
 }

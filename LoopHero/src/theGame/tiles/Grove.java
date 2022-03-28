@@ -1,15 +1,20 @@
 package theGame.tiles;
 
+import java.util.ArrayList;
+
 import theGame.boardGame.Board;
 import theGame.entities.Monster;
 
 public class Grove extends AbstractRoad {
 	private final int position;
 	private int day = 0;
-	private final Monster ratWolf = new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/ratWolf.png",(float)0.05);
+	private final Monster ratWolf;
 	
 	public Grove(int position) {
 		super("pictures/grove.png");
+		ArrayList<String> drop = new ArrayList<>();
+		drop.add("Living fabric");
+		this.ratWolf= new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/ratWolf.png",(float)0.05,(float)0.6,drop);
 		this.position = position;
 	} 
 	

@@ -1,6 +1,8 @@
 package theGame.boardGame;
 
 import theGame.entities.Hero;
+import theGame.inventories.CardInventory;
+import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.AbstractTile;
 import theGame.tiles.CampFire;
@@ -98,11 +100,19 @@ public class Board {
     	}
     }
     
-    public boolean combat(){
+    public void loopEffect() {
+    	for(int x=0;x<21;x++){
+        	for(int y=0;y<12;y++) {
+        		matricePlateau[y][x].loopEffect(this);
+        	}
+    	}
+    }
+    
+    public boolean fight(RessourcesInventory lootList,CardInventory CardList){
 		//Fonction appelee apres isCombat qui serait dans Case
     	AbstractRoad caseHero = (AbstractRoad) matricePlateau[heroY()][heroX()]; 
         if( caseHero.isCombat()){
-        	caseHero.clearMob();
+        	caseHero.clearMob(lootList,CardList);
             hero.perteHP(6);
             System.out.println(hero.hp); //faut remettre les hps en protected
             return true;
@@ -134,13 +144,14 @@ public class Board {
 		return listeCoord;
 	}
 	
-	public void moveHero() {
+	public boolean moveHero() {
 		position +=1;
 		if (position == 34) {
 			position =0;
 			plusBoucle();
+			return true;
 		}
-		
+		return false;
 	}
 	
 	

@@ -50,7 +50,7 @@ public class GameView {
 	public void drawInterface(Graphics2D graphics, double timeFraction, int loop) {
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
-		graphics.fill(new Rectangle2D.Float(width-(width/5), 0, width/5, heigth));
+		//graphics.fill(new Rectangle2D.Float(width-(width/5), 0, width/5, heigth));
 		
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fill(new Rectangle2D.Float(0, heigth-(heigth/6), width-(width/5), heigth));

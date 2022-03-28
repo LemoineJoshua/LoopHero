@@ -2,6 +2,8 @@ package theGame.tiles;
 
 import java.util.ArrayList;
 import theGame.entities.Monster;
+import theGame.inventories.CardInventory;
+import theGame.inventories.RessourcesInventory;
 
 public class AbstractRoad extends AbstractTile {
 
@@ -17,7 +19,15 @@ public class AbstractRoad extends AbstractTile {
 		return !aliveMonster.isEmpty();
 	}
 	
-	public void clearMob(){
+	public void clearMob(RessourcesInventory lootList,CardInventory CardList){
+		for(Monster mob:aliveMonster) {//comme ça on pourra gérer le drop facilement à la fin du combat quand on vide la case
+			if(!mob.dropCard()) {
+				for(String loot:mob.drop()) {
+					lootList.addRessources(loot, 5);
+					System.out.println(lootList);
+				}
+			}
+		}
 		aliveMonster.clear();
 	}
 	

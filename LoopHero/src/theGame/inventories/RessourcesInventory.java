@@ -28,10 +28,13 @@ public class RessourcesInventory {
         inventaireRessourceNom.add("MemoryBook");
         inventaireRessourceNom.add("NoticableChange");
         inventaireRessourceNom.add("Metamorphose");
+        inventaireRessourceNom.add("Craft fragment");
+        inventaireRessourceNom.add("Shapeless mass");
+        inventaireRessourceNom.add("Living fabric");
     }
 
     public void initQuantite(){
-        for (int i=0; i<12; i++){
+        for (int i=0; i<15; i++){
             inventaireRessourceQuantite.add(0);
         }
     }
@@ -39,5 +42,14 @@ public class RessourcesInventory {
     public void addRessources(String nom, int quantite){
         int indexRessource=inventaireRessourceNom.indexOf(nom);
         inventaireRessourceQuantite.set(indexRessource,inventaireRessourceQuantite.get(indexRessource)+quantite);   
+    }
+    
+    @Override // pour le test
+    public String toString() {
+    	String entree = "";
+    	for(int i = 0;i<15;i++) {
+    		entree+="ressource: "+ inventaireRessourceNom.get(i)+" quantitée :"+inventaireRessourceQuantite.get(i);
+    	}
+    	return entree;
     }
 }

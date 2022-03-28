@@ -33,9 +33,13 @@ public class Game {
 	
 	private void moveHeroAndDraw(ApplicationContext context) {
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
-			gameData.moveHero();
+			if(gameData.moveHero()) {
+				gameData.loopEffect();
+			}
+			
 			gameView.drawFrame(context, gameData, timeData);
 			timeData.resetElapsedHero();
+			
 			if(gameData.fight()) {
 				timeData.fight();
 			}

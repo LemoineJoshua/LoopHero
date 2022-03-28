@@ -1,12 +1,18 @@
 package theGame.entities;
 
+import java.util.ArrayList;
+
 public class Monster extends Entites {
 	
     private final float chanceSpawn;
+    private final float chanceCard;
+    private final ArrayList<String> drop;
 
-    public Monster(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image,float chanceSpawn){
+    public Monster(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image,float chanceSpawn,float chanceCard,ArrayList<String> drop){
         super(maxHp,force,defence,counterAttack,regen,esquive,vampirisme,image);
         this.chanceSpawn=chanceSpawn;
+        this.chanceCard=chanceCard;
+        this.drop=drop;
     }
 
     public void statAuCombat(int tourBoucle){
@@ -19,6 +25,14 @@ public class Monster extends Entites {
     public boolean doSpawn(){
         //renvoie true si le monstre apparait sur la case
     	return chanceSpawn > Math.random();
+    }
+    
+    public boolean dropCard() {
+    	return chanceCard > Math.random();
+    }
+    
+    public ArrayList<String> drop(){
+    	return drop;
     }
 
     

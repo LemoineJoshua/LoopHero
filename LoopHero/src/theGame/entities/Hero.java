@@ -15,7 +15,7 @@ public class Hero extends Entites {
         return false;
     }
 
-    public void regenHPturn(){
+    public void regenHPloop(){
         //fonction qui régénères les HP du joueur � chaque tour de boucle
         hp*=1.2;
         if (hp>maxHp){
