@@ -3,33 +3,33 @@ package theGame.entities;
 public abstract class Entites implements InterfaceEntites {
 	public long maxHp; /////////////
 	public long hp; ////////////////
-	protected double force;
-	protected double defence;
+	protected double strength;
+	protected double defense;
 	protected double counterAttack;
 	protected double regen;
 	protected double esquive;
-	protected double vampirisme;
-	protected final String image;
+	protected double vampirism;
+	protected final String picture;
 	
-	public Entites(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image) {
+	public Entites(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism,String picture) {
 		this.maxHp=maxHp;
 		this.hp=maxHp;
-		this.force=force;
-		this.defence=defence;
+		this.strength=strength;
+		this.defense=defense;
 		this.counterAttack=counterAttack;
 		this.regen=regen;
 		this.esquive=esquive;
-		this.vampirisme=vampirisme;
-		this.image=image;
+		this.vampirism=vampirism;
+		this.picture=picture;
 	}
 
-	public String image() {
-		return image;
+	public String picture() {
+		return picture;
 	}
 	
 	@Override
-	public int degat(){
-		return (int) force;
+	public int damage(){
+		return (int) strength;
 	}
 
 	

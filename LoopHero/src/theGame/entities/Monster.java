@@ -8,17 +8,17 @@ public class Monster extends Entites {
     private final float chanceCard;
     private final ArrayList<String> drop;
 
-    public Monster(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image,float chanceSpawn,float chanceCard,ArrayList<String> drop){
-        super(maxHp,force,defence,counterAttack,regen,esquive,vampirisme,image);
+    public Monster(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism,String picture,float chanceSpawn,float chanceCard,ArrayList<String> drop){
+        super(maxHp,strength,defense,counterAttack,regen,esquive,vampirism,picture);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
         this.drop=drop;
     }
 
-    public void statAuCombat(int tourBoucle){
+    public void statAuCombat(int loopNumber){
         //actualise les stats du monstre pour un combat
-        force = force * tourBoucle * 0.95 * (1+(tourBoucle-1)*0.02);
-		maxHp = (int) Math.round(maxHp * tourBoucle * 0.95 * (1+(tourBoucle-1)*0.02));
+        strength = strength * loopNumber * 0.95 * (1+(loopNumber-1)*0.02);
+		maxHp = (int) Math.round(maxHp * loopNumber * 0.95 * (1+(loopNumber-1)*0.02));
 		hp = maxHp;
 	}
 

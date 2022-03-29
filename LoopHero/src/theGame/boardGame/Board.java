@@ -14,36 +14,36 @@ import theGame.tiles.Rock;
 import theGame.tiles.Wastelands;
 
 public class Board {
-	private int boucle;
+	private int loop;
     private int position;
-    private final Coord[] listeCoord;
-	private final AbstractTile[][] matricePlateau;
+    private final Coord[] coordList;
+	private final AbstractTile[][] boardMatrix;
 	private final Hero hero = new Hero(100,100,100,100,100,100,100,"NoImage");
 	
 	
 	public Board() {
-		this.boucle=0;
+		this.loop=0;
         this.position=0;
-		this.matricePlateau=initCases();
-		this.listeCoord =initPath();
+		this.boardMatrix=initCases();
+		this.coordList =initPath();
 	}
 	
 	private AbstractTile[][] initCases(){
         //initialise le plateau de jeu (vide avec une route)
-		AbstractTile[][] matricePlateau = new AbstractTile[12][21];
+		AbstractTile[][] boardMatrix = new AbstractTile[12][21];
 
         for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
-            	matricePlateau[y][x]= new EmptyField();//m�me les cases de vide sont des cases
+            	boardMatrix[y][x]= new EmptyField();//m�me les cases de vide sont des cases
         	}
         }
         
-        return matricePlateau;
+        return boardMatrix;
     }
 
     private Coord[] initPath(){
         //renvoie le chemin que doit parcourir le hero coordonees par coordonées
-        Coord[] listeCoord = 
+        Coord[] coordList = 
         		{
         		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
         		new Coord(11,4),new Coord(11,3),new Coord(11,2),new Coord(12,2),new Coord(13,2),new Coord(13,3),new Coord(14,3),
@@ -55,13 +55,13 @@ public class Board {
         boolean sideIsRoadSide=true;
     	boolean topIsRoadSide=true;
         
-        for (Coord coord:listeCoord) {
-        	matricePlateau[coord.y()][coord.x()]= new Wastelands();
+        for (Coord coord:coordList) {
+        	boardMatrix[coord.y()][coord.x()]= new Wastelands();
       	
         	for (int n = -1; n<2 ; n+=2) {
         		sideIsRoadSide=true;
             	topIsRoadSide=true;
-        		for (Coord coord2:listeCoord) {
+        		for (Coord coord2:coordList) {
         			if ((!sideIsRoadSide) && (!topIsRoadSide)) {break;}
         			
         			if (new Coord(coord.x()+n,coord.y()).equals(coord2)){
@@ -73,29 +73,29 @@ public class Board {
         		}
         		
         		if (sideIsRoadSide) {
-        			matricePlateau[coord.y()][coord.x()+n] = new EmptyRoadSide();
+        			boardMatrix[coord.y()][coord.x()+n] = new EmptyRoadSide();
         		}
         		if (topIsRoadSide) {
-        			matricePlateau[coord.y()+n][coord.x()] = new EmptyRoadSide();
+        			boardMatrix[coord.y()+n][coord.x()] = new EmptyRoadSide();
         		}
         		
         	}
         }
         
-        matricePlateau[listeCoord[0].y()][listeCoord[0].x()] = new CampFire();
+        boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();
         
-        matricePlateau[4][3] = new Meadow();
-        matricePlateau[4][2] = new Rock(this,4,2);
-        matricePlateau[4][9] = new Grove(6);
+        boardMatrix[4][3] = new Meadow();
+        boardMatrix[4][2] = new Rock(this,4,2);
+        boardMatrix[4][9] = new Grove(6);
         
-        return listeCoord;
+        return coordList;
     }
 
        
     public void dailyEffect() {
     	for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
-        		matricePlateau[y][x].dailyEffect(this);
+        		boardMatrix[y][x].dailyEffect(this);
         	}
     	}
     }
@@ -103,64 +103,64 @@ public class Board {
     public void loopEffect() {
     	for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
-        		matricePlateau[y][x].loopEffect(this);
+        		boardMatrix[y][x].loopEffect(this);
         	}
     	}
     }
     
     public boolean fight(RessourcesInventory lootList,CardInventory CardList){
 		//Fonction appelee apres isCombat qui serait dans Case
-    	AbstractRoad caseHero = (AbstractRoad) matricePlateau[heroY()][heroX()]; 
-        if( caseHero.isCombat()){
-        	caseHero.clearMob(lootList,CardList);
-            hero.perteHP(6);
+    	AbstractRoad heroTile = (AbstractRoad) boardMatrix[heroY()][heroX()]; 
+        if( heroTile.isCombat()){
+        	heroTile.clearMob(lootList,CardList);
+            hero.lossHP(6);
             System.out.println(hero.hp); //faut remettre les hps en protected
             return true;
         }
         return false;
     }
 
-	public void plusBoucle(){
+	public void plusloop(){
 		// Fonction appelée quand le Hero passe sur la case Camp
-		boucle+=1;
+		loop+=1;
 	}
 	
-    public void deplacement(){
+    public void move(){
         //fait déplacer le hero en augmentant sa position dans les coordonnées
         position+=1;
 	}
 
 	public int heroX(){
         //facilite l'accès a la coordonnée X du héro
-		return listeCoord[position].x();
+		return coordList[position].x();
     }
 
 	public int heroY(){
         //facilite l'accès a la coordonnée Y du héro
-		return listeCoord[position].y();
+		return coordList[position].y();
     }
 	
-	public Coord[] listeCoord() {
-		return listeCoord;
+	public Coord[] coordList() {
+		return coordList;
 	}
 	
 	public boolean moveHero() {
 		position +=1;
 		if (position == 34) {
 			position =0;
-			plusBoucle();
+			plusloop();
 			return true;
 		}
 		return false;
 	}
 	
 	
-	public AbstractTile[][] matricePlateau(){
-		return matricePlateau;
+	public AbstractTile[][] boardMatrix(){
+		return boardMatrix;
 	}
 	
-	public int boucle() {
-		return boucle;
+	public int loop() {
+		return loop;
 	}
 	
 	public Hero hero() {

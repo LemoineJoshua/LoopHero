@@ -2,13 +2,13 @@ package theGame.entities;
 
 public class Hero extends Entites {
 
-    public Hero(long maxHp, double force, double defence, double counterAttack, double regen,double esquive,double vampirisme,String image){
-        super(maxHp,force,defence,counterAttack,regen,esquive,vampirisme,image);
+    public Hero(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism,String picture){
+        super(maxHp,strength,defense,counterAttack,regen,esquive,vampirism,picture);
     }
 
-    public boolean perteHP(int hpPerdu){
+    public boolean lossHP(int lostHP){
         //fonctions qui actualise les HP et renvoie vrai si le joueur est mort
-        hp-= hpPerdu;
+        hp-= lostHP;
         if(hp<0){
             return true;
         }
@@ -30,7 +30,7 @@ public class Hero extends Entites {
         }
     }
 
-    public int degat(){
+    public int damage(){
         //fonction qui inflige entre 
         return (int) (4+(Math.random()*2));
     }

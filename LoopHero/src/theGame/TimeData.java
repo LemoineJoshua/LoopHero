@@ -23,7 +23,7 @@ public class TimeData {
 		if (!stopped) {
 			tickTock();
 		}
-		return (elapsedTotal % DAY_MILLISECONDS) / (double) DAY_MILLISECONDS;
+		return (elapsedDay % DAY_MILLISECONDS) / (double) DAY_MILLISECONDS;
 	}
 
 	public void resetelapsedDay() {

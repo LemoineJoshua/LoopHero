@@ -59,21 +59,26 @@ public class GameView {
 				
 		BufferedImage img = stringToImage("pictures/hourglass.png"); // Dessin du sablier fait un peu à l'arrache
 		drawAnEntity(graphics, 0, -1, img);
-				
+		
+		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
 		graphics.drawString("Boucle : "+ loop, xPlayingZone + squareSize , yPlayingZone/2 + 30 );
 		
-		drawHud(graphics);
+		drawHud(graphics, loop);
 		
 		
 	}
 	
-	public void drawHud(Graphics2D graphics) {
+	public void drawHud(Graphics2D graphics, int loop) {
 		BufferedImage img = stringToImage("pictures/Hud2.png");
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance((width/5) / (double) img.getWidth(), heigth / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
 		graphics.drawImage(img, scaling, (int)Math.round((4*width)/5),0);
+		
+		graphics.setColor(Color.RED);
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
+		graphics.drawString(""+loop, (int)Math.round((4.475*width)/5), 5*squareSize/6 );
 	}
 	
 	public BufferedImage stringToImage(String pictureName) {
@@ -101,10 +106,10 @@ public class GameView {
 	}
 	
 	public void drawAllMob(Graphics2D graphics, GameData gameData) {
-		for (Coord coord: gameData.board().listeCoord()) {	
-			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().matricePlateau()[coord.y()][coord.x()];
+		for (Coord coord: gameData.board().coordList()) {	
+			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
 			for (Monster mob: caseAffiche.aliveMonster()) {
-				BufferedImage img = stringToImage(mob.image());
+				BufferedImage img = stringToImage(mob.picture());
 				drawAnEntity(graphics, coord.x(),coord.y(),img);
 				
 			}
@@ -156,8 +161,8 @@ public class GameView {
 		
 		 for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
-	        		if (!(gameData.board().matricePlateau()[y][x].picture()==null)) {
-	        			drawATile(graphics, x, y, gameData.board().matricePlateau()[y][x].picture());
+	        		if (!(gameData.board().boardMatrix()[y][x].picture()==null)) {
+	        			drawATile(graphics, x, y, gameData.board().boardMatrix()[y][x].picture());
 	        		}
 	        		
 	        	}
@@ -174,7 +179,7 @@ public class GameView {
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
 		
 		// on dessine un poti caré
-		drawInterface(graphics, timeData.timeFraction(), gameData.board().boucle());
+		drawInterface(graphics, timeData.timeFraction(), gameData.board().loop());
 		drawBoard(graphics, gameData);
 
 	}
