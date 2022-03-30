@@ -61,12 +61,52 @@ public class Game {
 		this.gameView = new GameView(ctx);		
 		this.gameData = new GameData();
 		this.timeData = new TimeData();
-		
-		gameView.drawFrame(ctx, gameData, timeData);		
+				
 		while(true) {
 			
 			Update(); // Fonction execute a chaque frame
 			
+		}
+	}
+	
+	private void doKeyAction(Event e) {
+		switch(e.getKey()) {//on récupère une touche
+		
+		case SPACE -> { //si c'est espace on arrette tout (je sais pas pourquoi la flèche)
+			ctx.exit(0);
+		}
+		
+		case LEFT -> timeData.slower();
+		
+		case RIGHT -> timeData.faster();
+		
+		case S -> timeData.stop();
+		
+		case D -> timeData.start();
+		
+		default -> System.out.println("touche inactive "+e.getKey()); //sinon on dit quelle touche on à appuyer
+
+		}
+		
+	}
+	
+	private void doMouseAction(Event e) {
+		if (!gameData.aCardIsSelected()) { // no cell is selected
+			Point2D.Float location = e.getLocation();
+			if (gameView.clickInCardZone(location)) {
+				gameData.select(gameView.selectCard(location.x));
+				if(gameData.selectedCardIndex()>gameData.cardInventory().cardList().size()-1) {
+					gameData.unselect();
+				}
+			}
+		} else {
+			Point2D.Float location = e.getLocation();
+			if (gameView.clickInBoardZone(location)) {
+				int indexY = gameView.selectLine(location.y);
+				int indexX = gameView.selectColumn(location.x);
+				}		
+				
+			gameData.unselect();
 		}
 	}
 	
@@ -79,23 +119,18 @@ public class Game {
 		
 		if(e == null) return; //200 milliseconde c'est court du coup y'a moyen que l'event soit null et donc qu'on puisse pas en tirer de touche
 		
-		switch(e.getKey()) {//on récupère une touche
 		
-			case SPACE -> { //si c'est espace on arrette tout (je sais pas pourquoi la flèche)
-				ctx.exit(0);
-			}
-			
-			case LEFT -> timeData.slower();
-			
-			case RIGHT -> timeData.faster();
-			
-			case S -> timeData.stop();
-			
-			case D -> timeData.start();
-			
-			default -> System.out.println("touche inactive "+e.getKey()); //sinon on dit quelle touche on à appuyer
-	
+		switch (e.getAction()) {
+			case KEY_PRESSED:
+				doKeyAction(e);
+				break;
+			case POINTER_DOWN:
+				if (timeData.stopped()) {
+					doMouseAction(e);
+				}
+				break;
 		}
+		
 		gameView.drawFrame(ctx, gameData, timeData);
 		
 	}

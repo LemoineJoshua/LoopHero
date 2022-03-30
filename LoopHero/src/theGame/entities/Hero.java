@@ -1,5 +1,8 @@
 package theGame.entities;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 public class Hero extends Entites {
 
     public Hero(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism,String picture){
@@ -39,6 +42,13 @@ public class Hero extends Entites {
     	maxHp*=1.01;
     }
 
+    public long hp() {
+    	return hp;
+    }
+    
+    public long maxHp() {
+    	return maxHp;
+    }
 
 
 }

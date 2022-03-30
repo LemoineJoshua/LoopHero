@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -49,36 +50,43 @@ public class GameView {
 	}
 	
 	
-	public void drawInterface(Graphics2D graphics, double timeFraction, int loop) {
+	public void drawInterface(Graphics2D graphics, TimeData timeData, Board board) {
+		graphics.setColor(Color.BLACK);
+		graphics.fill(new Rectangle2D.Float(0, heigth/10, widthPlayingZone, 5*heigth/6));
+		
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
 		
-		
-		
-		drawTimeBar(graphics, timeFraction);
+		drawTimeBar(graphics, timeData.timeFraction());
 				
 		BufferedImage img = stringToImage("pictures/hourglass.png"); // Dessin du sablier fait un peu à l'arrache
 		drawAnEntity(graphics, 0, -1, img);
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString("Boucle : "+ loop, xPlayingZone + squareSize , yPlayingZone/2 + 30 );
+		graphics.drawString("Boucle : "+ board.loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );
 		
-		drawHud(graphics, loop);
+		if (timeData.isStopped()) {
+			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
+		}
+		
+		
+		drawHud(graphics,board);
 		
 		
 	}
 	
-	public void drawHud(Graphics2D graphics, int loop) {
+	public void drawHud(Graphics2D graphics, Board board) {
 		BufferedImage img = stringToImage("pictures/Hud2.png");
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance((width/5) / (double) img.getWidth(), heigth / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
 		graphics.drawImage(img, scaling, (int)Math.round((4*width)/5),0);
 		
-		graphics.setColor(Color.RED);
-		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString(""+loop, (int)Math.round((4.475*width)/5), 5*squareSize/6 );
+		graphics.setColor(Color.WHITE);
+		graphics.drawString(board.hero().hp()+"/"+board.hero().maxHp()+"HP",(float) (4.2*width/5), heigthPlayingZone);
+		
+		
 	}
 	
 	public BufferedImage stringToImage(String pictureName) {
@@ -125,17 +133,27 @@ public class GameView {
 		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone * timeFraction, 30));
 		graphics.setColor(Color.BLACK);
 		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
+		
+		
 	}
 	
-	public void drawCards(Graphics2D graphics,CardInventory cards) {
+	public void drawCards(Graphics2D graphics,GameData gameData) {
 		int y = Math.round(heigth-(heigth/6));
 		int x = 0;
 		int cardWidth = Math.round((4*width/5)/13);
 		
-		for(Card card:cards.cardList()) {
+		for(Card card:gameData.cardInventory().cardList()) {
 			drawACard(graphics,x,y,card.img());
 			x+=cardWidth;
 		}
+		
+		if (gameData.aCardIsSelected()) {
+			BufferedImage img = stringToImage("pictures/cursor.png");			
+			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(squareSize / ((double) img.getWidth()*2), squareSize / ((double) img.getHeight()*2)),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, (int) Math.round(cardWidth*gameData.selectedCardIndex()+cardWidth/3), (int) Math.round(heigth-(heigth/6)+(squareSize/2)));
+		}		
 	}
 	
 	public void drawACard(Graphics2D graphics, int x, int y, BufferedImage img) {
@@ -171,7 +189,20 @@ public class GameView {
 		BufferedImage img = stringToImage("pictures/heroB.png");
 		drawAnEntity(graphics,gameData.board().heroX(),gameData.board().heroY(),img);
 		drawAllMob(graphics,gameData);
-		drawCards(graphics,gameData.cardInventory());
+		drawCards(graphics,gameData);
+		
+		if (gameData.aCardIsSelected()) {
+			Card myCard = gameData.cardInventory().cardList().get(gameData.selectedCardIndex());
+			img = stringToImage("pictures/selectRoadSide.png");
+			for(int x=0;x<21;x++){
+	        	for(int y=0;y<12;y++) {
+	        		if ((myCard.type()==gameData.board().boardMatrix()[y][x].type())&&gameData.board().boardMatrix()[y][x].isEmpty()) {
+	        			drawATile(graphics, x, y, img);
+	        		}
+	        		
+	        	}
+	        }
+		}
 		
 		
     }
@@ -179,12 +210,46 @@ public class GameView {
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
 		
 		// on dessine un poti caré
-		drawInterface(graphics, timeData.timeFraction(), gameData.board().loop());
+		drawInterface(graphics, timeData, gameData.board());
 		drawBoard(graphics, gameData);
+		
+
+		
 
 	}
 	
 	public void drawFrame(ApplicationContext ctx, GameData gameData, TimeData timeData) {
 		ctx.renderFrame(graphics -> drawFrame(graphics, gameData, timeData)); 
 	}
+	
+	
+	// Fonctions pour placer des cartes :
+	
+	
+	public boolean clickInCardZone(Point2D.Float location) {
+		return location.x < (4*width/5) && location.y >= heigth-(heigth/6);
+	}
+	
+	private int indexFromCardZone(float coordX) {
+		int cardWidth = Math.round((4*width/5)/13);
+		return (int) ((coordX) / cardWidth);
+	}
+	
+	public int selectCard(float coordX) {
+		return indexFromCardZone(coordX);
+	}
+	
+	public boolean clickInBoardZone(Point2D.Float location) {
+		return ((int) location.x < (xPlayingZone + 21*squareSize)) && ((int)location.x > (xPlayingZone)) && ((int)location.y< (yPlayingZone+12*squareSize)) && ((int)location.y > (yPlayingZone));
+	}
+	
+	public int selectLine(float coordY) {
+		return (int) ((coordY-yPlayingZone) / (squareSize));
+	}
+	
+	public int selectColumn(float coordX) {
+		return (int) ((coordX-xPlayingZone) / (squareSize));
+	}
+	
+	
 }

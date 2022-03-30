@@ -48,4 +48,7 @@ public abstract class AbstractTile {
 		return true;
 	}
 	
+	public String type() {
+		return type;
+	}
 }

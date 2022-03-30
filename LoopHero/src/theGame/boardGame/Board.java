@@ -18,7 +18,7 @@ public class Board {
     private int position;
     private final Coord[] coordList;
 	private final AbstractTile[][] boardMatrix;
-	private final Hero hero = new Hero(100,100,100,100,100,100,100,"NoImage");
+	private final Hero hero = new Hero(250,100,100,100,100,100,100,"NoImage");
 	
 	
 	public Board() {
@@ -114,7 +114,6 @@ public class Board {
         if( heroTile.isCombat()){
         	heroTile.clearMob(lootList,CardList);
             hero.lossHP(6);
-            System.out.println(hero.hp); //faut remettre les hps en protected
             return true;
         }
         return false;

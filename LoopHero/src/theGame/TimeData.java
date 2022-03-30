@@ -55,8 +55,10 @@ public class TimeData {
 	}
 
 	public void stop() {
-		tickTock();
-		stopped = true;
+		if (!stopped) {
+			tickTock();
+			stopped = true;
+		}		
 	}
 
 	public void start() {
@@ -80,5 +82,9 @@ public class TimeData {
 		elapsedTotal+=2000;
 		elapsedHero+=2000;
 		elapsedDay+=2000;
+	}
+	
+	public boolean isStopped() {
+		return stopped;
 	}
 }
