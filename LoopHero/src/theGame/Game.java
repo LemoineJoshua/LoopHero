@@ -32,6 +32,10 @@ public class Game {
 	private TimeData timeData;
 	
 	private void moveHeroAndDraw(ApplicationContext context) {
+		if (gameData.board().hero().isDead()) {
+			System.out.println("Oh non le hero est mort, dommage");
+			ctx.exit(0);
+		}
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
 			if(gameData.moveHero()) {
 				gameData.loopEffect();
@@ -82,7 +86,7 @@ public class Game {
 		
 		case S -> timeData.stop();
 		
-		case D -> timeData.start();
+		case D -> startTime();
 		
 		default -> System.out.println("touche inactive "+e.getKey()); //sinon on dit quelle touche on à appuyer
 
@@ -104,10 +108,18 @@ public class Game {
 			if (gameView.clickInBoardZone(location)) {
 				int indexY = gameView.selectLine(location.y);
 				int indexX = gameView.selectColumn(location.x);
+				gameData.placeACard(indexY,indexX);
+				gameData.cardInventory().addCardInDeck(gameData.cardInventory().cardList().get(gameData.selectedCardIndex()));
+				gameData.cardInventory().remove(gameData.selectedCardIndex());
 				}		
 				
 			gameData.unselect();
 		}
+	}
+	
+	private void startTime() {
+		timeData.start();
+		gameData.unselect();
 	}
 	
 	private void Update() {

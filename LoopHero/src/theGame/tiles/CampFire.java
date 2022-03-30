@@ -1,11 +1,14 @@
 package theGame.tiles;
 
+import java.util.ArrayList;
+
 import theGame.boardGame.Board;
+import theGame.entities.Monster;
 
 public class CampFire extends AbstractRoad{
 
 	public CampFire() {
-		super("pictures/campFire.png");
+		super("pictures/campFire.png",new ArrayList<Monster>());
 	}
 	
 	@Override

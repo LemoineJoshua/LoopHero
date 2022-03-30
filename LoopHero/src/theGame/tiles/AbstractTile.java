@@ -17,8 +17,8 @@ import theGame.entities.Monster;
 
 public abstract class AbstractTile {
 	private final  String type;
-	private final  String pathToPicture;
-	private final BufferedImage picture;
+	protected  String pathToPicture;
+	protected BufferedImage picture;
 	
 	public AbstractTile(String type, String pathToPicture) {
 		this.type = type;
@@ -40,7 +40,24 @@ public abstract class AbstractTile {
 	public BufferedImage picture() {
 		return picture;
 	}
-		
+	
+	public void searchMeadowtoBloom(Board board, int x, int y) {
+		for (int i= x-1;i<x+2; i+=2) {
+			if(board.boardMatrix()[y][i] instanceof Meadow){
+				Meadow meadow = (Meadow) board.boardMatrix()[y][i];
+				System.out.println("bmoo");
+				meadow.becomingBloom();
+			}
+		}
+		for (int j= y-1;j<y+2; j+=2) {
+			if(board.boardMatrix()[j][x] instanceof Meadow){
+				Meadow meadow = (Meadow) board.boardMatrix()[j][x];
+				System.out.println("bmoo");
+				meadow.becomingBloom();
+			}
+		}
+	}
+	
 	public void dailyEffect(Board board){}
 	public void loopEffect(Board board){}
 	

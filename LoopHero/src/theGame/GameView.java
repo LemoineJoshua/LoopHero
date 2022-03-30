@@ -2,6 +2,7 @@ package theGame;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
@@ -50,9 +51,9 @@ public class GameView {
 	}
 	
 	
-	public void drawInterface(Graphics2D graphics, TimeData timeData, Board board) {
+	public void drawInterface(Graphics2D graphics, TimeData timeData, GameData gameData) {
 		graphics.setColor(Color.BLACK);
-		graphics.fill(new Rectangle2D.Float(0, heigth/10, widthPlayingZone, 5*heigth/6));
+		graphics.fill(new Rectangle2D.Float(0, heigth/10, 4*width/5, heigth));
 		
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
@@ -64,15 +65,15 @@ public class GameView {
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString("Boucle : "+ board.loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );
+		graphics.drawString("Boucle : "+ gameData.board().loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );
 		
 		if (timeData.isStopped()) {
 			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
 		}
 		
 		
-		drawHud(graphics,board);
-		
+		drawHud(graphics,gameData.board());
+		gameData.ressourcesInventory().afficheRessource(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize);
 		
 	}
 	
@@ -210,7 +211,7 @@ public class GameView {
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
 		
 		// on dessine un poti caré
-		drawInterface(graphics, timeData, gameData.board());
+		drawInterface(graphics, timeData, gameData);
 		drawBoard(graphics, gameData);
 		
 

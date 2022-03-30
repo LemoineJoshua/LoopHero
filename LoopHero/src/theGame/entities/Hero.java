@@ -20,7 +20,7 @@ public class Hero extends Entites {
 
     public void regenHPloop(){
         //fonction qui régénères les HP du joueur � chaque tour de boucle
-        hp*=1.2;
+        hp+=0.2*maxHp;
         if (hp>maxHp){
             hp = maxHp;
         }
@@ -48,6 +48,10 @@ public class Hero extends Entites {
     
     public long maxHp() {
     	return maxHp;
+    }
+    
+    public boolean isDead() {
+    	return hp<=0;
     }
 
 

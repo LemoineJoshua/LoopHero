@@ -1,6 +1,9 @@
 package theGame.boardGame;
 
+import java.util.ArrayList;
+
 import theGame.entities.Hero;
+import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -82,12 +85,7 @@ public class Board {
         	}
         }
         
-        boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();
-        
-        boardMatrix[4][3] = new Meadow();
-        boardMatrix[4][2] = new Rock(this,4,2);
-        boardMatrix[4][9] = new Grove(6);
-        
+        boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();        
         return coordList;
     }
 
@@ -108,7 +106,16 @@ public class Board {
     	}
     }
     
-    public boolean fight(RessourcesInventory lootList,CardInventory CardList){
+    public int getIndexInLoop(int indexY, int indexX) {
+    	for (int i=0; i<coordList.length;i++) {
+    		if (coordList[i].x()==indexX && coordList[i].y()==indexY) {
+    			return i;
+    		}
+    	}
+    	return -1;
+    }
+    
+    public boolean fight(RessourcesInventory lootList, CardInventory CardList){
 		//Fonction appelee apres isCombat qui serait dans Case
     	AbstractRoad heroTile = (AbstractRoad) boardMatrix[heroY()][heroX()]; 
         if( heroTile.isCombat()){
@@ -127,6 +134,7 @@ public class Board {
     public void move(){
         //fait déplacer le hero en augmentant sa position dans les coordonnées
         position+=1;
+        
 	}
 
 	public int heroX(){

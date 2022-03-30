@@ -9,6 +9,10 @@ import theGame.boardGame.Board;
 import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
+import theGame.tiles.AbstractRoad;
+import theGame.tiles.Grove;
+import theGame.tiles.Meadow;
+import theGame.tiles.Rock;
 
 public class GameData {
 	private final Board board = new Board();
@@ -29,7 +33,13 @@ public class GameData {
 	}
 	
 	public boolean moveHero() {
-		return board.moveHero();
+		boolean heroHasMoved = board.moveHero();
+		if (board.boardMatrix()[board.heroY()][board.heroX()] instanceof Grove) {
+			Grove tile = (Grove) board.boardMatrix()[board.heroY()][board.heroX()];
+			tile.enteringEffect(this);
+		}
+		
+		return heroHasMoved;
 	}
 	
 	public boolean fight() {
@@ -56,6 +66,29 @@ public class GameData {
 		return selectedCardIndex;
 	}
 	
+	public void placeACard(int indexY, int indexX) {
+		Card myCard = cardInventory.cardList().get(selectedCardIndex);
+		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()) && board.boardMatrix()[indexY][indexX].isEmpty()) {
+			
+			switch (myCard.name()) {
+				case "rock":
+					board.boardMatrix()[indexY][indexX]=new Rock(board,indexY, indexX);
+					break;
+							
+				case "meadow":
+					board.boardMatrix()[indexY][indexX]=new Meadow(board,indexY, indexX);
+					break;
+					
+				case "grove":
+					AbstractRoad tile= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), tile.aliveMonster());
+					break;
+				}
+		}
+	}
 	
+	public RessourcesInventory ressourcesInventory() {
+		return ressourcesInventory;
+	}
 
 }
