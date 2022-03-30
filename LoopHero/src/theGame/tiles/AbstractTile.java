@@ -43,18 +43,18 @@ public abstract class AbstractTile {
 	
 	public void searchMeadowtoBloom(Board board, int x, int y) {
 		for (int i= x-1;i<x+2; i+=2) {
-			if(board.boardMatrix()[y][i] instanceof Meadow){
-				Meadow meadow = (Meadow) board.boardMatrix()[y][i];
-				System.out.println("bmoo");
-				meadow.becomingBloom();
-			}
+			if(i<0 || i>20) {continue;}
+				if(board.boardMatrix()[y][i] instanceof Meadow){
+					Meadow meadow = (Meadow) board.boardMatrix()[y][i];				
+					meadow.becomingBloom();
+				}
 		}
 		for (int j= y-1;j<y+2; j+=2) {
-			if(board.boardMatrix()[j][x] instanceof Meadow){
-				Meadow meadow = (Meadow) board.boardMatrix()[j][x];
-				System.out.println("bmoo");
-				meadow.becomingBloom();
-			}
+			if(j>11 || j<0 ) {continue;}
+				if(board.boardMatrix()[j][x] instanceof Meadow){
+					Meadow meadow = (Meadow) board.boardMatrix()[j][x];
+					meadow.becomingBloom();
+				}
 		}
 	}
 	

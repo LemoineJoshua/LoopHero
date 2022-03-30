@@ -11,7 +11,7 @@ public class Rock extends AbstractTile {
 		
 		for(int i=(y-1); i<=(y+1) ;i++) {
 			for(int j=(x-1) ;j<=(x+1) ;j++) {
-				if(j>20 || i>11) {continue;}
+				if(j>20 || j<0 || i<0|| i>11) {continue;}
 				if(board.boardMatrix()[i][j] instanceof Rock){
 					board.hero().modifMaxHP((float) 1.01);
 				}

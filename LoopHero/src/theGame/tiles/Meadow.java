@@ -8,16 +8,21 @@ public class Meadow extends AbstractTile {
 		super("Field","pictures/meadow.png");
 		boolean isBloomingMeadow = false;
 		
-		for(int i=(y-1); i<=(y+1) ;i++) {
-			for(int j=(x-1) ;j<=(x+1) ;j++) {
-				if(j>20 || i>11) {continue;}
-				if (!(board.boardMatrix()[i][j] instanceof Meadow) && !(board.boardMatrix()[i][j].isEmpty())) {
+		for (int i= x-1;i<x+2; i+=2) {
+			if(i<0 || i>20) {continue;}
+				if(!(board.boardMatrix()[y][i] instanceof Meadow) && !(board.boardMatrix()[y][i].isEmpty())){
 					isBloomingMeadow=true;
 					break;
 				}
-			}
-			if (isBloomingMeadow) {break;}
 		}
+		for (int j= y-1;j<y+2; j+=2) {
+			if(j>11 || j<0 ) {continue;}
+				if(!(board.boardMatrix()[j][x] instanceof Meadow) && !(board.boardMatrix()[j][x].isEmpty())){
+					isBloomingMeadow=true;
+					break;
+				}
+		}
+		
 		if (isBloomingMeadow) {
 			becomingBloom();
 		}
