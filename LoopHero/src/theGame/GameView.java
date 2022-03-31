@@ -2,7 +2,6 @@ package theGame;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
@@ -14,30 +13,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import javax.imageio.ImageIO;
-
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
 import theGame.entities.Monster;
-import theGame.inventories.CardInventory;
 import theGame.tiles.AbstractRoad;
-import theGame.tiles.AbstractTile;
-import theGame.tiles.EmptyField;
 import theGame.Cards.Card;
 import theGame.boardGame.Board;
 
 public class GameView {
-	private float width;
-	private float heigth;
+	private final float width;
+	private final float heigth;
+	private final int heigthPlayingZone;
+	private final int squareSize;
+	private final int widthPlayingZone;
+	private final int xPlayingZone;
+	private final int yPlayingZone;
 	
-	private int heigthPlayingZone;
-	private int squareSize;
-	private int widthPlayingZone;
-	private int xPlayingZone;
-	private int yPlayingZone;
-	
+	/**
+	 * Constructeur de GameView,
+	 * memorise la largeur et la hauteur de la fenetre
+	 * Ainsi que la largeur et la hauteur de la grille de jeu, et ses coordonnées
+	 * 
+	 * @param ctx contexte de l'application
+	 */
 	public GameView(ApplicationContext ctx) {
 		ScreenInfo screen = ctx.getScreenInfo();
 		this.width = screen.getWidth();
@@ -51,6 +51,13 @@ public class GameView {
 	}
 	
 	
+	/**
+	 * Dessinne l'interface du jeu (hors grille de jeu et cartes)
+	 * 
+	 * @param graphics Objet de dessin
+	 * @param timeData Données temporelles
+	 * @param gameData Données du jeu
+	 */
 	public void drawInterface(Graphics2D graphics, TimeData timeData, GameData gameData) {
 		graphics.setColor(Color.BLACK);
 		graphics.fill(new Rectangle2D.Float(0, heigth/10, 4*width/5, heigth));
@@ -77,6 +84,13 @@ public class GameView {
 		
 	}
 	
+	
+	/**
+	 * Dessine le HUD sur la droite ainsi que les PV du Hero
+	 * 
+	 * @param graphics Objet de dessin
+	 * @param board plateau du jeu
+	 */
 	public void drawHud(Graphics2D graphics, Board board) {
 		BufferedImage img = stringToImage("pictures/Hud2.png");
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
@@ -90,6 +104,11 @@ public class GameView {
 		
 	}
 	
+	
+	/**
+	 * @param pictureName chemin de l'image
+	 * @return l'image créée avec le chemin de l'image
+	 */
 	public BufferedImage stringToImage(String pictureName) {
 		Path path = Path.of(pictureName);
 		try (InputStream in = Files.newInputStream(path)) {
@@ -100,6 +119,14 @@ public class GameView {
 		}
 	}
 	
+	/**
+	 * Dessine une tuile sur le plateau de jeu
+	 * 
+	 * @param graphics Objet de dessin
+	 * @param x colonne du plateau
+	 * @param y ligne du plateau
+	 * @param img image de la case à dessiner
+	 */
 	public void drawATile(Graphics2D graphics, int x, int y, BufferedImage img) {		
 			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(squareSize / (double) img.getWidth(), squareSize / (double) img.getHeight()),
@@ -107,6 +134,14 @@ public class GameView {
 			graphics.drawImage(img, scaling, xPlayingZone + x * squareSize, yPlayingZone + y * squareSize);
 	}
 	
+	/**
+	 * Dessine un monstre sur le plateau de jeu
+	 * 
+	 * @param graphics Objet de dessin
+	 * @param x colonne du plateau
+	 * @param y ligne du plateau
+	 * @param img image de la case à dessiner
+	 */
 	public void drawAnEntity(Graphics2D graphics, int x, int y, BufferedImage img) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(squareSize / ((double) img.getWidth()*2), squareSize / ((double) img.getHeight()*2)),
@@ -114,6 +149,12 @@ public class GameView {
 		graphics.drawImage(img, scaling, (int) Math.round(xPlayingZone + x * squareSize + squareSize*0.25), (int) Math.round(yPlayingZone + y * squareSize + squareSize * 0.25 ));
 	}
 	
+	/**
+	 * Dessine tout les monstres du jeux
+	 * 
+	 * @param graphics Objet de dessin
+	 * @param gameData Données du jeux
+	 */
 	public void drawAllMob(Graphics2D graphics, GameData gameData) {
 		for (Coord coord: gameData.board().coordList()) {	
 			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
@@ -127,6 +168,12 @@ public class GameView {
 		
 	}
 	
+	/**
+	 * Dessin la barre de temps sur le haut du plateau
+	 * 
+	 * @param graphics Objet de Dessin
+	 * @param timeFraction fraction de journée écoulée
+	 */
 	public void drawTimeBar(Graphics2D graphics, double timeFraction) {
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
@@ -138,6 +185,12 @@ public class GameView {
 		
 	}
 	
+	/**
+	 * Dessine les cartes de la mains du joueur
+	 * 
+	 * @param graphics graphics Objet de Dessin
+	 * @param gameData données du jeux
+	 */
 	public void drawCards(Graphics2D graphics,GameData gameData) {
 		int y = Math.round(heigth-(heigth/6));
 		int x = 0;
@@ -157,6 +210,14 @@ public class GameView {
 		}		
 	}
 	
+	/**
+	 * Dessine une carte sur le plateau
+	 * 
+	 * @param graphics Objet de Dessin
+	 * @param x colonne du plateau
+	 * @param y ligne du plateau
+	 * @param img image de la carte
+	 */
 	public void drawACard(Graphics2D graphics, int x, int y, BufferedImage img) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance( (width/10) / ((double) img.getWidth()*2), (heigth/4) / ((double) img.getHeight()*2)),
@@ -164,6 +225,12 @@ public class GameView {
 		graphics.drawImage(img, scaling, x, y);
 	}
 	
+	/**
+	 * Dessine le plateau de jeu en entier
+	 * 
+	 * @param graphics Objet de Dessin
+	 * @param gameData Donnée du jeux
+	 */
 	public void drawBoard(Graphics2D graphics, GameData gameData) {
 		
 		graphics.setColor(Color.WHITE);
@@ -203,20 +270,21 @@ public class GameView {
 	        		
 	        	}
 	        }
-		}
-		
-		
+		}	
     }
  
+	
+	
+	/**
+	 * Dessine tout l'écran
+	 * 
+	 * @param graphics Objet de Dessin
+	 * @param gameData données du jeux
+	 * @param timeData données temporelles du jeux
+	 */
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
-		
-		// on dessine un poti caré
 		drawInterface(graphics, timeData, gameData);
 		drawBoard(graphics, gameData);
-		
-
-		
-
 	}
 	
 	public void drawFrame(ApplicationContext ctx, GameData gameData, TimeData timeData) {
@@ -227,27 +295,51 @@ public class GameView {
 	// Fonctions pour placer des cartes :
 	
 	
+	/**
+	 * @param location location du clique de la sourie
+	 * @return true si la sourie clique dans la mains du joueur, false sinon
+	 */
 	public boolean clickInCardZone(Point2D.Float location) {
 		return location.x < (4*width/5) && location.y >= heigth-(heigth/6);
 	}
 	
+	/**
+	 * @param coordX coordonée X du clique de la sourie
+	 * @return la coordonnée de la colonne ou le sourie à cliquee
+	 */
 	private int indexFromCardZone(float coordX) {
 		int cardWidth = Math.round((4*width/5)/13);
 		return (int) ((coordX) / cardWidth);
 	}
 	
+	/**
+	 * @param coordX coordonée X du clique de la sourie
+	 * @return la coordonnée de la colonne ou le sourie à cliquee (sans donner accès au calcul)
+	 */
 	public int selectCard(float coordX) {
 		return indexFromCardZone(coordX);
 	}
 	
+	/**
+	 * @param location location du clique de la sourie
+	 * @return true si la sourie a cliquee sur le plateau de jeu
+	 */
 	public boolean clickInBoardZone(Point2D.Float location) {
 		return ((int) location.x < (xPlayingZone + 21*squareSize)) && ((int)location.x > (xPlayingZone)) && ((int)location.y< (yPlayingZone+12*squareSize)) && ((int)location.y > (yPlayingZone));
 	}
 	
+	/**
+	 * @param coordY coordonee Y du clique de la sourie
+	 * @return la ligne sur laquelle à cliquee la sourie
+	 */
 	public int selectLine(float coordY) {
 		return (int) ((coordY-yPlayingZone) / (squareSize));
 	}
 	
+	/**
+	 * @param coordX coordonee X du clique de la sourie
+	 * @return la colonne sur laquelle à cliquee la sourie
+	 */
 	public int selectColumn(float coordX) {
 		return (int) ((coordX-xPlayingZone) / (squareSize));
 	}

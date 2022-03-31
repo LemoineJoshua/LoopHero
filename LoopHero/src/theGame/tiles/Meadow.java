@@ -4,6 +4,16 @@ import theGame.boardGame.Board;
 
 public class Meadow extends AbstractTile {
 	private int heal = 2;
+	
+	
+	/**
+	 * Constructeur du Meadow,
+	 * Verifie que le Meadow ne doit pas être un bloomingMeadow
+	 * 
+	 * @param board le palteau de jeu
+	 * @param y sa ligne
+	 * @param x sa colonne
+	 */
 	public Meadow(Board board, int y,int x) {
 		super("Field","pictures/meadow.png");
 		boolean isBloomingMeadow = false;
@@ -28,12 +38,18 @@ public class Meadow extends AbstractTile {
 		}
 	}
 	
+	/**
+	 * Transforme le Meadow en Blooming Meadow, change son apparence et sa puissance de heal
+	 */
 	public void becomingBloom() {
 		pathToPicture="pictures/bloomingmeadow.png";
 		picture = stringToImage(pathToPicture);
 		heal=3;
 	}
 	
+	/**
+	 *Régenaire les HP du héros tout les jours
+	 */
 	@Override
 	public void dailyEffect(Board board) {
 		board.hero().regenHPdaily(heal);

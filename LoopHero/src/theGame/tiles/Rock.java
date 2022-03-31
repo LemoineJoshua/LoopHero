@@ -4,6 +4,15 @@ import theGame.boardGame.Board;
 
 public class Rock extends AbstractTile {
 
+	/**
+	 * Constructeur du Rock,
+	 * Vérifie toutes les cartes autours pour appliquer sa synergie avec d'autre Rock
+	 * et faire fleurir les Meadow autour
+	 * 
+	 * @param board le plateau de jeu
+	 * @param y sa ligne
+	 * @param x sa colonne
+	 */
 	public Rock(Board board, int y,int x) {
 		super("Field","pictures/rock.png"); 
 		

@@ -11,6 +11,14 @@ public class Grove extends AbstractRoad {
 	private int day = 0;
 	private final Monster ratWolf;
 	
+	/**
+	 * Constructeur du Grove,
+	 * Initialise ses monstres, spawnables,
+	 * et récupère sa position sur le chemin
+	 * 
+	 * @param position position sur le chemin
+	 * @param aliveMonster Monstres sur la case avant le placage du Grove
+	 */
 	public Grove(int position,ArrayList<Monster> aliveMonster) {
 		super("pictures/grove.png", aliveMonster);
 		ArrayList<String> drop = new ArrayList<>();
@@ -25,6 +33,9 @@ public class Grove extends AbstractRoad {
 	}
 	
 	
+	/**
+	 *Fait apparaitre un rat-loup sur le Grove ou sur une case adjacente tout les deux jours
+	 */
 	@Override
 	public void dailyEffect(Board board) {
 		if(day%2==0) {
@@ -51,6 +62,9 @@ public class Grove extends AbstractRoad {
 		day+=1;
 	}
 	
+	/**
+	 *Ajoute une branche à l'inventaire du héro à chaque fois qu'il entre dedans
+	 */
 	@Override
 	public void enteringEffect(GameData gameData) {
 		gameData.ressourcesInventory().addRessources("Branches",1 );

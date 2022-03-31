@@ -7,11 +7,17 @@ import theGame.entities.Monster;
 
 public class Wastelands extends AbstractRoad{
 	
+	/**
+	 * Une case de chemin 'vide', peut faire apparaitre des slime
+	 */
 	public Wastelands() {
 		super("pictures/chemin.png",new ArrayList<Monster>());
 	}
     
-   @Override
+   /**
+    *5% de chance qu'un slime spawn tout les jours
+    */
+	@Override
    public void dailyEffect(Board board) {
 	   ArrayList<String> drop = new ArrayList<>();
 	   drop.add("Shapeless Mass");

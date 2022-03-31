@@ -10,15 +10,22 @@ public class RessourcesInventory {
 	private final ArrayList<Integer> inventaireRessourceQuantite;
 	
 	
+	/**
+	 * Constructeur de l'inventaire des ressources
+	 * Initialise les différentes ressources et met leur quantité à 0
+	 */
 	public RessourcesInventory() {
 		this.inventaireRessourceNom = new ArrayList<String>();
-        initNom();
+        initName();
 		this.inventaireRessourceQuantite = new ArrayList<Integer>();
-        initQuantite();
+        initQuantitie();
         }
 	
 
-    public void initNom(){        
+    /**
+     * nitialise les différentes ressources
+     */
+    public void initName(){        
 		inventaireRessourceNom.add("Branches");
         inventaireRessourceNom.add("Wood");
         inventaireRessourceNom.add("Pebbles");
@@ -36,26 +43,34 @@ public class RessourcesInventory {
         inventaireRessourceNom.add("Living Fabric");
     }
 
-    public void initQuantite(){
+    /**
+     * Met les quantitées des ressources à 0
+     */
+    public void initQuantitie(){
         for (int i=0; i<15; i++){
             inventaireRessourceQuantite.add(0);
         }
     }
 
-    public void addRessources(String nom, int quantite){
-        int indexRessource=inventaireRessourceNom.indexOf(nom);
-        inventaireRessourceQuantite.set(indexRessource,inventaireRessourceQuantite.get(indexRessource)+quantite);   
+    /**
+     * Ajoute des ressources à l'inventaire
+     * 
+     * @param name nom de la ressource à ajouter
+     * @param quantitie quantite à ajouter
+     */
+    public void addRessources(String name, int quantitie){
+        int indexRessource=inventaireRessourceNom.indexOf(name);
+        inventaireRessourceQuantite.set(indexRessource,inventaireRessourceQuantite.get(indexRessource)+quantitie);   
     }
     
-    @Override // pour le test
-    public String toString() {
-    	String entree = "";
-    	for(int i = 0;i<15;i++) {
-    		entree+="ressource: "+ inventaireRessourceNom.get(i)+" quantitée :"+inventaireRessourceQuantite.get(i);
-    	}
-    	return entree;
-    }
-    
+    /**
+     * Affiche la liste des ressources du joueur
+     * 
+     * @param x abscisse 
+     * @param y ordonnée
+     * @param graphics Objet de dessin
+     * @param squareSize Taille d'un carré de du plateau (taille de référence)
+     */
     public void afficheRessource(int x, int y, Graphics graphics, int squareSize) {
     	graphics.setColor(Color.WHITE);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 14));		

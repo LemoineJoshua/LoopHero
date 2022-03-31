@@ -1,12 +1,7 @@
 package theGame;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
 import theGame.Cards.Card;
 import theGame.boardGame.Board;
-import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -20,18 +15,26 @@ public class GameData {
 	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();
 	private Integer selectedCardIndex;
 
+	/**
+	 * appelle la fonction dailyEffect des cases stockées dans le board
+	 */
 	public void dailyEffect() {
 		board.dailyEffect();
 	}
 	
+	/**
+	 * appelle la fonction loopEffect des cases stockées dans le board
+	 */
 	public void loopEffect() {
 		board.loopEffect();
 	}
 	
-	public Board board() {
-		return board;
-	}
 	
+	/**
+	 * Bouge le hero sur la boucle
+	 * 
+	 * @return true si le hero passe sur le feu de camp, false sinon
+	 */
 	public boolean moveHero() {
 		boolean heroHasMoved = board.moveHero();
 		if (board.boardMatrix()[board.heroY()][board.heroX()] instanceof Grove) {
@@ -42,30 +45,51 @@ public class GameData {
 		return heroHasMoved;
 	}
 	
+	/**
+	 * appelle la fonction fight du board
+	 * 
+	 * @return true si il y a eu un combat, false sinon
+	 */
 	public boolean fight() {
 		return board.fight(ressourcesInventory,cardInventory);
 	}
 	
-	public CardInventory cardInventory() {
-		return cardInventory;
-	}
-	
+	/**
+	 * @return true si une carte est sélectionée, false sinon
+	 */
 	public boolean aCardIsSelected() {
 		return selectedCardIndex != null;
 	}
 	
+	/**
+	 * Deselectionne les cartes
+	 */
 	public void unselect() {
 		selectedCardIndex = null;
 	}
 	
+	/**
+	 * Actualise la carte selectionnee
+	 * 
+	 * @param index position de la carte dans la main du joueur
+	 */
 	public void select(int index) {
 		selectedCardIndex = index;
 	}
 	
+	/**
+	 * @return l'index, de la carte selectionee, dans la main du joueur
+	 */
 	public Integer selectedCardIndex() {
 		return selectedCardIndex;
 	}
 	
+	/**
+	 * Place la carte selectionnee sur le plateau de jeu
+	 * 
+	 * @param indexY ligne de placement dans le plateau
+	 * @param indexX colonne de placement dans le plateau
+	 */
 	public void placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
 		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()) && board.boardMatrix()[indexY][indexX].isEmpty()) {
@@ -87,8 +111,25 @@ public class GameData {
 		}
 	}
 	
+	/**
+	 * @return renvoie le plateau de jeu
+	 */
+	public Board board() {
+		return board;
+	}
+	
+	/**
+	 * @return l'inventaire des ressources
+	 */
 	public RessourcesInventory ressourcesInventory() {
 		return ressourcesInventory;
+	}
+	
+	/**
+	 * @return l'inventaire des cartes
+	 */
+	public CardInventory cardInventory() {
+		return cardInventory;
 	}
 
 }

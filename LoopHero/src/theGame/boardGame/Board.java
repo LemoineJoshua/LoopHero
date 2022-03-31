@@ -1,9 +1,6 @@
 package theGame.boardGame;
 
-import java.util.ArrayList;
-
 import theGame.entities.Hero;
-import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -11,9 +8,6 @@ import theGame.tiles.AbstractTile;
 import theGame.tiles.CampFire;
 import theGame.tiles.EmptyField;
 import theGame.tiles.EmptyRoadSide;
-import theGame.tiles.Grove;
-import theGame.tiles.Meadow;
-import theGame.tiles.Rock;
 import theGame.tiles.Wastelands;
 
 public class Board {
@@ -24,6 +18,10 @@ public class Board {
 	private final Hero hero = new Hero(250,100,100,100,100,100,100,"NoImage");
 	
 	
+	/**
+	 * Constructeur du plateau,
+	 * Initialise la loop à 0 crée le chemin et le plateau
+	 */
 	public Board() {
 		this.loop=0;
         this.position=0;
@@ -31,21 +29,28 @@ public class Board {
 		this.coordList =initPath();
 	}
 	
+	/**
+	 * Initialise la matrice de jeu
+	 * 
+	 * @return la matrice initilisée
+	 */
 	private AbstractTile[][] initCases(){
-        //initialise le plateau de jeu (vide avec une route)
 		AbstractTile[][] boardMatrix = new AbstractTile[12][21];
 
         for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
-            	boardMatrix[y][x]= new EmptyField();//même les cases de vide sont des cases
+            	boardMatrix[y][x]= new EmptyField();
         	}
         }
-        
         return boardMatrix;
     }
 
+    /**
+     * Initialise le chemin et les roadSide
+     * 
+     * @return le chemin initialisé
+     */
     private Coord[] initPath(){
-        //renvoie le chemin que doit parcourir le hero coordonees par coordonÃ©es
         Coord[] coordList = 
         		{
         		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
@@ -81,15 +86,16 @@ public class Board {
         		if (topIsRoadSide) {
         			boardMatrix[coord.y()+n][coord.x()] = new EmptyRoadSide();
         		}
-        		
         	}
-        }
-        
+        } 
         boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();        
         return coordList;
     }
 
        
+    /**
+     * applique les effets du jours de chaque case
+     */
     public void dailyEffect() {
     	for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
@@ -98,6 +104,9 @@ public class Board {
     	}
     }
     
+    /**
+     * applique les effets d'un tour de chaque case
+     */
     public void loopEffect() {
     	for(int x=0;x<21;x++){
         	for(int y=0;y<12;y++) {
@@ -106,6 +115,13 @@ public class Board {
     	}
     }
     
+    /**
+     * Renvoie l'index de la case dans le chemin si il existe
+     * 
+     * @param indexY ligne testée
+     * @param indexX colonne testée
+     * @return l'index du chemin si la case est dedans, -1 sinon
+     */
     public int getIndexInLoop(int indexY, int indexX) {
     	for (int i=0; i<coordList.length;i++) {
     		if (coordList[i].x()==indexX && coordList[i].y()==indexY) {
@@ -115,8 +131,14 @@ public class Board {
     	return -1;
     }
     
+    /**
+     * Effectue le combat si il y a un monstre sur la case ou est le héro
+     * 
+     * @param lootList l'inventaire des ressources
+     * @param CardList l'inventaire des cartes
+     * @return vrai si un combat à eu lieu
+     */
     public boolean fight(RessourcesInventory lootList, CardInventory CardList){
-		//Fonction appelee apres isCombat qui serait dans Case
     	AbstractRoad heroTile = (AbstractRoad) boardMatrix[heroY()][heroX()]; 
         if( heroTile.isCombat()){
         	heroTile.clearMob(lootList,CardList);
@@ -126,31 +148,47 @@ public class Board {
         return false;
     }
 
+	/**
+	 * Augmente le conteur de  tour de 1
+	 */
 	public void plusloop(){
-		// Fonction appelÃ©e quand le Hero passe sur la case Camp
 		loop+=1;
 	}
 	
+    /**
+     * Change l'index du héro sur le chemin
+     */
     public void move(){
-        //fait dÃ©placer le hero en augmentant sa position dans les coordonnÃ©es
         position+=1;
         
 	}
 
+	/**
+	 * @return la coordonnée X du héro
+	 */
 	public int heroX(){
-        //facilite l'accÃ¨s a la coordonnÃ©e X du hÃ©ro
 		return coordList[position].x();
     }
 
+	/**
+	 * @return la coordonnée Y du héro
+	 */
 	public int heroY(){
-        //facilite l'accÃ¨s a la coordonnÃ©e Y du hÃ©ro
 		return coordList[position].y();
     }
 	
+	/**
+	 * @return la liste des coordonée du chemin
+	 */
 	public Coord[] coordList() {
 		return coordList;
 	}
 	
+	/**
+	 * Bouge le héro
+	 * 
+	 * @return vrai si le héro passe au feux de camps
+	 */
 	public boolean moveHero() {
 		position +=1;
 		if (position == 34) {
@@ -162,14 +200,23 @@ public class Board {
 	}
 	
 	
+	/**
+	 * @return la matrice de case
+	 */
 	public AbstractTile[][] boardMatrix(){
 		return boardMatrix;
 	}
 	
+	/**
+	 * @return le numéro de la boucle
+	 */
 	public int loop() {
 		return loop;
 	}
 	
+	/**
+	 * @return le hero
+	 */
 	public Hero hero() {
 		return hero;
 	}

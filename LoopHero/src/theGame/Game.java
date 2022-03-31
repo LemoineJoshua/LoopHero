@@ -1,36 +1,22 @@
 package theGame;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import javax.imageio.ImageIO;
-
-import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
-import fr.umlv.zen5.ScreenInfo;
-import theGame.TimeData;
-import theGame.boardGame.Coord;
-import theGame.boardGame.Board;
-
 
 public class Game {
 	
-	private ApplicationContext ctx; //on stocke le contexte directement dans la classe pour pas avoir à l'appeler
+	private ApplicationContext ctx; 
 	private GameView gameView;
 	private GameData gameData;
 	private TimeData timeData;
 	
+	/**
+	 * Fait bouger le hero sur le plateau, l'effet de loop si il passe sur le 
+	 * feu de camp, et le combat si il y en a un
+	 * 
+	 * @param context contexte de l'Application
+	 */
 	private void moveHeroAndDraw(ApplicationContext context) {
 		if (gameData.board().hero().isDead()) {
 			System.out.println("Oh non le hero est mort, dommage");
@@ -50,6 +36,12 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Passe le jour si suffisament de temps s'est écoulé
+	 * et applique l'effet du jour dans ce cas.
+	 * 
+	 * @param ctx contexte de l'Application
+	 */
 	private void dayAction(ApplicationContext ctx) {
 		if(timeData.elapsedDay()>= TimeData.DAY_MILLISECONDS) {
 			gameData.dailyEffect();
@@ -59,7 +51,14 @@ public class Game {
 	}
 	
 
-	public void Run(ApplicationContext ctx) { //Application ctx c'est une variable rentrée automatiquement par Application.run
+	/**
+	 * Fonction principale du jeu:
+	 * crée les objets qui gèrent l'affichage/les données/le temps
+	 * Puis lance le jeux à travers la fonction Update (qui actualise l'écran)
+	 * 
+	 * @param ctx le contexte de l'Application
+	 */
+	public void Run(ApplicationContext ctx) { 
 		
 		this.ctx = ctx;		
 		this.gameView = new GameView(ctx);		
@@ -68,11 +67,16 @@ public class Game {
 				
 		while(true) {
 			
-			Update(); // Fonction execute a chaque frame
+			Update(); 
 			
 		}
 	}
 	
+	/**
+	 * Fonction qui déclenche une action en fonction de la touche appuyée
+	 * 
+	 * @param e touche appuyée 
+	 */
 	private void doKeyAction(Event e) {
 		switch(e.getKey()) {//on récupère une touche
 		
@@ -88,12 +92,18 @@ public class Game {
 		
 		case D -> startTime();
 		
-		default -> System.out.println("touche inactive "+e.getKey()); //sinon on dit quelle touche on à appuyer
+		default -> System.out.println("touche inactive "+e.getKey()); //pour le debug
 
 		}
 		
 	}
 	
+	/**
+	 * Fonction ui déclenche une action en fonction de ou clique
+	 * la sourie
+	 * 
+	 * @param e evenement de la sourie
+	 */
 	private void doMouseAction(Event e) {
 		if (!gameData.aCardIsSelected()) { // no cell is selected
 			Point2D.Float location = e.getLocation();
@@ -117,19 +127,25 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Fonction qui relance le passage du temps
+	 */
 	private void startTime() {
 		timeData.start();
 		gameData.unselect();
 	}
 	
+	/**
+	 * Fonction d'actualisation de l'écran et des différentes données
+	 */
 	private void Update() {
 		
 		moveHeroAndDraw(ctx);
 		dayAction(ctx);
 		
-		Event e = ctx.pollOrWaitEvent(200);//on récupère tout evenement sur la machine (temps d'attente max 200 millisecondes)
+		Event e = ctx.pollOrWaitEvent(200);
 		
-		if(e == null) return; //200 milliseconde c'est court du coup y'a moyen que l'event soit null et donc qu'on puisse pas en tirer de touche
+		if(e == null) return; 
 		
 		
 		switch (e.getAction()) {
@@ -137,9 +153,11 @@ public class Game {
 				doKeyAction(e);
 				break;
 			case POINTER_DOWN:
-				if (timeData.stopped()) {
+				if (timeData.isStopped()) {
 					doMouseAction(e);
 				}
+				break;
+			default:
 				break;
 		}
 		

@@ -1,6 +1,6 @@
 package theGame.entities;
 
-public abstract class Entites implements InterfaceEntites {
+public abstract class Entites {
 	protected long maxHp;
 	protected long hp; 
 	protected double strength;
@@ -11,6 +11,16 @@ public abstract class Entites implements InterfaceEntites {
 	protected final double vampirism;
 	protected final String picture;
 	
+	/**
+	 * @param maxHp HP max de l'entitée
+	 * @param strength force de l'entitée
+	 * @param defense défence de l'entitée
+	 * @param counterAttack la chance de contre-attaque
+	 * @param regen la regen de l'entite
+	 * @param esquive la chance d'esquive de l'entitée
+	 * @param vampirism le pourcentage de vampirisme
+	 * @param picture l'image de l'entitée
+	 */
 	public Entites(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism,String picture) {
 		this.maxHp=maxHp;
 		this.hp=maxHp;
@@ -23,11 +33,17 @@ public abstract class Entites implements InterfaceEntites {
 		this.picture=picture;
 	}
 
+	/**
+	 * @return l'image du mob
+	 */
 	public String picture() {
 		return picture;
 	}
 	
-	@Override
+	
+	/**
+	 * @return les dégat de l'entitée
+	 */
 	public int damage(){
 		return (int) strength;
 	}

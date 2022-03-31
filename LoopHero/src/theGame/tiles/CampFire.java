@@ -7,6 +7,9 @@ import theGame.entities.Monster;
 
 public class CampFire extends AbstractRoad{
 
+	/**
+	 * Le feu de camps, soigne le joueur à chaque boucle
+	 */
 	public CampFire() {
 		super("pictures/campFire.png",new ArrayList<Monster>());
 	}
@@ -17,6 +20,9 @@ public class CampFire extends AbstractRoad{
 	}
 	
 	//@Override
+	/**
+	 *Soigne les pv du héro à chaque tour 
+	 */
 	public void loopEffect(Board board){
 		board.hero().regenHPloop();		
 	}

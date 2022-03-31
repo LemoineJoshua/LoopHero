@@ -13,12 +13,23 @@ public class Card {
 	private final String type;
 	private final BufferedImage img;
 	
+	/**
+	 * @param name nom de la carte
+	 * @param type type de la carte
+	 * @param path chemin vers l'image 
+	 */
 	public Card(String name,String type,String path) {
 		this.name=name;
 		this.type=type;
 		this.img=stringToImage(path);
 	}
 	
+	/**
+	 * Crée une image à partir d'un chemin
+	 * 
+	 * @param pictureName chemin de l'image
+	 * @return image crée à partir du chemin
+	 */
 	public BufferedImage stringToImage(String pictureName) {
 		Path path = Path.of(pictureName);
 		if (pictureName.equals("")) {return null;}
@@ -30,14 +41,23 @@ public class Card {
 		}
 	}
 	
+	/**
+	 * @return le type
+	 */
 	public String type() {
 		return type;
 	}
 	
+	/**
+	 * @return le nom
+	 */
 	public String name() {
 		return name;
 	}
 	
+	/**
+	 * @return l'image
+	 */
 	public BufferedImage img(){
 		return img;
 	}
