@@ -11,7 +11,7 @@ public class CampFire extends AbstractRoad{
 	 * Le feu de camps, soigne le joueur à chaque boucle
 	 */
 	public CampFire() {
-		super("pictures/campFire.png",new ArrayList<Monster>());
+		super("pictures/Tiles/campFire.png",new ArrayList<Monster>());
 	}
 	
 	@Override

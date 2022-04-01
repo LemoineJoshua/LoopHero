@@ -85,12 +85,15 @@ public class GameData {
 	}
 	
 	/**
-	 * Place la carte selectionnee sur le plateau de jeu
+	 * Place la carte selectionnee sur le plateau de jeu si elle peut être placée à l'endroit sélectionné, et renvoie true. 
+	 * Sinon renvoie false,
 	 * 
 	 * @param indexY ligne de placement dans le plateau
 	 * @param indexX colonne de placement dans le plateau
+	 * 
+	 * @return true si la carte est placée, false sinon.
 	 */
-	public void placeACard(int indexY, int indexX) {
+	public boolean placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
 		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()) && board.boardMatrix()[indexY][indexX].isEmpty()) {
 			
@@ -108,7 +111,9 @@ public class GameData {
 					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), tile.aliveMonster());
 					break;
 				}
+			return true;
 		}
+		return false;
 	}
 	
 	/**

@@ -14,7 +14,7 @@ public class Rock extends AbstractTile {
 	 * @param x sa colonne
 	 */
 	public Rock(Board board, int y,int x) {
-		super("Field","pictures/rock.png"); 
+		super("Field","pictures/Tiles/rock.png"); 
 		
 		board.hero().modifMaxHP((float) 1.01); //la tuile n'étant pas construite elle n'est pas détectée par la boucle ci dessous
 		

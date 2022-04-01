@@ -15,7 +15,7 @@ public class Meadow extends AbstractTile {
 	 * @param x sa colonne
 	 */
 	public Meadow(Board board, int y,int x) {
-		super("Field","pictures/meadow.png");
+		super("Field","pictures/Tiles/meadow.png");
 		boolean isBloomingMeadow = false;
 		
 		for (int i= x-1;i<x+2; i+=2) {
@@ -42,7 +42,7 @@ public class Meadow extends AbstractTile {
 	 * Transforme le Meadow en Blooming Meadow, change son apparence et sa puissance de heal
 	 */
 	public void becomingBloom() {
-		pathToPicture="pictures/bloomingmeadow.png";
+		pathToPicture="pictures/Tiles/bloomingmeadow.png";
 		picture = stringToImage(pathToPicture);
 		heal=3;
 	}

@@ -11,7 +11,11 @@ public class Wastelands extends AbstractRoad{
 	 * Une case de chemin 'vide', peut faire apparaitre des slime
 	 */
 	public Wastelands() {
-		super("pictures/chemin.png",new ArrayList<Monster>());
+		super("pictures/Tiles/chemin.png",new ArrayList<Monster>());
+	}
+	
+	public Wastelands(ArrayList<Monster> monsterList) {
+		super("pictures/Tiles/chemin.png",monsterList);
 	}
     
    /**
@@ -22,7 +26,7 @@ public class Wastelands extends AbstractRoad{
 	   ArrayList<String> drop = new ArrayList<>();
 	   drop.add("Shapeless Mass");
 	   drop.add("Craft Fragment");
-	   Monster slime = new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/slimeS.png",(float)0.05, (float) 0.65,drop);
+	   Monster slime = new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/Entities/slimeS.png",(float)0.05, (float) 0.65,drop);
 	   if (slime.doSpawn()){
            addMob(slime);
 	   }

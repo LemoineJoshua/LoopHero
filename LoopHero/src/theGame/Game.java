@@ -118,9 +118,10 @@ public class Game {
 			if (gameView.clickInBoardZone(location)) {
 				int indexY = gameView.selectLine(location.y);
 				int indexX = gameView.selectColumn(location.x);
-				gameData.placeACard(indexY,indexX);
-				gameData.cardInventory().addCardInDeck(gameData.cardInventory().cardList().get(gameData.selectedCardIndex()));
-				gameData.cardInventory().remove(gameData.selectedCardIndex());
+				if (gameData.placeACard(indexY,indexX)) {
+					gameData.cardInventory().addCardInDeck(gameData.cardInventory().cardList().get(gameData.selectedCardIndex()));
+					gameData.cardInventory().remove(gameData.selectedCardIndex());
+					}
 				}		
 				
 			gameData.unselect();

@@ -20,10 +20,10 @@ public class Grove extends AbstractRoad {
 	 * @param aliveMonster Monstres sur la case avant le placage du Grove
 	 */
 	public Grove(int position,ArrayList<Monster> aliveMonster) {
-		super("pictures/grove.png", aliveMonster);
+		super("pictures/Tiles/grove.png", aliveMonster);
 		ArrayList<String> drop = new ArrayList<>();
 		drop.add("Living Fabric");
-		this.ratWolf= new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/ratWolf.png",(float)0.05,(float)0.6,drop);
+		this.ratWolf= new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/Entities/ratWolf.png",(float)0.05,(float)0.6,drop);
 		this.position = position;
 	} 
 	

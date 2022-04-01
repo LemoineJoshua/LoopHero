@@ -1,6 +1,9 @@
 package theGame.boardGame;
 
+import java.util.ArrayList;
+
 import theGame.entities.Hero;
+import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -88,6 +91,17 @@ public class Board {
         		}
         	}
         } 
+        
+        ArrayList<String> drop = new ArrayList<>();
+ 	    drop.add("Shapeless Mass");
+ 	    drop.add("Craft Fragment");
+        ArrayList<Monster> beginningSlime = new ArrayList<Monster>();
+        beginningSlime.add(new Monster((long)13,3.3,0.0,0.0,0.0,0.0,0.0,"pictures/Entities/slimeS.png",(float)0.05, (float) 0.65,drop));
+        
+        boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningSlime));
+        boardMatrix[6][13] = new Wastelands(new ArrayList<>(beginningSlime));
+        boardMatrix[3][7] = new Wastelands(new ArrayList<>(beginningSlime));
+        
         boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();        
         return coordList;
     }

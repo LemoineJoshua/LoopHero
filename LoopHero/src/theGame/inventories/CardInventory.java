@@ -14,9 +14,9 @@ public class CardInventory {
      */
     public CardInventory(){
         this.cardList=new ArrayList<Card>();
-        cardList.add(new Card("meadow","Field","pictures/MeadowCard.png"));
-        cardList.add(new Card("rock","Field","pictures/RockCard.png"));
-        cardList.add(new Card("grove","Road","pictures/GroveCard.png"));
+        cardList.add(new Card("meadow","Field","pictures/Card/MeadowCard.png"));
+        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
+        cardList.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
         this.deck = initDeck();
     }
 
@@ -26,15 +26,15 @@ public class CardInventory {
     private ArrayList<Card> initDeck(){
     	ArrayList<Card> deck = new ArrayList<>();
     	for (int i =0; i<3;i++) { // A chaque fois une de moins que dans le deck car il y'en a une dans la main.
-    		deck.add(new Card("grove","Road","pictures/GroveCard.png"));
+    		deck.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
     	}
     	
     	for (int i =0; i<14;i++) {
-    		deck.add(new Card("meadow","Field","pictures/MeadowCard.png"));
+    		deck.add(new Card("meadow","Field","pictures/Card/MeadowCard.png"));
     	}
     	
     	for (int i =0; i<11;i++) {
-    		deck.add(new Card("rock","Field","pictures/RockCard.png"));
+    		deck.add(new Card("rock","Field","pictures/Card/RockCard.png"));
     	}
     	return deck;
     }
