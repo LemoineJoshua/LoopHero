@@ -100,10 +100,12 @@ public class GameData {
 			switch (myCard.name()) {
 				case "rock":
 					board.boardMatrix()[indexY][indexX]=new Rock(board,indexY, indexX);
+					ressourcesInventory.addRessources("Pebbles", 1);
 					break;
 							
 				case "meadow":
 					board.boardMatrix()[indexY][indexX]=new Meadow(board,indexY, indexX);
+					ressourcesInventory.addRessources("Ration", 1);
 					break;
 					
 				case "grove":
