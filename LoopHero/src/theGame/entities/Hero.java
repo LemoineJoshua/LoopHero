@@ -34,8 +34,8 @@ public class Hero{
     /**
      * @return renvoie les dégat fait par le héro (WYP)
      */
-    public int damage(){
-        return (int) (4+(Math.random()*2));
+    public int damageHero(){
+        return stats.damage();
     }
     
     /**

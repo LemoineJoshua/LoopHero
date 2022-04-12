@@ -1,5 +1,17 @@
 package theGame.entities;
 
+/**
+ * @author Jlwis
+ *
+ */
+/**
+ * @author Jlwis
+ *
+ */
+/**
+ * @author Jlwis
+ *
+ */
 public class Stats {
 	private long maxHp;
 	private long hp; 
@@ -7,7 +19,7 @@ public class Stats {
 	private final double defense;
 	private final double counterAttack;
 	private final double regen;
-	private final double esquive;
+	private final double evade;
 	private final double vampirism;
 	
 	/**
@@ -20,72 +32,19 @@ public class Stats {
 	 * @param vampirism le pourcentage de vampirisme
 	 * @param picture l'image de l'entitée
 	 */
-	public Stats(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism) {
+	public Stats(long maxHp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
 		this.maxHp=maxHp;
 		this.hp=maxHp;
 		this.strength=strength;
 		this.defense=defense;
 		this.counterAttack=counterAttack;
 		this.regen=regen;
-		this.esquive=esquive;
+		this.evade=evade;
 		this.vampirism=vampirism;
 	}
-
-	public long getMaxHp() {
-		return maxHp;
-	}
-
-	public void setMaxHp(long maxHp) {
-		this.maxHp = maxHp;
-	}
-
-	public long getHp() {
-		return hp;
-	}
-
-	public void setHp(long hp) {
-		this.hp = hp;
-	}
-
-	public double getStrength() {
-		return strength;
-	}
-
-	public void setStrength(double strength) {
-		this.strength = strength;
-	}
-
-	public double getDefense() {
-		return defense;
-	}
-
-	public double getCounterAttack() {
-		return counterAttack;
-	}
-
-	public double getRegen() {
-		return regen;
-	}
-
-	public double getEsquive() {
-		return esquive;
-	}
-
-	public double getVampirism() {
-		return vampirism;
-	}
 	
-	public void modifMaxHP(float modif) {
-    	maxHp*=1.01;
-    }
+	//fonctions pour le hero
 	
-	/**
-     * @param lostHP les hp que le joueur doit perdre
-     */
-    public void lossHP(int lostHP){
-        hp-= lostHP;
-    }
-
     /**
      * Regenere les HP du hero à la fin d'une boucle
      */
@@ -107,11 +66,80 @@ public class Stats {
             hp = maxHp;
         }
     }
-
+    
+    /**
+     * @return les hps du héro
+     */
+    public long getHp() {
+		return hp;
+	}
 	
+	/**
+	 * @return les hpMax du hero
+	 */
+	public long getMaxHp() {
+		return maxHp;
+	}
 	
+	/**
+	 * @param modifie les maxHp du hero
+	 */
+	public void modifMaxHP(float modif) {
+    	maxHp+=modif;
+    }
+    
+    
+    //fonctions générales
+    
+    public int damage() {
+		return (int) ((strength*4)+(Math.random()*(strength*6 - strength*4)));
+	}
+    
+    /**
+     * @param lostHP les hp que l'entite doit perdre
+     */
+    public void lossHP(int lostHP){
+        hp-= (lostHP)-defense;
+    }
+    
+    /**
+     * @param damage les dégats que l'entite inflige
+     * 
+     * Regenere l'entite en fonction de son vampirisme
+     */
+    public void vampirismRegen(int damage) {
+    	hp+= damage*vampirism;
+    }
+    
+    /**
+     * @return true si l'entite esquive, false sinon
+     */
+    public boolean doEvade() {
+    	return evade>Math.random();
+    }
+    
+    /**
+     * @return true si l'entite contre attaque, false sinon
+     */
+    public boolean doCounter() {
+    	return counterAttack>Math.random();
+    }
+    
+    
+    //fonctions pour les mobs
+    
+    
+    /**
+     * actualise les stats du monstre pour un combat
+     * 
+     * @param loopNumber numéro du tour de boucle
+     */
+    public void statAuCombat(int loopNumber){
+        strength = strength * loopNumber * 0.95 * (1+(loopNumber-1)*0.02);
+		maxHp = (int) Math.round(maxHp * loopNumber * 0.95 * (1+(loopNumber-1)*0.02));
+		hp = maxHp;
+	}
 	
-
-	
-	
+    
+    
 }

@@ -19,18 +19,6 @@ public class Monster {
     }
 
     /**
-     * actualise les stats du monstre pour un combat
-     * 
-     * @param loopNumber numéro du tour de boucle
-     *
-    public void statAuCombat(int loopNumber){
-        strength = strength * loopNumber * 0.95 * (1+(loopNumber-1)*0.02);
-		maxHp = (int) Math.round(maxHp * loopNumber * 0.95 * (1+(loopNumber-1)*0.02));
-		hp = maxHp;
-	}
-	*/
-
-    /**
      * @return true si le mob spawn, false sinon
      */
     public boolean doSpawn(){
