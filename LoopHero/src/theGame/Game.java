@@ -59,12 +59,12 @@ public class Game {
 	 * @param ctx le contexte de l'Application
 	 */
 	public void Run(ApplicationContext ctx) { 
-		
-		this.ctx = ctx;		
+			
+		this.ctx=ctx;
 		this.gameView = new GameView(ctx);		
 		this.gameData = new GameData();
 		this.timeData = new TimeData();
-				
+		
 		while(true) {
 			
 			Update(); 

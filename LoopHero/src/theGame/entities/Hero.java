@@ -1,26 +1,25 @@
 package theGame.entities;
 
-public class Hero extends Entites {
+public class Hero{
 
-    public Hero(long maxHp, double strength, double defense, double counterAttack, double regen,double esquive,double vampirism,String picture){
-        super(maxHp,strength,defense,counterAttack,regen,esquive,vampirism,picture);
+	private final Stats stats;
+	
+    public Hero(Stats stats){
+        this.stats=stats;
     }
 
     /**
      * @param lostHP les hp que le joueur doit perdre
      */
     public void lossHP(int lostHP){
-        hp-= lostHP;
+        stats.lossHP(lostHP);
     }
 
     /**
      * Regenere les HP du hero à la fin d'une boucle
      */
     public void regenHPloop(){
-        hp+=0.2*maxHp;
-        if (hp>maxHp){
-            hp = maxHp;
-        }
+        stats.regenHPloop();
     }
     
     /**
@@ -29,10 +28,7 @@ public class Hero extends Entites {
      * @param heal nombre de PV que doit se heal le hero
      */
     public void regenHPdaily(int heal) {
-    	hp+=heal;
-        if (hp>maxHp){
-            hp = maxHp;
-        }
+    	stats.regenHPdaily(heal);
     }
 
     /**
@@ -48,28 +44,28 @@ public class Hero extends Entites {
      * @param modif pourcentage d'augmentation à appliquer aux HPmax
      */
     public void modifMaxHP(float modif) {
-    	maxHp*=1.01;
+    	stats.modifMaxHP(modif);
     }
 
     /**
      * @return les hp du Hero
      */
     public long hp() {
-    	return hp;
+    	return stats.getHp();
     }
     
     /**
      * @return les HPmax du héro
      */
     public long maxHp() {
-    	return maxHp;
+    	return stats.getMaxHp();
     }
     
     /**
      * @return renvoie vrai si le héro est mort
      */
     public boolean isDead() {
-    	return hp<=0;
+    	return stats.getHp()<=0;
     }
 
 
