@@ -12,6 +12,10 @@ package theGame.entities;
  * @author Jlwis
  *
  */
+/**
+ * @author Jlwis
+ *
+ */
 public class Stats {
 	private long maxHp;
 	private long hp; 
@@ -125,6 +129,13 @@ public class Stats {
     	return counterAttack>Math.random();
     }
     
+    
+    /**
+     * @return le pourcentage de pv restant
+     */
+    public float hpPercentage() {
+    	return hp/maxHp;
+    }
     
     //fonctions pour les mobs
     
