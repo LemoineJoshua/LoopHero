@@ -31,7 +31,7 @@ public class AbstractRoad extends AbstractTile {
 	/**
 	 * @return true si il y à un combat, false sinon
 	 */
-	public boolean isCombat() {
+	public boolean isFight() {
 		return !aliveMonster.isEmpty();
 	}
 	

@@ -1,18 +1,9 @@
 package theGame.entities;
 
-public class Hero{
-
-	private final Stats stats;
+public class Hero extends Entities{
 	
-    public Hero(Stats stats){
-        this.stats=stats;
-    }
-
-    /**
-     * @param lostHP les hp que le joueur doit perdre
-     */
-    public void lossHP(int lostHP){
-        stats.lossHP(lostHP);
+    public Hero(StatsEntites stats){
+        super(stats);
     }
 
     /**
@@ -31,11 +22,13 @@ public class Hero{
     	stats.regenHPdaily(heal);
     }
 
+    
     /**
-     * @return renvoie les dégat fait par le héro (WYP)
+     * @return renvoie les dégat fait par le héro
      */
-    public int damageHero(){
-        return stats.damage();
+    @Override
+    public int damage(){
+        return stats.damageHero();
     }
     
     /**
@@ -61,12 +54,4 @@ public class Hero{
     	return stats.getMaxHp();
     }
     
-    /**
-     * @return renvoie vrai si le héro est mort
-     */
-    public boolean isDead() {
-    	return stats.getHp()<=0;
-    }
-
-
 }

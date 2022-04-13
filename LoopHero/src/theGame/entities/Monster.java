@@ -2,16 +2,15 @@ package theGame.entities;
 
 import java.util.ArrayList;
 
-public class Monster {
+public class Monster extends Entities{
 	
     private final float chanceSpawn;
     private final float chanceCard;
     private final ArrayList<String> drop;
-    private final Stats statistique;
     private final String picture;
 
-    public Monster(Stats statistique,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture){
-        this.statistique=statistique;
+    public Monster(StatsEntites stats,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture){
+        super(stats);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
         this.drop=drop;
@@ -46,5 +45,17 @@ public class Monster {
 		return picture;
 	}
 
+	/**
+	 * @param loopNumber
+	 * 
+	 * actualise les stats du montre en fonction du tour de boucle
+	 */
+	public void fightStats(int loopNumber) {
+		stats.fightStats(loopNumber);
+	}
     
+	public long hp() {
+		return stats.getHp();
+	}
+	
 }

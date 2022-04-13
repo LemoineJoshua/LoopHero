@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import theGame.entities.Hero;
 import theGame.entities.Monster;
-import theGame.entities.Stats;
+import theGame.entities.StatsEntites;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -19,7 +19,7 @@ public class Board {
     private int position;
     private final Coord[] coordList;
 	private final AbstractTile[][] boardMatrix;
-	private final Hero hero = new Hero(new Stats(250,100,100,100,100,100,100));
+	private final Hero hero = new Hero(new StatsEntites(250,1,0,0,0,0,0));
 	
 	
 	/**
@@ -27,7 +27,7 @@ public class Board {
 	 * Initialise la loop à 0 crée le chemin et le plateau
 	 */
 	public Board() {
-		this.loop=0;
+		this.loop=1;
         this.position=0;
 		this.boardMatrix=initCases();
 		this.coordList =initPath();
@@ -97,11 +97,9 @@ public class Board {
  	    drop.add("Shapeless Mass");
  	    drop.add("Craft Fragment");
         ArrayList<Monster> beginningSlime = new ArrayList<Monster>();
-        beginningSlime.add(new Monster(new Stats((long)13,3.3,0.0,0.0,0.0,0.0,0.0),(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png"));
+        beginningSlime.add(new Monster(new StatsEntites((long)13,3.3,0.0,0.0,0.0,0.0,0.0),(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png"));
         
         boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningSlime));
-        boardMatrix[6][13] = new Wastelands(new ArrayList<>(beginningSlime));
-        boardMatrix[3][7] = new Wastelands(new ArrayList<>(beginningSlime));
         
         boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();        
         return coordList;
@@ -153,14 +151,9 @@ public class Board {
      * @param CardList l'inventaire des cartes
      * @return vrai si un combat à eu lieu
      */
-    public boolean fight(RessourcesInventory lootList, CardInventory CardList){
+    public boolean isFight(RessourcesInventory lootList, CardInventory CardList){
     	AbstractRoad heroTile = (AbstractRoad) boardMatrix[heroY()][heroX()]; 
-        if( heroTile.isCombat()){
-        	heroTile.clearMob(lootList,CardList);
-            hero.lossHP(6);
-            return true;
-        }
-        return false;
+        return heroTile.isFight();
     }
 
 	/**

@@ -1,6 +1,8 @@
 package theGame;
 
 import java.awt.geom.Point2D;
+
+import fight.Fight;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 
@@ -18,10 +20,6 @@ public class Game {
 	 * @param context contexte de l'Application
 	 */
 	private void moveHeroAndDraw(ApplicationContext context) {
-		if (gameData.board().hero().isDead()) {
-			System.out.println("Oh non le hero est mort, dommage");
-			ctx.exit(0);
-		}
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
 			if(gameData.moveHero()) {
 				gameData.loopEffect();
@@ -30,8 +28,17 @@ public class Game {
 			gameView.drawFrame(context, gameData, timeData);
 			timeData.resetElapsedHero();
 			
-			if(gameData.fight()) {
+			if(gameData.isFight()) {
+				
+				Fight fight = new Fight(timeData,gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory());
+				if(!fight.doFight()) {
+					System.out.println("Oh non le hero est mort, dommage");
+					ctx.exit(0);
+				}
+				
+				/*
 				timeData.fight();
+				*/
 			}
 		}
 	}

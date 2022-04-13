@@ -1,22 +1,6 @@
 package theGame.entities;
 
-/**
- * @author Jlwis
- *
- */
-/**
- * @author Jlwis
- *
- */
-/**
- * @author Jlwis
- *
- */
-/**
- * @author Jlwis
- *
- */
-public class Stats {
+public class StatsEntites {
 	private long maxHp;
 	private long hp; 
 	private double strength;
@@ -36,7 +20,7 @@ public class Stats {
 	 * @param vampirism le pourcentage de vampirisme
 	 * @param picture l'image de l'entitée
 	 */
-	public Stats(long maxHp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
+	public StatsEntites(long maxHp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
 		this.maxHp=maxHp;
 		this.hp=maxHp;
 		this.strength=strength;
@@ -47,7 +31,7 @@ public class Stats {
 		this.vampirism=vampirism;
 	}
 	
-	//fonctions pour le hero
+	//-----fonctions pour le hero-----
 	
     /**
      * Regenere les HP du hero à la fin d'une boucle
@@ -92,18 +76,24 @@ public class Stats {
     	maxHp+=modif;
     }
     
-    
-    //fonctions générales
-    
-    public int damage() {
+	/**
+     * @return les degats du hero
+     */
+    public int damageHero() {
 		return (int) ((strength*4)+(Math.random()*(strength*6 - strength*4)));
 	}
     
+    
+    //-----fonctions générales------
     /**
      * @param lostHP les hp que l'entite doit perdre
      */
     public void lossHP(int lostHP){
-        hp-= (lostHP)-defense;
+    	int damage=(int) ((lostHP)-defense) ;
+    	if(damage<0) {
+    		damage=0;
+    	}
+    	hp-= damage ;
     }
     
     /**
@@ -137,7 +127,31 @@ public class Stats {
     	return hp/maxHp;
     }
     
-    //fonctions pour les mobs
+    /**
+     * @return true si l'entite est vivante, false sinon
+     */
+    public boolean isAlive() {
+    	return hp>0;
+    }
+    
+    /**
+     * regenere les pv en fonction de la stat regen
+     */
+    public void regenTurn() {
+    	hp+=hp*regen;
+    	if(hp>maxHp) {
+    		hp=maxHp;
+    	}
+    }
+    
+    //-----fonctions pour les mobs-----
+    
+    /**
+     * @return les degats du monstre
+     */
+    public int damageMob() {
+    	return (int) strength;
+    }
     
     
     /**
@@ -145,7 +159,7 @@ public class Stats {
      * 
      * @param loopNumber numéro du tour de boucle
      */
-    public void statAuCombat(int loopNumber){
+    public void fightStats(int loopNumber){
         strength = strength * loopNumber * 0.95 * (1+(loopNumber-1)*0.02);
 		maxHp = (int) Math.round(maxHp * loopNumber * 0.95 * (1+(loopNumber-1)*0.02));
 		hp = maxHp;

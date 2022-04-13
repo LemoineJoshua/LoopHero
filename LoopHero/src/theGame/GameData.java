@@ -50,8 +50,8 @@ public class GameData {
 	 * 
 	 * @return true si il y a eu un combat, false sinon
 	 */
-	public boolean fight() {
-		return board.fight(ressourcesInventory,cardInventory);
+	public boolean isFight() {
+		return board.isFight(ressourcesInventory,cardInventory);
 	}
 	
 	/**
