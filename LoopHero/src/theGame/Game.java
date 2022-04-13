@@ -35,10 +35,6 @@ public class Game {
 					System.out.println("Oh non le hero est mort, dommage");
 					ctx.exit(0);
 				}
-				
-				/*
-				timeData.fight();
-				*/
 			}
 		}
 	}
