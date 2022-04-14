@@ -25,6 +25,7 @@ public class ItemInventory {
 	 * ajoute un item et vérrifie la taille de la liste
 	 */
 	public void add(Item item) {
+		System.out.println("le hero a gagné : "+item.type());
 		inventory.add(item);
 		overflowForbidden();
 	}

@@ -14,8 +14,9 @@ public class Item {
 	private final HashMap<String,Double> stats;
 	private final int rarity;
 	private final BufferedImage image;
+	private final String type;
 	
-	public Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image) {
+	public Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type) {
 		this.stats=new HashMap<String,Double>() {{
 			put("hp",hp);
 			put("strength",strength);
@@ -27,6 +28,7 @@ public class Item {
 		}};
 		this.rarity=rarity;
 		this.image=stringToImage(image);
+		this.type=type;
 	}
 	
 	/**
@@ -56,6 +58,10 @@ public class Item {
 	 */
 	public BufferedImage getImage() {
 		return image;
+	}
+	
+	public String type() {
+		return type;
 	}
 	
 	

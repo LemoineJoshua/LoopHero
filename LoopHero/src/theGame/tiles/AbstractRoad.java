@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import theGame.GameData;
 import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
+import theGame.inventories.Item;
+import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 
 public class AbstractRoad extends AbstractTile {
@@ -43,13 +45,25 @@ public class AbstractRoad extends AbstractTile {
 	 * @param lootList l'inventaire des ressources
 	 * @param cardInventory l'inventaire des cartes
 	 */
-	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory){
+	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory,ItemInventory itemInventory, int loop){
 		int countBranches = 0;
 		for(Monster mob:aliveMonster) {//comme ça on pourra gérer le drop facilement à la fin du combat quand on vide la case
 			if(!mob.dropCard()) {
-				for(String loot:mob.drop()) {
-					lootList.addRessources(loot, 5);
+				
+				double type = Math.random();
+				Item item;
+				if(type>0.75) {
+					item = new Item(0.0,((loop*4)+(Math.random()*(loop*6 - loop*4))),0.0,0.0,0.0,0.0,0.0,0,"","weapon");
+				}else if(type>0.5){
+					item = new Item(0.0,0.0,4*loop,0.0,0.0,0.0,0.0,0,"","shield");
+				}else if(type>0.25) {
+					item = new Item(0.0,((loop*80)+(Math.random()*(loop*80 - loop*100))),0.0,0.0,0.0,0.0,0.0,0,"","armor");
+				}else {
+					item = new Item(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,"","ring");
 				}
+				itemInventory.add(item);
+				
+				
 			}else {
 				int nb = (int) Math.round(Math.random() * (cardInventory.deck().size()-1));
 				cardInventory.cardList().add(cardInventory.deck().get(nb));
@@ -57,7 +71,13 @@ public class AbstractRoad extends AbstractTile {
 				cardInventory.deck().remove(nb);
 			}
 			if (Math.random()>0.5) {countBranches ++;}
+			
+			for(String loot:mob.drop()) { //en fait ils loots tout le temps des ressources
+				lootList.addRessources(loot, 5);
+			}
 		}
+		
+		
 		
 		if (this instanceof Grove) {
 			lootList.addRessources("Branches", 1+countBranches);

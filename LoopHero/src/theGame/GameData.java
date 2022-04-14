@@ -3,6 +3,7 @@ package theGame;
 import theGame.Cards.Card;
 import theGame.boardGame.Board;
 import theGame.inventories.CardInventory;
+import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.Grove;
@@ -14,6 +15,7 @@ public class GameData {
 	private final CardInventory cardInventory = new CardInventory();
 	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();
 	private Integer selectedCardIndex;
+	private final ItemInventory itemInventory = new ItemInventory();
 
 	/**
 	 * appelle la fonction dailyEffect des cases stockées dans le board
@@ -137,6 +139,13 @@ public class GameData {
 	 */
 	public CardInventory cardInventory() {
 		return cardInventory;
+	}
+	
+	/**
+	 * @return l'inventaire des items
+	 */
+	public ItemInventory itemInventory() {
+		return itemInventory;
 	}
 
 }

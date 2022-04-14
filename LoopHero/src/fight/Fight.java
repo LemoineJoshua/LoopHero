@@ -7,6 +7,7 @@ import theGame.boardGame.Board;
 import theGame.entities.Hero;
 import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
+import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 
@@ -16,17 +17,18 @@ public class Fight {
 	private final Board board;
 	private final CardInventory deck;
 	private final RessourcesInventory ressources;
+	private final ItemInventory items;
 	private final ArrayList<Monster> mobs;
 	private final Hero hero;
 	
 	
-	public Fight(TimeData timeData,GameView gameView,Board board,CardInventory deck,RessourcesInventory ressources) {
+	public Fight(TimeData timeData,GameView gameView,Board board,CardInventory deck,RessourcesInventory ressources,ItemInventory itemInventory) {
 		this.timeData=timeData;
 		this.gameView=gameView;
 		this.board=board;
 		this.deck=deck;
 		this.ressources=ressources;
-		
+		this.items = itemInventory;
 		this.hero=board.hero();
 		
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
@@ -97,7 +99,7 @@ public class Fight {
 			if (allMobDead()) {
 				System.out.println("les pv du hero à la fin du combat : "+hero.hp());
 				AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
-				tile.clearMob(ressources, deck);
+				tile.clearMob(ressources, deck, items, board.loop());
 				return true;
 			}
 			
