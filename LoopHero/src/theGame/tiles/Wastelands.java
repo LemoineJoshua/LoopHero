@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import theGame.boardGame.Board;
 import theGame.entities.Monster;
-import theGame.entities.StatsEntites;
 
 public class Wastelands extends AbstractRoad{
 	
@@ -27,7 +26,7 @@ public class Wastelands extends AbstractRoad{
 	   ArrayList<String> drop = new ArrayList<>();
 	   drop.add("Shapeless Mass");
 	   drop.add("Craft Fragment");
-	   Monster slime = new Monster(new StatsEntites((long)13,3.3,0.0,0.0,0.0,0.0,0.0),(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png");
+	   Monster slime = new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png");
 	   if (slime.doSpawn()){
            addMob(slime);
 	   }

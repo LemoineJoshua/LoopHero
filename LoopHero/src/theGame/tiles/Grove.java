@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import theGame.GameData;
 import theGame.boardGame.Board;
 import theGame.entities.Monster;
-import theGame.entities.StatsEntites;
 
 public class Grove extends AbstractRoad {
 	private final int position;
@@ -24,7 +23,7 @@ public class Grove extends AbstractRoad {
 		super("pictures/Tiles/grove.png", aliveMonster);
 		ArrayList<String> drop = new ArrayList<>();
 		drop.add("Living Fabric");
-		this.ratWolf= new Monster(new StatsEntites((long)16,3.6,0.0,0.0,0.05,0.10,0.0),(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png");
+		this.ratWolf= new Monster(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png");
 		this.position = position;
 	} 
 	

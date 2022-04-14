@@ -2,15 +2,19 @@ package theGame.entities;
 
 public class Hero extends Entities{
 	
-    public Hero(StatsEntites stats){
-        super(stats);
+    public Hero(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism){
+    	super(hp,strength,defense,counterAttack,regen,evade,vampirism);
     }
 
     /**
      * Regenere les HP du hero à la fin d'une boucle
      */
+    
     public void regenHPloop(){
-        stats.regenHPloop();
+    	stats.put("hp", stats.get("hp")*0.2);
+    	if(stats.get("hp")>stats.get("maxHp")) {
+    		stats.put("hp", stats.get("maxHp"));
+    	}
     }
     
     /**
@@ -19,39 +23,35 @@ public class Hero extends Entities{
      * @param heal nombre de PV que doit se heal le hero
      */
     public void regenHPdaily(int heal) {
-    	stats.regenHPdaily(heal);
-    }
-
-    
-    /**
-     * @return renvoie les dégat fait par le héro
-     */
-    @Override
-    public int damage(){
-        return stats.damageHero();
+    	stats.put("hp", stats.get("hp")+heal);
+    	if(stats.get("hp")>stats.get("maxHp")) {
+    		stats.put("hp", stats.get("maxHp"));
+    	}
     }
     
-    /**
-     * Modifie la valeurs des HP max du héro
-     * 
-     * @param modif pourcentage d'augmentation à appliquer aux HPmax
-     */
-    public void modifMaxHP(float modif) {
-    	stats.modifMaxHP(modif);
-    }
-
-    /**
-     * @return les hp du Hero
-     */
-    public long hp() {
-    	return stats.getHp();
+	
+	/**
+	 * @return les hpMax du hero
+	 */
+	public long maxHp() {
+		return stats.get("maxHp").longValue();
+	}
+	
+	/**
+	 * @param modifie les maxHp du hero
+	 */
+	public void modifMaxHP(float modif) {
+		stats.put("maxHp", stats.get("maxHp")+modif);
     }
     
-    /**
-     * @return les HPmax du héro
+	/**
+     * @return les degats du hero
      */
-    public long maxHp() {
-    	return stats.getMaxHp();
-    }
+	@Override
+    public int damage() {
+    	int strength = stats.get("strength").intValue();
+		return (int) ((strength*4)+(Math.random()*(strength*6 - strength*4)));
+	}
+    
     
 }

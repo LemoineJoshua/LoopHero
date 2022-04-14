@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import theGame.entities.Hero;
 import theGame.entities.Monster;
-import theGame.entities.StatsEntites;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -19,7 +18,7 @@ public class Board {
     private int position;
     private final Coord[] coordList;
 	private final AbstractTile[][] boardMatrix;
-	private final Hero hero = new Hero(new StatsEntites(250,1,0,0,0,0,0));
+	private final Hero hero = new Hero(250.0,1.0,0.0,0.0,0.0,0.0,0.0);
 	
 	
 	/**
@@ -97,7 +96,7 @@ public class Board {
  	    drop.add("Shapeless Mass");
  	    drop.add("Craft Fragment");
         ArrayList<Monster> beginningSlime = new ArrayList<Monster>();
-        beginningSlime.add(new Monster(new StatsEntites((long)13,3.3,0.0,0.0,0.0,0.0,0.0),(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png"));
+        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png"));
         
         boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningSlime));
         

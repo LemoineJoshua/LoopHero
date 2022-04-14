@@ -50,6 +50,8 @@ public class Fight {
 				
 				if(!hero.doEvade()) {
 					int damage=mob.damage();
+					System.out.println("les pv du hero avant : "+hero.hp());
+					System.out.println("les damages du mob : "+damage);
 					
 					if(hero.doCounter()) {
 						mob.lossHp(damage);
@@ -58,6 +60,7 @@ public class Fight {
 					}
 					
 					mob.vampirismRegen(damage);
+					System.out.println("les pv du hero après : "+hero.hp());
 				}
 			}
 			
@@ -65,8 +68,8 @@ public class Fight {
 			Monster mob=mobs.get(indexAttack);
 			if(!mob.doEvade()) {
 				int damage=hero.damage();
-				System.out.println("les pv avant: " + mob.hp());
-				System.out.println("damage du hero rigolo : "+damage);
+				System.out.println("les du mob pv avant : " + mob.hp());
+				System.out.println("damage du hero : "+damage);
 				
 				
 				if(mob.doCounter()) {
@@ -75,7 +78,7 @@ public class Fight {
 					mob.lossHp(damage);
 				}
 				
-				System.out.println("les pv après: " + mob.hp());
+				System.out.println("les pv du mob après: " + mob.hp());
 				
 				hero.vampirismRegen(damage);
 			}else {
@@ -92,6 +95,7 @@ public class Fight {
 			
 			//fin de combat hypothetique
 			if (allMobDead()) {
+				System.out.println("les pv du hero à la fin du combat : "+hero.hp());
 				AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 				tile.clearMob(ressources, deck);
 				return true;

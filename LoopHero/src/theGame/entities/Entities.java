@@ -1,63 +1,89 @@
 package theGame.entities;
 
+import java.util.HashMap;
+
 public abstract class Entities {
 	
-	protected final StatsEntites stats;
+	protected final HashMap<String,Double> stats;
 	
-	public Entities(StatsEntites stats) {
-		this.stats=stats;
+	public Entities(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
+		this.stats=new HashMap<String,Double>() {{
+			put("maxHp",hp);
+			put("hp",hp);
+			put("strength",strength);
+			put("defense",defense);
+			put("counterAttack",counterAttack);
+			put("regen",regen);
+			put("evade",evade);
+			put("vampirism",vampirism);
+		}};
 	}
 	
-	/**
-	 * @return true si le mob est vivant, false sinon
-	 */
-	public boolean isDead() {
-		return !stats.isAlive();
-	}
 	
-	/**
-	 * @return les degats que fait le mob
-	 */
 	public int damage() {
-		return stats.damageMob();
+		return stats.get("strength").intValue();
 	}
-	
-	/**
-	 * @param damage
-	 * 
-	 * fait baisser les HP du mob
-	 */
-	public void lossHp(int damage) {
-		stats.lossHP(damage);
-	}
-	
-	/**
-     * regenere les pv mob en fonction de sa stat regen
+    
+    /**
+     * @param lostHP les hp que l'entite doit perdre
      */
-    public void regenTurn() {
-    	stats.regenTurn();
+    public void lossHp(int lostHP){
+    	int damage=(int) ((lostHP)-stats.get("defense")) ;
+    	if(damage<0) {
+    		damage=0;
+    	}
+    	stats.put("hp",stats.get("hp")-damage);
     }
     
     /**
-     * @return true si le mob esquive, false sinon
-     */
-    public boolean doEvade() {
-    	return stats.doEvade();
-    }
-    
-    /**
-     * @return true si le mob contre, false sinon
-     */
-    public boolean doCounter() {
-    	return stats.doCounter();
-    }
-    
-    /**
-     * @param damage
+     * @param damage les dégats que l'entite inflige
      * 
-     * applique les effet de vampirisme
+     * Regenere l'entite en fonction de son vampirisme
      */
     public void vampirismRegen(int damage) {
-    	stats.vampirismRegen(damage);
+    	stats.put("hp",stats.get("hp")+stats.get("hp")*stats.get("vampirism"));
     }
+    
+    /**
+     * @return true si l'entite esquive, false sinon
+     */
+    public boolean doEvade() {
+    	return stats.get("evade")>Math.random();
+    }
+    
+    /**
+     * @return true si l'entite contre attaque, false sinon
+     */
+    public boolean doCounter() {
+    	return stats.get("counterAttack")>Math.random();
+    }
+    
+    
+    /**
+     * @return le pourcentage de pv restant
+     */
+    public double hpPercentage() {
+    	return stats.get("hp")/stats.get("maxHp");
+    }
+    
+    /**
+     * @return true si l'entite est vivante, false sinon
+     */
+    public boolean isDead() {
+    	return stats.get("hp")<=0;
+    }
+    
+    /**
+     * regenere les pv en fonction de la stat regen
+     */
+    public void regenTurn() {
+    	stats.put("hp", stats.get("hp") + stats.get("hp")*(stats.get("regen")));
+    	if(stats.get("hp")>stats.get("maxHp")) {
+    		stats.put("hp", stats.get("maxHp"));
+    	}
+    }
+    
+    public long hp() {
+		return stats.get("hp").longValue();
+	}
 }
