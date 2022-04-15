@@ -2,11 +2,11 @@ package theGame.entities;
 
 import java.util.HashMap;
 
-public abstract class Entities {
+public abstract class AbstractEntities {
 	
 	protected final HashMap<String,Double> stats;
 	
-	public Entities(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
+	public AbstractEntities(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
 		this.stats=new HashMap<String,Double>() {{
 			put("maxHp",hp);
 			put("hp",hp);

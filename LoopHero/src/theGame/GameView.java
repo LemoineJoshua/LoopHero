@@ -98,11 +98,6 @@ public class GameView {
 	 * @param board plateau du jeu
 	 */
 	public void drawHud(Graphics2D graphics, Board board) {
-		BufferedImage img = stringToImage("pictures/HUD/Hud2.png");
-		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
-				.getScaleInstance((width/5) / (double) img.getWidth(), heigth / (double) img.getHeight()),
-				AffineTransformOp.TYPE_BILINEAR);
-		graphics.drawImage(img, scaling, (int)Math.round((4*width)/5),0);
 		
 		graphics.setColor(Color.WHITE);
 		graphics.drawString(board.hero().hp()+"/"+board.hero().maxHp()+"HP",(float) (4.2*width/5), heigthPlayingZone);

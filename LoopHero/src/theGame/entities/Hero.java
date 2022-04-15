@@ -1,9 +1,15 @@
 package theGame.entities;
 
-public class Hero extends Entities{
+import theGame.inventories.HeroStuff;
+import theGame.inventories.Item;
+
+public class Hero extends AbstractEntities{
+	
+	private final HeroStuff stuff;
 	
     public Hero(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism){
     	super(hp,strength,defense,counterAttack,regen,evade,vampirism);
+    	this.stuff= new HeroStuff();
     }
 
     /**
@@ -53,5 +59,9 @@ public class Hero extends Entities{
 		return (int) ((strength*4)+(Math.random()*(strength*6 - strength*4)));
 	}
     
+	
+	public void equip(Item item) {
+		stuff.equip(stats,item);
+	}
     
 }

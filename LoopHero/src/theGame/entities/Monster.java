@@ -2,7 +2,7 @@ package theGame.entities;
 
 import java.util.ArrayList;
 
-public class Monster extends Entities{
+public class Monster extends AbstractEntities{
 	
     private final float chanceSpawn;
     private final float chanceCard;

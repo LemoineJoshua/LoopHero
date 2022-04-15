@@ -1,6 +1,8 @@
 package fight;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import theGame.GameView;
 import theGame.TimeData;
 import theGame.boardGame.Board;
@@ -49,6 +51,12 @@ public class Fight {
 			
 			//phase des mobs
 			for(Monster mob:mobs) {
+				
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				
 				if(!hero.doEvade()) {
 					int damage=mob.damage();
