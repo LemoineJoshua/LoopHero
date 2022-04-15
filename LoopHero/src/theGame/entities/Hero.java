@@ -17,7 +17,7 @@ public class Hero extends AbstractEntities{
      */
     
     public void regenHPloop(){
-    	stats.put("hp", stats.get("hp")*0.2);
+    	stats.put("hp", stats.get("hp")+stats.get("hp")*0.2);
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}

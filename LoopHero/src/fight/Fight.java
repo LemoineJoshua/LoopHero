@@ -35,7 +35,7 @@ public class Fight {
 		
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 		this.mobs=tile.aliveMonster();
-		System.out.println("---------------------------------");
+		//System.out.println("---------------------------------");
 		
 	}
 	
@@ -51,17 +51,17 @@ public class Fight {
 			
 			//phase des mobs
 			for(Monster mob:mobs) {
-				
+				/*
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				}*/
 				
 				if(!hero.doEvade()) {
 					int damage=mob.damage();
-					System.out.println("les pv du hero avant : "+hero.hp());
-					System.out.println("les damages du mob : "+damage);
+					//System.out.println("les pv du hero avant : "+hero.hp());
+					//System.out.println("les damages du mob : "+damage);
 					
 					if(hero.doCounter()) {
 						mob.lossHp(damage);
@@ -70,7 +70,7 @@ public class Fight {
 					}
 					
 					mob.vampirismRegen(damage);
-					System.out.println("les pv du hero après : "+hero.hp());
+					//System.out.println("les pv du hero après : "+hero.hp());
 				}
 			}
 			
@@ -78,8 +78,8 @@ public class Fight {
 			Monster mob=mobs.get(indexAttack);
 			if(!mob.doEvade()) {
 				int damage=hero.damage();
-				System.out.println("les du mob pv avant : " + mob.hp());
-				System.out.println("damage du hero : "+damage);
+				//System.out.println("les du mob pv avant : " + mob.hp());
+				//System.out.println("damage du hero : "+damage);
 				
 				
 				if(mob.doCounter()) {
@@ -88,11 +88,11 @@ public class Fight {
 					mob.lossHp(damage);
 				}
 				
-				System.out.println("les pv du mob après: " + mob.hp());
+				//System.out.println("les pv du mob après: " + mob.hp());
 				
 				hero.vampirismRegen(damage);
 			}else {
-				System.out.println("ho no il a veski le batar");
+				//System.out.println("ho no il a veski le batar");
 			}
 			if(mobs.get(indexAttack).isDead()) {
 				indexAttack++;	
@@ -105,7 +105,7 @@ public class Fight {
 			
 			//fin de combat hypothetique
 			if (allMobDead()) {
-				System.out.println("les pv du hero à la fin du combat : "+hero.hp());
+				//System.out.println("les pv du hero à la fin du combat : "+hero.hp());
 				AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 				tile.clearMob(ressources, deck, items, board.loop());
 				return true;

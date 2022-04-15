@@ -16,6 +16,7 @@ public class GameData {
 	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();
 	private Integer selectedCardIndex;
 	private final ItemInventory itemInventory = new ItemInventory();
+	private Integer selectedItemIndex;
 
 	/**
 	 * appelle la fonction dailyEffect des cases stockées dans le board
@@ -56,6 +57,22 @@ public class GameData {
 		return board.isFight(ressourcesInventory,cardInventory);
 	}
 	
+	public boolean anItemIsSelected() {
+		return selectedItemIndex != null;
+	}
+	
+	public void unselectItem() {
+		selectedItemIndex = null;
+	}
+	
+	public void selectItem(int index) {
+		selectedItemIndex = index;
+	}
+	
+	public Integer selectedItemIndex() {
+		return selectedItemIndex;
+	}
+	
 	/**
 	 * @return true si une carte est sélectionée, false sinon
 	 */
@@ -66,7 +83,7 @@ public class GameData {
 	/**
 	 * Deselectionne les cartes
 	 */
-	public void unselect() {
+	public void unselectCard() {
 		selectedCardIndex = null;
 	}
 	
@@ -75,7 +92,7 @@ public class GameData {
 	 * 
 	 * @param index position de la carte dans la main du joueur
 	 */
-	public void select(int index) {
+	public void selectCard(int index) {
 		selectedCardIndex = index;
 	}
 	

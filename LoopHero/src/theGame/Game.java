@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import fight.Fight;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
+import theGame.inventories.Item;
 
 public class Game {
 	
@@ -111,12 +112,13 @@ public class Game {
 		if (!gameData.aCardIsSelected()) { // no cell is selected
 			Point2D.Float location = e.getLocation();
 			if (gameView.clickInCardZone(location)) {
-				gameData.select(gameView.selectCard(location.x));
+				gameData.selectCard(gameView.selectCard(location.x));
 				if(gameData.selectedCardIndex()>gameData.cardInventory().cardList().size()-1) {
-					gameData.unselect();
+					gameData.unselectCard();
+					gameData.unselectItem();
 				}
 			}
-		} else {
+		}else {
 			Point2D.Float location = e.getLocation();
 			if (gameView.clickInBoardZone(location)) {
 				int indexY = gameView.selectLine(location.y);
@@ -127,8 +129,39 @@ public class Game {
 					}
 				}		
 				
-			gameData.unselect();
+			gameData.unselectCard();
+			gameData.unselectItem();
 		}
+		
+		// CLIQUAGE DE STUFF EN COURS DE GESTION 
+		
+		if (!gameData.anItemIsSelected()) { // no item is selected
+			System.out.println("Pas d'item selectionné");
+			Point2D.Float location = e.getLocation();
+			if (gameView.clickInItemInventoryZone(location)) {
+				System.out.println("Dans zone item");
+				gameData.selectItem(gameView.selectItemInInventory(location.x, location.y)); 
+				System.out.println(gameData.selectedItemIndex());
+				if(gameData.selectedItemIndex()>gameData.itemInventory().itemInventory().size()-1) {
+					gameData.unselectItem();
+					gameData.unselectCard();
+				}
+			}
+		}else {
+			System.out.println("Item sélectionné");
+			Point2D.Float location = e.getLocation();
+			if (gameView.clickInStuffZone(location)) {
+				System.out.println("Dans zone stuff");
+				String key = gameView.getItemKey(location.x);
+				Item selectedItem = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
+				if (key.equals(selectedItem.type())){
+					//gameData.board().hero().equip(selectedItem);
+					gameData.itemInventory().remove(gameData.selectedItemIndex());
+				}			
+			}
+			gameData.unselectItem();
+			gameData.unselectCard();
+		}			
 	}
 	
 	/**
@@ -136,7 +169,7 @@ public class Game {
 	 */
 	private void startTime() {
 		timeData.start();
-		gameData.unselect();
+		gameData.unselectCard();
 	}
 	
 	/**

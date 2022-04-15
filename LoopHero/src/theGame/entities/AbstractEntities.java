@@ -86,4 +86,28 @@ public abstract class AbstractEntities {
     public long hp() {
 		return stats.get("hp").longValue();
 	}
+    
+    public double strength() {
+    	return stats.get("strength");
+    }
+    
+    public double defense() {
+    	return stats.get("defense");
+    }
+    
+    public double counterAttack() {
+    	return stats.get("counterAttack");
+    }
+    
+    public double regen() {
+    	return stats.get("regen");
+    }
+    
+    public double evade() {
+    	return stats.get("evade");
+    }
+    
+    public double vampirism() {
+    	return stats.get("vampirism");
+    }
 }

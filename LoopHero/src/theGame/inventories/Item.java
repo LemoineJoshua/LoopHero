@@ -64,5 +64,8 @@ public class Item {
 		return type;
 	}
 	
+	public int rarity() {
+		return rarity;
+	}
 	
 }

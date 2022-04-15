@@ -30,6 +30,10 @@ public class ItemInventory {
 		overflowForbidden();
 	}
 	
+	public void remove(int index){
+        inventory.remove(index);
+    }
+	
 	
 	/**
 	 * enleve le premier item de l'inventaire si ce dernier est plein
@@ -39,4 +43,5 @@ public class ItemInventory {
     		inventory.remove(0);
     	}
     }
+	
 }

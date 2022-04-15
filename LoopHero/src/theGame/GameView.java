@@ -16,10 +16,12 @@ import javax.imageio.ImageIO;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
+import theGame.entities.Hero;
 import theGame.entities.Monster;
+import theGame.inventories.Item;
+import theGame.inventories.ItemInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.Cards.Card;
-import theGame.boardGame.Board;
 
 public class GameView {
 	private final float width;
@@ -72,10 +74,9 @@ public class GameView {
 			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
 		}		
 		
-		drawHud(graphics,gameData.board());
-		graphics.setColor(Color.RED);
-		graphics.fill(new Rectangle2D.Float(xPlayingZone+widthPlayingZone, 0, (4*width/5) - (xPlayingZone+widthPlayingZone), heigth));
-		int fontSize = Math.round(((4*width/5) - (xPlayingZone+widthPlayingZone))/13);
+		drawHud(graphics,gameData);
+		
+		int fontSize = Math.round(((5*width/6) - (xPlayingZone+widthPlayingZone))/13);
 		gameData.ressourcesInventory().afficheRessource(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize, fontSize);
 		
 	}
@@ -100,20 +101,120 @@ public class GameView {
 	 * @param graphics Objet de dessin
 	 * @param board plateau du jeu
 	 */
-	public void drawHud(Graphics2D graphics, Board board) {
+	public void drawHud(Graphics2D graphics, GameData gameData) {
+		// Dessins des cases vides pour équipement
 		
-		BufferedImage img = stringToImage("pictures/HUD/Hud2.png");
+		graphics.setColor(Color.DARK_GRAY);
+		graphics.fill(new Rectangle2D.Float(5*width/6, 0, width/6, heigth));
+		
+		BufferedImage img = stringToImage("pictures/HUD/EquipementVide.png");
+		double cellSize = (1*width/6)/4;
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
-				.getScaleInstance((width/5) / (double) img.getWidth(), heigth / (double) img.getHeight()),
+				.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
-		graphics.drawImage(img, scaling, (int)Math.round((4*width)/5),0);
-		
 		
 		graphics.setColor(Color.WHITE);
-		graphics.drawString(board.hero().hp()+"/"+board.hero().maxHp()+"HP",(float) (4.2*width/5), heigthPlayingZone);
+		int fontSize = Math.round((int)cellSize/3);
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));		
+		graphics.drawString("Mon Équipement",(float) (5*width/6 +10),yPlayingZone-10);
 		
+		for (int i=0; i<4;i++) {
+			graphics.drawImage(img, scaling, (int)Math.round(5*width/6  + i*width/24),yPlayingZone);
+		}
 		
+		double yStuffCell = yPlayingZone+2*cellSize;
+		graphics.drawString("Mon Inventaire",(float) (5*width/6 +10),(float) (yStuffCell-10));
+		
+		for (int j=0;j<3;j++) {
+			for (int i=0; i<4;i++) {
+				graphics.drawImage(img, scaling, (int)Math.round(5*width/6  + i*width/24), (int) Math.round(yStuffCell + cellSize*j));
+			}
+		}
+		
+		drawStuffInventory(graphics,gameData.itemInventory(), yStuffCell);
+		if (gameData.anItemIsSelected()) {
+			drawItemSelection(graphics, gameData, cellSize, yStuffCell);
+			
+		}
+		
+		// Dessin de la zone rouge pour les stats
+		img = stringToImage("pictures/HUD/Hud3.png");
+		double yStuffStat = yStuffCell+4*cellSize;
+		
+		graphics.drawString("Mes Statistiques",(float) (5*width/6 +10),(float) yStuffStat-10);
+		scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-yStuffStat) / (double) img.getHeight()),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));
+		
+		drawStats(graphics, gameData.board().hero(), yStuffStat);
+			
 	}
+	
+	private void drawItemSelection(Graphics2D graphics, GameData gameData , double cellSize, double y) {
+		BufferedImage img = stringToImage("pictures/HUD/cursor.png");			
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance(cellSize / ((double) img.getWidth()*2), cellSize / ((double) img.getHeight()*2)),
+				AffineTransformOp.TYPE_BILINEAR);
+		int indexTmp = gameData.selectedItemIndex();
+		graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*((indexTmp%4))+cellSize/3), (int) Math.round(y+cellSize*((int) (indexTmp/4))+(cellSize/2)));
+		
+		img = stringToImage("pictures/Tiles/selectFields.png");			
+		scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance(cellSize / ((double) img.getWidth()), cellSize / ((double) img.getHeight())),
+				AffineTransformOp.TYPE_BILINEAR);
+		
+		String type = gameData.itemInventory().itemInventory().get(indexTmp).type();
+		
+		switch (type) {
+		case "weapons": 
+			graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*0), (int) Math.round(yPlayingZone));
+			break;
+		case "shield": 
+			graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*1), (int) Math.round(yPlayingZone));
+			break;
+		case "armor": 
+			graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*2), (int) Math.round(yPlayingZone));
+			break;
+		case "ring": 
+			graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*3), (int) Math.round(yPlayingZone));
+			break;
+		}
+	}
+	
+	private void drawStats(Graphics2D graphics, Hero hero, double y) {
+		int zoneHeigth = (int) (heigth-y);
+		graphics.setColor(Color.WHITE);
+		graphics.drawString("HP : " +hero.hp()+"/"+hero.maxHp()+"HP",(float) (5*width/6 + 20),(float) y+1*zoneHeigth/8);
+		graphics.drawString("Strength : " +hero.strength(),(float) (5*width/6 + 20),(float) y+2*zoneHeigth/8);
+		graphics.drawString("Defense : " +hero.defense(),(float) (5*width/6 + 20),(float) y+3*zoneHeigth/8);
+		graphics.drawString("CounterAttack : " +hero.counterAttack(),(float) (5*width/6 + 20),(float) y+4*zoneHeigth/8);
+		graphics.drawString("Regen : " +hero.regen(),(float) (5*width/6 + 20),(float) y+5*zoneHeigth/8);
+		graphics.drawString("Evade : " +hero.evade(),(float) (5*width/6 + 20),(float) y+6*zoneHeigth/8);
+		graphics.drawString("Vampirism : " +hero.vampirism(),(float) (5*width/6 + 20),(float) y+7*zoneHeigth/8);
+	}
+	
+	private void drawStuffInventory(Graphics2D graphics, ItemInventory itemInventory, double yStuffCell ) {
+		int x=0;
+		int y=0;
+		double cellSize = (1*width/6)/4;
+		BufferedImage img;
+		AffineTransformOp scaling;
+		for (Item item: itemInventory.itemInventory()) {
+			img = stringToImage("pictures/Stuff/"+item.type().toString()+".png");
+			scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, (int)Math.round(5*width/6 + x*cellSize), (int) Math.round(yStuffCell + y*cellSize));
+			graphics.drawString(""+item.rarity(),(float) (5*width/6 + x*cellSize),(float) (yStuffCell + y*cellSize +cellSize/4));
+			x++;
+			if(x>=4) {
+				y++;
+				x=0;
+			}
+		}
+	}
+	
 	
 	
 	/**
@@ -283,7 +384,6 @@ public class GameView {
     }
  
 	
-	
 	/**
 	 * Dessine tout l'écran
 	 * 
@@ -351,6 +451,58 @@ public class GameView {
 	 */
 	public int selectColumn(float coordX) {
 		return (int) ((coordX-xPlayingZone) / (squareSize));
+	}
+	
+	// Fonctions pour équiper son stuff 
+	
+	public boolean clickInItemInventoryZone(Point2D.Float location) {
+		return location.x > (5*width/6) && location.y >= yPlayingZone+2*((1*width/6)/4) && location.y<=yPlayingZone+5*((1*width/6)/4);
+	}
+	
+	private int indexFromItemInventory(float coordX, float coordY) {
+		int cellSize = Math.round((1*width/6)/4);
+		int x = (int)((coordX-(5*width/6)) / cellSize);
+		int y = (int)((coordY-(yPlayingZone+2*cellSize)) / cellSize);
+		int index = (x%4)+(4*y);
+		System.out.println("X vaut : "+x);
+		System.out.println("Y vaut : "+y);
+		System.out.println("Calcul d'index : "+index);
+		return index;
+	}
+	
+	public int selectItemInInventory(float coordX, float coordY) {
+		return indexFromItemInventory(coordX,coordY);
+	}
+	
+	public boolean clickInStuffZone(Point2D.Float location) {
+		return location.x > (5*width/6) && location.y >= yPlayingZone && location.y<=yPlayingZone+1*((1*width/6)/4);
+	}
+	
+	public String getItemKey(float coordX) {
+		int cellSize = Math.round((1*width/6)/4);
+		int x = (int)((coordX-(5*width/6)) / cellSize);
+		String key = "";
+		
+		switch (x) {
+		case 0:
+			key="weapon";
+			System.out.println("Clic dans Weapon");
+			break;
+		case 1:
+			key="shield";
+			System.out.println("Clic dans Shield");
+			break;
+		case 2:
+			key="armor";
+			System.out.println("Clic dans Armor");
+			break;
+		case 3:
+			key="ring";
+			System.out.println("Clic dans Ring");
+			break;
+		}
+		
+		return key;
 	}
 	
 	
