@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -18,7 +19,7 @@ public class Item {
 	
 	public Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type) {
 		this.stats=new HashMap<String,Double>() {{
-			put("hp",hp);
+			put("maxHp",hp);
 			put("strength",strength);
 			put("defense",defense);
 			put("counterAttack",counterAttack);
@@ -68,4 +69,12 @@ public class Item {
 		return rarity;
 	}
 	
+	@Override
+	public String toString() {
+		String retour = "";
+		for(Map.Entry entree : stats.entrySet()) {
+			retour+=(" stat : "+entree.getKey() + " | value : "+entree.getValue());
+		}
+		return retour;
+	}
 }

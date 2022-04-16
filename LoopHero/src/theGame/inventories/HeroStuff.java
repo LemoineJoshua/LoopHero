@@ -37,10 +37,13 @@ public class HeroStuff {
 		
 		inventory.put(aModifier, aAjouter);
 		for(Map.Entry entree : stats.entrySet()){
-			
+			System.out.println(aAjouter);
+			System.out.println("la clef : " + entree.getKey() + "| la stat : "+entree.getValue());
 			String statAModif=entree.getKey().toString();
+			if(statAModif.equals("hp")) {
+				continue;
+			}
 			Double statAAjouter=aAjouter.stats().get(statAModif);
-			
 			stats.put(statAModif, stats.get(statAModif)+statAAjouter);
 		}
 	}

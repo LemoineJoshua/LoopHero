@@ -155,7 +155,7 @@ public class Game {
 				String key = gameView.getItemKey(location.x);
 				Item selectedItem = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
 				if (key.equals(selectedItem.type())){
-					//gameData.board().hero().equip(selectedItem);
+					gameData.board().hero().equip(selectedItem);
 					gameData.itemInventory().remove(gameData.selectedItemIndex());
 				}			
 			}
