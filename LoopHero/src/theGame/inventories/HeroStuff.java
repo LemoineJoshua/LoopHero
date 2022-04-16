@@ -30,7 +30,9 @@ public class HeroStuff {
 				
 				String statAModif=entree.getKey().toString();
 				Double statAVirer=inventory.get(aVirer.type()).stats().get(statAModif);
-				
+				if(statAModif.equals("hp")) {
+					continue;
+				}
 				stats.put(statAModif, stats.get(statAModif)-statAVirer);
 			}
 		}
