@@ -69,6 +69,7 @@ public class Item {
 		return rarity;
 	}
 	
+	
 	@Override
 	public String toString() {
 		String retour = "";

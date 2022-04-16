@@ -51,4 +51,9 @@ public class HeroStuff {
 			stats.put(statAModif, stats.get(statAModif)+(int) Math.round(statAAjouter));
 		}
 	}
+	
+	public Item get(String key) {
+		return inventory.get(key);
+	}
+	
 }

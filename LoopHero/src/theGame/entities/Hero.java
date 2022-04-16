@@ -63,5 +63,9 @@ public class Hero extends AbstractEntities{
 	public void equip(Item item) {
 		stuff.equip(stats,item);
 	}
+	
+	public HeroStuff stuff() {
+		return stuff;
+	}
     
 }

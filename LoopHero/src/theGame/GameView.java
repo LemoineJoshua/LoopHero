@@ -12,12 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
+
 import javax.imageio.ImageIO;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
 import theGame.entities.Hero;
 import theGame.entities.Monster;
+import theGame.inventories.HeroStuff;
 import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
 import theGame.tiles.AbstractRoad;
@@ -61,7 +64,7 @@ public class GameView {
 	 */
 	public void drawInterface(Graphics2D graphics, TimeData timeData, GameData gameData) {
 		graphics.setColor(Color.BLACK);
-		graphics.fill(new Rectangle2D.Float(0, heigth/10, 4*width/5, heigth));
+		graphics.fill(new Rectangle2D.Float(0, heigth/10, 5*width/6, heigth));
 		
 		graphics.setColor(new Color(104, 111, 111));
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
@@ -73,12 +76,10 @@ public class GameView {
 		if (timeData.isStopped()) {
 			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
 		}		
-		
-		drawHud(graphics,gameData);
-		
 		int fontSize = Math.round(((5*width/6) - (xPlayingZone+widthPlayingZone))/13);
-		gameData.ressourcesInventory().afficheRessource(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize, fontSize);
-		
+		gameData.ressourcesInventory().drawRessources(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize, fontSize);	
+
+		drawHud(graphics,gameData);
 	}
 	
 	/**
@@ -132,9 +133,9 @@ public class GameView {
 		}
 		
 		drawStuffInventory(graphics,gameData.itemInventory(), yStuffCell);
+		drawStuffEquiped(graphics, gameData.board().hero().stuff());
 		if (gameData.anItemIsSelected()) {
 			drawItemSelection(graphics, gameData, cellSize, yStuffCell);
-			
 		}
 		
 		// Dessin de la zone rouge pour les stats
@@ -147,10 +148,11 @@ public class GameView {
 				AffineTransformOp.TYPE_BILINEAR);
 		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));
 		
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
 		drawStats(graphics, gameData.board().hero(), yStuffStat);
 			
 	}
-	
+		
 	private void drawItemSelection(Graphics2D graphics, GameData gameData , double cellSize, double y) {
 		BufferedImage img = stringToImage("pictures/HUD/cursor.png");			
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
@@ -167,7 +169,7 @@ public class GameView {
 		String type = gameData.itemInventory().itemInventory().get(indexTmp).type();
 		
 		switch (type) {
-		case "weapons": 
+		case "weapon": 
 			graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*0), (int) Math.round(yPlayingZone));
 			break;
 		case "shield": 
@@ -179,6 +181,54 @@ public class GameView {
 		case "ring": 
 			graphics.drawImage(img, scaling, (int) Math.round((5*width/6) + cellSize*3), (int) Math.round(yPlayingZone));
 			break;
+		}
+		
+		drawItemStats(graphics, gameData, y, cellSize, type);
+	}
+		
+	private void drawItemStats(Graphics2D graphics, GameData gameData,double y, double cellSize, String type) {
+		graphics.setColor(new Color(62, 59, 59));
+		graphics.fill(new Rectangle2D.Float(widthPlayingZone,(float) y, (5*width/6)-widthPlayingZone, (float) (4*cellSize)));
+		
+		int line = 1;
+		int x = xPlayingZone+21*squareSize+5;
+		int fontSizeText = Math.round(((5*width/6) - (x))/13);
+		int fontSizeTitle = Math.round(((5*width/6) - (x))/10);		
+		graphics.setColor(Color.WHITE);
+		Item equippedStuff = gameData.board().hero().stuff().get(type);
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeTitle));
+		graphics.drawString("=> Stuff équipé :",(float) x,(float) y+line*fontSizeTitle);
+		line ++;
+		
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
+		if (equippedStuff!=null) {
+			for(Map.Entry entree : equippedStuff.stats().entrySet()){
+				String statName=entree.getKey().toString();
+				Double statValue=(Double)entree.getValue();
+				if (statValue != 0) {
+					graphics.drawString("- "+statName+": "+statValue,(float) x,(float) y+line*fontSizeTitle);
+					line ++;
+				}
+			}
+		}else {
+			graphics.drawString("Pas d'objet équipé",(float) x,(float) y+line*fontSizeTitle);
+			line ++;
+		}
+		line++;
+		
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeTitle));
+		graphics.drawString("=> Stuff choisi :",(float) x,(float) y+line*fontSizeTitle);
+		line ++;
+		
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
+		Item selectionnedStuff = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
+		for(Map.Entry entree : selectionnedStuff.stats().entrySet()){
+			String statName=entree.getKey().toString();
+			Double statValue=(Double)entree.getValue();
+			if (statValue != 0) {
+				graphics.drawString("- "+statName+": "+statValue,(float) x,(float) y+line*fontSizeTitle);
+				line ++;
+			}
 		}
 	}
 	
@@ -215,6 +265,49 @@ public class GameView {
 		}
 	}
 	
+
+	private void drawStuffEquiped(Graphics2D graphics, HeroStuff stuff ) {
+		double cellSize = (1*width/6)/4;
+		Item item = stuff.get("weapon");
+		BufferedImage img = stringToImage("pictures/Stuff/shield.png");
+		AffineTransformOp scaling;
+		if (item!=null) {
+			img = stringToImage("pictures/Stuff/"+item.type()+".png");
+			scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, (int)Math.round(5*width/6 + 0*cellSize), (int) Math.round(yPlayingZone));
+			graphics.drawString(""+item.rarity(),(float) (5*width/6 + 0*cellSize),(float) (yPlayingZone+cellSize/4));
+		}
+		item = stuff.get("shield");
+		if (item!=null) {			
+			img = stringToImage("pictures/Stuff/"+item.type()+".png");
+			scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, (int)Math.round(5*width/6 + 1*cellSize), (int) Math.round(yPlayingZone));
+			graphics.drawString(""+item.rarity(),(float) (5*width/6 + 1*cellSize),(float) (yPlayingZone+cellSize/4));
+		}
+		item = stuff.get("armor");
+		if (item!=null) {
+			img = stringToImage("pictures/Stuff/"+item.type()+".png");
+			scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, (int)Math.round(5*width/6 + 2*cellSize), (int) Math.round(yPlayingZone));
+			graphics.drawString(""+item.rarity(),(float) (5*width/6 + 2*cellSize),(float) (yPlayingZone+cellSize/4));
+		}
+		item = stuff.get("ring");
+		if (item!=null) {
+			img = stringToImage("pictures/Stuff/"+item.type()+".png");
+			scaling = new AffineTransformOp(AffineTransform
+					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
+					AffineTransformOp.TYPE_BILINEAR);
+			graphics.drawImage(img, scaling, (int)Math.round(5*width/6 + 3*cellSize), (int) Math.round(yPlayingZone));
+			graphics.drawString(""+item.rarity(),(float) (5*width/6 + 3*cellSize),(float) (yPlayingZone+cellSize/4));
+		}
+		
+	}
 	
 	
 	/**

@@ -71,7 +71,7 @@ public class RessourcesInventory {
      * @param graphics Objet de dessin
      * @param squareSize Taille d'un carré de du plateau (taille de référence)
      */
-    public void afficheRessource(int x, int y, Graphics graphics, int squareSize, int fontSize) {
+    public void drawRessources(int x, int y, Graphics graphics, int squareSize, int fontSize) {
     	graphics.setColor(Color.WHITE);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));		
     	for(int i = 0;i<15;i++) {
