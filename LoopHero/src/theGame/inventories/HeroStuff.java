@@ -30,23 +30,25 @@ public class HeroStuff {
 				
 				String statAModif=entree.getKey().toString();
 				Double statAVirer=inventory.get(aVirer.type()).stats().get(statAModif);
+				//System.out.println("la stats à modif est : "+statAModif+" | statAvirer : "+statAVirer);
 				if(statAModif.equals("hp")) {
 					continue;
 				}
-				stats.put(statAModif, stats.get(statAModif)-statAVirer);
+				stats.put(statAModif, stats.get(statAModif)-(int) Math.round(statAVirer));
+				//System.out.println("la stat " + statAModif +" après modification : "+stats.get(statAModif));
 			}
 		}
 		
 		inventory.put(aModifier, aAjouter);
 		for(Map.Entry entree : stats.entrySet()){
-			System.out.println(aAjouter);
-			System.out.println("la clef : " + entree.getKey() + "| la stat : "+entree.getValue());
+			//System.out.println(aAjouter);
+			//System.out.println("la clef : " + entree.getKey() + "| la stat : "+entree.getValue());
 			String statAModif=entree.getKey().toString();
 			if(statAModif.equals("hp")) {
 				continue;
 			}
 			Double statAAjouter=aAjouter.stats().get(statAModif);
-			stats.put(statAModif, stats.get(statAModif)+statAAjouter);
+			stats.put(statAModif, stats.get(statAModif)+(int) Math.round(statAAjouter));
 		}
 	}
 }

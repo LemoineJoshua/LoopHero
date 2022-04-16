@@ -57,7 +57,7 @@ public class AbstractRoad extends AbstractTile {
 				}else if(type>0.5){
 					item = new Item(0.0,0.0,4*loop,0.0,0.0,0.0,0.0,0,"","shield");
 				}else if(type>0.25) {
-					item = new Item(0.0,((loop*80)+(Math.random()*(loop*80 - loop*100))),0.0,0.0,0.0,0.0,0.0,0,"","armor");
+					item = new Item(((loop*80)+(Math.random()*(loop*80 - loop*100))),0.0,0.0,0.0,0.0,0.0,0.0,0,"","armor");
 				}else {
 					item = new Item(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,"","ring");
 				}

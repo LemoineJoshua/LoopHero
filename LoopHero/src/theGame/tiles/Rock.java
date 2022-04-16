@@ -22,7 +22,7 @@ public class Rock extends AbstractTile {
 			for(int j=(x-1) ;j<=(x+1) ;j++) {
 				if(j>20 || j<0 || i<0|| i>11) {continue;}
 				if(board.boardMatrix()[i][j] instanceof Rock){
-					board.hero().modifMaxHP((float) (board.hero().maxHp()*1.01));
+					board.hero().modifMaxHP((float) (board.hero().maxHp()*0.01));
 				}
 			}
 		}
