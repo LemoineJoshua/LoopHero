@@ -7,7 +7,7 @@ public class TimeData {
 	private boolean stopped;
 	static double DAY_MILLISECONDS = 24_000; 
 	static int HERO_DELAY = 1500; 
-	private float timeModifier =1;
+	private float timeModifier =10;
 	
 
 	/**

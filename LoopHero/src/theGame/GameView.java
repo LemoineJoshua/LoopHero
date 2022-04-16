@@ -139,6 +139,7 @@ public class GameView {
 		}
 		
 		// Dessin de la zone rouge pour les stats
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
 		img = stringToImage("pictures/HUD/Hud3.png");
 		double yStuffStat = yStuffCell+4*cellSize;
 		
@@ -146,9 +147,7 @@ public class GameView {
 		scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-yStuffStat) / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
-		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));
-		
-		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
+		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));		
 		drawStats(graphics, gameData.board().hero(), yStuffStat);
 			
 	}
@@ -202,6 +201,8 @@ public class GameView {
 		
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
 		if (equippedStuff!=null) {
+			graphics.drawString("- "+equippedStuff.type()+" "+equippedStuff.rarity(),(float) x,(float) y+line*fontSizeTitle);
+			line++;
 			for(Map.Entry entree : equippedStuff.stats().entrySet()){
 				String statName=entree.getKey().toString();
 				Double statValue=(Double)entree.getValue();
@@ -222,6 +223,8 @@ public class GameView {
 		
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
 		Item selectionnedStuff = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
+		graphics.drawString("- "+selectionnedStuff.type()+" "+selectionnedStuff.rarity(),(float) x,(float) y+line*fontSizeTitle);
+		line++;
 		for(Map.Entry entree : selectionnedStuff.stats().entrySet()){
 			String statName=entree.getKey().toString();
 			Double statValue=(Double)entree.getValue();
