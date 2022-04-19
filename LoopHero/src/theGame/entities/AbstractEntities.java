@@ -27,12 +27,13 @@ public abstract class AbstractEntities {
     /**
      * @param lostHP les hp que l'entite doit perdre
      */
-    public void lossHp(int lostHP){
+    public int lossHp(int lostHP){
     	int damage=(int) ((lostHP)-stats.get("defense")) ;
     	if(damage<0) {
     		damage=0;
     	}
     	stats.put("hp",stats.get("hp")-damage);
+    	return damage;
     }
     
     /**
@@ -40,8 +41,9 @@ public abstract class AbstractEntities {
      * 
      * Regenere l'entite en fonction de son vampirisme
      */
-    public void vampirismRegen(int damage) {
-    	stats.put("hp",stats.get("hp")+stats.get("hp")*stats.get("vampirism"));
+    public int vampirismRegen(int damage) {
+    	stats.put("hp",stats.get("hp")+damage*stats.get("vampirism"));
+    	return (int)(stats.get("hp")+damage*stats.get("vampirism"));
     }
     
     /**
@@ -81,6 +83,9 @@ public abstract class AbstractEntities {
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}
+    }
+    public long maxHp() {
+    	return stats.get("maxHp").longValue();
     }
     
     public long hp() {

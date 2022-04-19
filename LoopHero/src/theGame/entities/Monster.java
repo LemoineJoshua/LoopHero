@@ -8,13 +8,15 @@ public class Monster extends AbstractEntities{
     private final float chanceCard;
     private final ArrayList<String> drop;
     private final String picture;
+    private final String pictureFight;
 
-    public Monster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture){
+    public Monster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight){
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
         this.drop=drop;
         this.picture=picture;
+        this.pictureFight=pictureFight;
     }
 
     /**
@@ -43,6 +45,10 @@ public class Monster extends AbstractEntities{
 	 */
 	public String picture() {
 		return picture;
+	}
+	
+	public String pictureFight() {
+		return pictureFight;
 	}
 
 	/**

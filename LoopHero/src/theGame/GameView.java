@@ -12,12 +12,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
+import theGame.entities.AbstractEntities;
 import theGame.entities.Hero;
 import theGame.entities.Monster;
 import theGame.inventories.HeroStuff;
@@ -150,6 +152,7 @@ public class GameView {
 				AffineTransformOp.TYPE_BILINEAR);
 		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));		
 		drawStats(gameData.board().hero(), yStuffStat);
+			
 	}
 		
 	private void drawItemSelection(GameData gameData , double cellSize, double y) {
@@ -495,8 +498,6 @@ public class GameView {
 	
 	public void drawFrame(ApplicationContext ctx, GameData gameData, TimeData timeData) {
 		ctx.renderFrame(graphics -> drawFrame(graphics, gameData, timeData)); 
-		
-		
 	}
 	
 	
@@ -603,28 +604,128 @@ public class GameView {
 		
 		return key;
 	}
-	
-	
 	// Gestion de Dessin pour le Combat 
 	
-	public void drawFight(ApplicationContext ctx) {
-		ctx.renderFrame(graphics -> drawFight(graphics));
+	public void drawFight(ApplicationContext ctx, Hero hero, ArrayList<Monster> mobs, ArrayList<String> fightProgress) {
+		ctx.renderFrame(graphics -> drawFight(graphics, hero, mobs, fightProgress));
 	}
 	
-	public void drawFight(Graphics2D graphics) {
+	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<Monster> mobs, ArrayList<String> fightProgress) {
+		this.graphics = graphics;
 		//Rectangle de Fond:
-		graphics.setColor(Color.WHITE);
+		
 		int xFightZone = xPlayingZone+15;
 		int yFightZone = yPlayingZone +15;
 		int widthFightZone = widthPlayingZone-30;
 		int heigthFightZone = 12*squareSize-30;
-		graphics.fill(new Rectangle2D.Double(xFightZone, yFightZone, widthFightZone, heigthFightZone));
+		int xStatFightZone = xFightZone +(2*widthFightZone/3);		
+		int yTerminalZone = yFightZone + (2*heigthFightZone/3);
 		
-		int xStatFightZone = xFightZone +(2/3)*widthPlayingZone;
-
-		graphics.setColor(Color.BLUE);
-		graphics.fill(new Rectangle2D.Double(xStatFightZone, yFightZone, widthFightZone/3, heigthFightZone));
+		int fontSizeText = Math.round((widthFightZone/6)/13);
+		int fontSizeTitle = Math.round((widthFightZone/6)/10);	
+		
+		graphics.setColor(Color.WHITE);
+		graphics.fill(new Rectangle2D.Double(xFightZone-3, yFightZone-3, widthFightZone+6, heigthFightZone+6));
+		
+		
+		drawFightZone(xFightZone, yFightZone, 2*widthFightZone/3, heigthFightZone, fontSizeTitle, fontSizeText, hero, mobs);
+		drawStatsMob(xStatFightZone, yFightZone, (widthFightZone/3), heigthFightZone, fontSizeTitle, fontSizeText, mobs);
+		drawFightProgress(xStatFightZone, yTerminalZone, (widthFightZone/3), (heigthFightZone/3), fontSizeTitle, fontSizeText, fightProgress);
 		
 	}
+	
+	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<Monster> mobs) {
+		graphics.setColor(Color.BLACK);
+		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
+		
+		BufferedImage img = stringToImage("pictures/Entities/hero.png");
+		
+		drawAnEntityInFight(x+(widthZone/5), y+2*heigthZone/5, img, heigthZone);
+		drawAnHealthBar(x+10,y+(2*heigthZone/5),(widthZone/5)-20, (heigthZone/5),hero, fontSizeTitle);
+		
+		int i=0;
+		for(Monster mob:mobs) {
+			img= stringToImage(mob.pictureFight());
+			drawAnEntityInFight(x+(3*widthZone/5), y+i*heigthZone/5, img, heigthZone);
+			
+			drawAnHealthBar((int)(x+(4*widthZone/5)+10), y+(i*heigthZone/5)+heigthZone/15, (widthZone/5)-20, (heigthZone/5),  mob, fontSizeTitle);
+			i++;
+		}
+	}
+
+	public void drawAnEntityInFight(int x, int y, BufferedImage img, int heigthFightZone) {
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance(heigthFightZone / ((double) img.getWidth()*5), heigthFightZone / ((double) img.getHeight()*5)),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(img, scaling, x, y);
+	}
+	
+	private void drawAnHealthBar(int x, int y, int width, int heigth, AbstractEntities entity, int fontSize) {
+		int heigthBar = heigth/5;
+		int yBar = y+heigthBar;
+
+		graphics.setColor(new Color(222, 239, 217));
+		graphics.fill(new Rectangle2D.Double(x, yBar, width, heigthBar));
+		
+		graphics.setColor(new Color(75, 188, 36));
+		graphics.fill(new Rectangle2D.Double(x, yBar, width*entity.hpPercentage(), heigthBar));
+		
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
+		graphics.drawString(entity.hp()+"/"+entity.maxHp()+"HP", x, y+3*heigth/5);
+		
+	}
+	
+	private void drawStatsMob(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<Monster> mobs) {
+		graphics.setColor(new Color(110, 52, 52));
+		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
+		graphics.setColor(Color.WHITE);
+		int line = 1;
+		int monsterNumber = 1;
+		for (Monster mob:mobs) {
+			if (monsterNumber==3) {
+				x+=widthZone/2;
+				line=1;
+			}
+			if (monsterNumber==5) {
+				x-=widthZone/4;
+			}
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeTitle));
+			graphics.drawString("-- Monstre "+monsterNumber+" --", x+5, y+(line*fontSizeTitle));
+			line++;
+			
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
+			graphics.drawString("-Damage: "+mob.damage(), x+5, y+(line*fontSizeTitle));
+			line++;
+			graphics.drawString("-Defense: "+mob.defense(), x+5, y+(line*fontSizeTitle));
+			line++;
+			graphics.drawString(" -Counter Attack: "+mob.counterAttack(), x, y+(line*fontSizeTitle));
+			line++;
+			graphics.drawString("-Evade: "+mob.evade(), x+5, y+(line*fontSizeTitle));
+			line++;
+			graphics.drawString("-Vampirism: "+mob.vampirism(), x+5, y+(line*fontSizeTitle));
+			line++;
+			graphics.drawString("-Regen: "+mob.regen(), x+5, y+(line*fontSizeTitle));
+			line+=2;
+			monsterNumber++;
+		}
+		
+		
+	}
+	
+	
+	private void drawFightProgress(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<String> fightProgress) {
+		graphics.setColor(new Color(109, 123, 133));
+		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
+		
+		graphics.setColor(Color.WHITE);
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeTitle));
+		int line=1;
+		for (String sentence:fightProgress) {
+			graphics.drawString(""+sentence, x+5, y+(line*fontSizeTitle));
+			line++;
+		}
+	}
+	
+	
 	
 }

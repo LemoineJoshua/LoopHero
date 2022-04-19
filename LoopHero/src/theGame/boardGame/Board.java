@@ -96,7 +96,11 @@ public class Board {
  	    drop.add("Shapeless Mass");
  	    drop.add("Craft Fragment");
         ArrayList<Monster> beginningSlime = new ArrayList<Monster>();
-        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png"));
+        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
         
         boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningSlime));
         

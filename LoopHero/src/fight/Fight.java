@@ -47,17 +47,15 @@ public class Fight {
 			mob.fightStats(board.loop());
 			
 		}
-		
-		
+		ArrayList<String> fightProgress = new ArrayList<>();
+		int lossHp=0;
 		int indexAttack = 0;
+		int vampirismRegen = 0;
 		while(true){
-			gameView.drawFight(ctx);
-			
-			
 			//phase des mobs
+			int monsterNumber = 1;
 			for(Monster mob:mobs) {
-				
-				
+				fightProgress.add("=> Monstre "+monsterNumber+" attaque.");
 				
 				if(!hero.doEvade()) {
 					int damage=mob.damage();
@@ -65,15 +63,26 @@ public class Fight {
 					//System.out.println("les damages du mob : "+damage);
 					
 					if(hero.doCounter()) {
-						mob.lossHp(damage);
+						lossHp = mob.lossHp(damage);
+						fightProgress.add("-Le héros a contré, Monstre "+monsterNumber+" a subi "+lossHp+" dégâts.");
 					}else {
-						hero.lossHp(damage);
+						lossHp = hero.lossHp(damage);
+						fightProgress.add("-Le héros a subi "+lossHp+" dégâts.");
 					}
 					
-					mob.vampirismRegen(damage);
+					vampirismRegen = mob.vampirismRegen(damage);
 					//System.out.println("les pv du hero après : "+hero.hp());
+					
+					// A FAIRE 
+					fightProgress.add("-Le Monstre "+monsterNumber+" a récupéré "+vampirismRegen+" points");
+					fightProgress.add("de vie grâce à son vampirisme.");
+					monsterNumber +=1;
+				}else {
+					fightProgress.add("-Le héros a esquivé.");
 				}
-
+				
+				drawFight(fightProgress);
+				fightProgress.clear();
 				
 			}
 			
@@ -81,25 +90,34 @@ public class Fight {
 			Monster mob=mobs.get(indexAttack);
 			if(!mob.doEvade()) {
 				int damage=hero.damage();
+				fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
 				//System.out.println("les du mob pv avant : " + mob.hp());
 				//System.out.println("damage du hero : "+damage);
 				
 				
 				if(mob.doCounter()) {
-					hero.lossHp(damage);
+					lossHp = hero.lossHp(damage);
+					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a contré, le héros a subi "+lossHp+" dégâts.");
 				}else {
-					mob.lossHp(damage);
+					lossHp = mob.lossHp(damage);
+					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a subi "+lossHp+" dégâts.");
 				}
 				
 				//System.out.println("les pv du mob après: " + mob.hp());
 				
-				hero.vampirismRegen(damage);
+				vampirismRegen = hero.vampirismRegen(damage);
+				fightProgress.add("-Le Héros a récupéré "+vampirismRegen+" points");
+				fightProgress.add("de vie grâce à son vampirisme.");
 			}else {
+				fightProgress.add("-Le Monstre "+(indexAttack+1)+" a esquivé.");
 				//System.out.println("ho no il a veski le batar");
 			}
 			if(mobs.get(indexAttack).isDead()) {
 				indexAttack++;	
 			}
+			
+			drawFight(fightProgress);
+			fightProgress.clear();
 			
 			//regen de tout le monde
 			hero.regenTurn();
@@ -117,14 +135,16 @@ public class Fight {
 			if(hero.isDead()) {
 				return false;
 			}
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		}	
+	}
+	
+	private void drawFight(ArrayList<String> fightProgress) {
+		gameView.drawFight(ctx, hero, mobs, fightProgress);
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	/**
