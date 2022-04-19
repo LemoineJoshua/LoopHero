@@ -3,6 +3,7 @@ package fight;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import fr.umlv.zen5.ApplicationContext;
 import theGame.GameView;
 import theGame.TimeData;
 import theGame.boardGame.Board;
@@ -14,6 +15,7 @@ import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 
 public class Fight {
+	private final ApplicationContext ctx;
 	private final TimeData timeData;
 	private final GameView gameView;
 	private final Board board;
@@ -24,7 +26,7 @@ public class Fight {
 	private final Hero hero;
 	
 	
-	public Fight(TimeData timeData,GameView gameView,Board board,CardInventory deck,RessourcesInventory ressources,ItemInventory itemInventory) {
+	public Fight(TimeData timeData,GameView gameView,Board board,CardInventory deck,RessourcesInventory ressources,ItemInventory itemInventory,ApplicationContext ctx) {
 		this.timeData=timeData;
 		this.gameView=gameView;
 		this.board=board;
@@ -32,6 +34,7 @@ public class Fight {
 		this.ressources=ressources;
 		this.items = itemInventory;
 		this.hero=board.hero();
+		this.ctx = ctx;
 		
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 		this.mobs=tile.aliveMonster();
@@ -48,15 +51,13 @@ public class Fight {
 		
 		int indexAttack = 0;
 		while(true){
+			gameView.drawFight(ctx);
+			
 			
 			//phase des mobs
 			for(Monster mob:mobs) {
-				/*
-				try {
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}*/
+				
+				
 				
 				if(!hero.doEvade()) {
 					int damage=mob.damage();
@@ -72,6 +73,8 @@ public class Fight {
 					mob.vampirismRegen(damage);
 					//System.out.println("les pv du hero après : "+hero.hp());
 				}
+
+				
 			}
 			
 			//phase du hero
@@ -113,6 +116,11 @@ public class Fight {
 			
 			if(hero.isDead()) {
 				return false;
+			}
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 		

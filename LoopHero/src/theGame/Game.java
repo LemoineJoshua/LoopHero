@@ -31,7 +31,7 @@ public class Game {
 			
 			if(gameData.isFight()) {
 				
-				Fight fight = new Fight(timeData,gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory(),gameData.itemInventory());
+				Fight fight = new Fight(timeData,gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory(),gameData.itemInventory(),ctx);
 				if(!fight.doFight()) {
 					System.out.println("Oh non le hero est mort, dommage");
 					ctx.exit(0);

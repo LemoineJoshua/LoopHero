@@ -34,6 +34,7 @@ public class GameView {
 	private final int widthPlayingZone;
 	private final int xPlayingZone;
 	private final int yPlayingZone;
+	private Graphics2D graphics;
 	
 	/**
 	 * Constructeur de GameView,
@@ -62,16 +63,16 @@ public class GameView {
 	 * @param timeData Données temporelles
 	 * @param gameData Données du jeu
 	 */
-	public void drawInterface(Graphics2D graphics, TimeData timeData, GameData gameData) {
+	public void drawInterface(TimeData timeData, GameData gameData) {
 		graphics.setColor(Color.BLACK);
 		graphics.fill(new Rectangle2D.Float(0, heigth/10, 5*width/6, heigth));
 		
 		graphics.setColor(new Color(104, 111, 111));
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
 		
-		drawTimeBar(graphics, timeData.timeFraction(), gameData);
+		drawTimeBar(timeData.timeFraction(), gameData);
 		
-		drawLogo(graphics);
+		drawLogo();
 		
 		if (timeData.isStopped()) {
 			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
@@ -79,7 +80,7 @@ public class GameView {
 		int fontSize = Math.round(((5*width/6) - (xPlayingZone+widthPlayingZone))/13);
 		gameData.ressourcesInventory().drawRessources(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize, fontSize);	
 
-		drawHud(graphics,gameData);
+		drawHud(gameData);
 	}
 	
 	/**
@@ -87,7 +88,7 @@ public class GameView {
 	 * 
 	 * @param graphics Objet de dessin
 	 */
-	private void drawLogo(Graphics2D graphics) {
+	private void drawLogo() {
 		BufferedImage img = stringToImage("pictures/HUD/logo.png"); 
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(yPlayingZone / ((double) img.getWidth()), yPlayingZone / ((double) img.getHeight())),
@@ -102,7 +103,7 @@ public class GameView {
 	 * @param graphics Objet de dessin
 	 * @param board plateau du jeu
 	 */
-	public void drawHud(Graphics2D graphics, GameData gameData) {
+	public void drawHud(GameData gameData) {
 		// Dessins des cases vides pour équipement
 		
 		graphics.setColor(Color.DARK_GRAY);
@@ -132,10 +133,10 @@ public class GameView {
 			}
 		}
 		
-		drawStuffInventory(graphics,gameData.itemInventory(), yStuffCell);
-		drawStuffEquiped(graphics, gameData.board().hero().stuff());
+		drawStuffInventory(gameData.itemInventory(), yStuffCell);
+		drawStuffEquiped(gameData.board().hero().stuff());
 		if (gameData.anItemIsSelected()) {
-			drawItemSelection(graphics, gameData, cellSize, yStuffCell);
+			drawItemSelection(gameData, cellSize, yStuffCell);
 		}
 		
 		// Dessin de la zone rouge pour les stats
@@ -148,11 +149,10 @@ public class GameView {
 				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-yStuffStat) / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
 		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));		
-		drawStats(graphics, gameData.board().hero(), yStuffStat);
-			
+		drawStats(gameData.board().hero(), yStuffStat);
 	}
 		
-	private void drawItemSelection(Graphics2D graphics, GameData gameData , double cellSize, double y) {
+	private void drawItemSelection(GameData gameData , double cellSize, double y) {
 		BufferedImage img = stringToImage("pictures/HUD/cursor.png");			
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(cellSize / ((double) img.getWidth()*2), cellSize / ((double) img.getHeight()*2)),
@@ -182,10 +182,10 @@ public class GameView {
 			break;
 		}
 		
-		drawItemStats(graphics, gameData, y, cellSize, type);
+		drawItemStats(gameData, y, cellSize, type);
 	}
 		
-	private void drawItemStats(Graphics2D graphics, GameData gameData,double y, double cellSize, String type) {
+	private void drawItemStats(GameData gameData,double y, double cellSize, String type) {
 		graphics.setColor(new Color(62, 59, 59));
 		graphics.fill(new Rectangle2D.Float(widthPlayingZone,(float) y, (5*width/6)-widthPlayingZone, (float) (4*cellSize)));
 		
@@ -235,7 +235,7 @@ public class GameView {
 		}
 	}
 	
-	private void drawStats(Graphics2D graphics, Hero hero, double y) {
+	private void drawStats(Hero hero, double y) {
 		int zoneHeigth = (int) (heigth-y);
 		graphics.setColor(Color.WHITE);
 		graphics.drawString("HP : " +hero.hp()+"/"+hero.maxHp()+"HP",(float) (5*width/6 + 20),(float) y+1*zoneHeigth/8);
@@ -247,7 +247,7 @@ public class GameView {
 		graphics.drawString("Vampirism : " +hero.vampirism(),(float) (5*width/6 + 20),(float) y+7*zoneHeigth/8);
 	}
 	
-	private void drawStuffInventory(Graphics2D graphics, ItemInventory itemInventory, double yStuffCell ) {
+	private void drawStuffInventory(ItemInventory itemInventory, double yStuffCell ) {
 		int x=0;
 		int y=0;
 		double cellSize = (1*width/6)/4;
@@ -269,7 +269,7 @@ public class GameView {
 	}
 	
 
-	private void drawStuffEquiped(Graphics2D graphics, HeroStuff stuff ) {
+	private void drawStuffEquiped(HeroStuff stuff ) {
 		double cellSize = (1*width/6)/4;
 		Item item = stuff.get("weapon");
 		BufferedImage img = stringToImage("pictures/Stuff/shield.png");
@@ -335,7 +335,7 @@ public class GameView {
 	 * @param y ligne du plateau
 	 * @param img image de la case à dessiner
 	 */
-	public void drawATile(Graphics2D graphics, int x, int y, BufferedImage img) {		
+	public void drawATile(int x, int y, BufferedImage img) {		
 			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(squareSize / (double) img.getWidth(), squareSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -350,7 +350,7 @@ public class GameView {
 	 * @param y ligne du plateau
 	 * @param img image de la case à dessiner
 	 */
-	public void drawAnEntity(Graphics2D graphics, int x, int y, BufferedImage img) {
+	public void drawAnEntity(int x, int y, BufferedImage img) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(squareSize / ((double) img.getWidth()*2), squareSize / ((double) img.getHeight()*2)),
 				AffineTransformOp.TYPE_BILINEAR);
@@ -363,12 +363,12 @@ public class GameView {
 	 * @param graphics Objet de dessin
 	 * @param gameData Données du jeux
 	 */
-	public void drawAllMob(Graphics2D graphics, GameData gameData) {
+	public void drawAllMob(GameData gameData) {
 		for (Coord coord: gameData.board().coordList()) {	
 			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
 			for (Monster mob: caseAffiche.aliveMonster()) {
 				BufferedImage img = stringToImage(mob.picture());
-				drawAnEntity(graphics, coord.x(),coord.y(),img);
+				drawAnEntity(coord.x(),coord.y(),img);
 				
 			}
 			
@@ -383,7 +383,7 @@ public class GameView {
 	 * @param timeFraction fraction de journée écoulée
 	 * @param gameData Données du jeu
 	 */
-	public void drawTimeBar(Graphics2D graphics, double timeFraction, GameData gameData) {
+	public void drawTimeBar(double timeFraction, GameData gameData) {
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
 		graphics.setColor(Color.WHITE);
@@ -393,7 +393,7 @@ public class GameView {
 		
 	
 		BufferedImage img = stringToImage("pictures/HUD/hourglass.png"); 
-		drawAnEntity(graphics, 0, -1, img);
+		drawAnEntity(0, -1, img);
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
@@ -406,13 +406,13 @@ public class GameView {
 	 * @param graphics graphics Objet de Dessin
 	 * @param gameData données du jeux
 	 */
-	public void drawCards(Graphics2D graphics,GameData gameData) {
+	public void drawCards(GameData gameData) {
 		int y = Math.round(heigth-(heigth/6));
 		int x = 0;
 		int cardWidth = Math.round((4*width/5)/13);
 		
 		for(Card card:gameData.cardInventory().cardList()) {
-			drawACard(graphics,x,y,card.img());
+			drawACard(x,y,card.img());
 			x+=cardWidth;
 		}
 		
@@ -433,7 +433,7 @@ public class GameView {
 	 * @param y ligne du plateau
 	 * @param img image de la carte
 	 */
-	public void drawACard(Graphics2D graphics, int x, int y, BufferedImage img) {
+	public void drawACard(int x, int y, BufferedImage img) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance( (width/10) / ((double) img.getWidth()*2), (heigth/4) / ((double) img.getHeight()*2)),
 				AffineTransformOp.TYPE_BILINEAR);
@@ -446,7 +446,7 @@ public class GameView {
 	 * @param graphics Objet de Dessin
 	 * @param gameData Donnée du jeux
 	 */
-	public void drawBoard(Graphics2D graphics, GameData gameData) {
+	public void drawBoard(GameData gameData) {
 		
 		graphics.setColor(Color.WHITE);
 		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone, 21*squareSize, 12*squareSize));
@@ -454,16 +454,16 @@ public class GameView {
 		 for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
 	        		if (!(gameData.board().boardMatrix()[y][x].picture()==null)) {
-	        			drawATile(graphics, x, y, gameData.board().boardMatrix()[y][x].picture());
+	        			drawATile(x, y, gameData.board().boardMatrix()[y][x].picture());
 	        		}
 	        		
 	        	}
 	        }
 		 
 		BufferedImage img = stringToImage("pictures/Entities/heroB.png");
-		drawAnEntity(graphics,gameData.board().heroX(),gameData.board().heroY(),img);
-		drawAllMob(graphics,gameData);
-		drawCards(graphics,gameData);
+		drawAnEntity(gameData.board().heroX(),gameData.board().heroY(),img);
+		drawAllMob(gameData);
+		drawCards(gameData);
 		
 		if (gameData.aCardIsSelected()) {
 			Card myCard = gameData.cardInventory().cardList().get(gameData.selectedCardIndex());
@@ -471,7 +471,7 @@ public class GameView {
 			for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
 	        		if ((myCard.type()==gameData.board().boardMatrix()[y][x].type())&&gameData.board().boardMatrix()[y][x].isEmpty()) {
-	        			drawATile(graphics, x, y, img);
+	        			drawATile(x, y, img);
 	        		}
 	        		
 	        	}
@@ -488,12 +488,15 @@ public class GameView {
 	 * @param timeData données temporelles du jeux
 	 */
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
-		drawInterface(graphics, timeData, gameData);
-		drawBoard(graphics, gameData);
+		this.graphics = graphics;
+		drawInterface(timeData, gameData);
+		drawBoard(gameData);
 	}
 	
 	public void drawFrame(ApplicationContext ctx, GameData gameData, TimeData timeData) {
 		ctx.renderFrame(graphics -> drawFrame(graphics, gameData, timeData)); 
+		
+		
 	}
 	
 	
@@ -601,5 +604,27 @@ public class GameView {
 		return key;
 	}
 	
+	
+	// Gestion de Dessin pour le Combat 
+	
+	public void drawFight(ApplicationContext ctx) {
+		ctx.renderFrame(graphics -> drawFight(graphics));
+	}
+	
+	public void drawFight(Graphics2D graphics) {
+		//Rectangle de Fond:
+		graphics.setColor(Color.WHITE);
+		int xFightZone = xPlayingZone+15;
+		int yFightZone = yPlayingZone +15;
+		int widthFightZone = widthPlayingZone-30;
+		int heigthFightZone = 12*squareSize-30;
+		graphics.fill(new Rectangle2D.Double(xFightZone, yFightZone, widthFightZone, heigthFightZone));
+		
+		int xStatFightZone = xFightZone +(2/3)*widthPlayingZone;
+
+		graphics.setColor(Color.BLUE);
+		graphics.fill(new Rectangle2D.Double(xStatFightZone, yFightZone, widthFightZone/3, heigthFightZone));
+		
+	}
 	
 }
