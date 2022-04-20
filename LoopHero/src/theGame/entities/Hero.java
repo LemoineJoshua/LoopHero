@@ -17,7 +17,7 @@ public class Hero extends AbstractEntities{
      */
     
     public void regenHPloop(){
-    	stats.put("hp", stats.get("hp")+stats.get("hp")*0.2);
+    	stats.put("hp", (double) Math.round(stats.get("hp")+stats.get("hp")*0.2));
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}
@@ -29,7 +29,7 @@ public class Hero extends AbstractEntities{
      * @param heal nombre de PV que doit se heal le hero
      */
     public void regenHPdaily(int heal) {
-    	stats.put("hp", stats.get("hp")+heal);
+    	stats.put("hp", (double) Math.round(stats.get("hp")+heal));
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}
@@ -47,7 +47,7 @@ public class Hero extends AbstractEntities{
 	 * @param modifie les maxHp du hero
 	 */
 	public void modifMaxHP(float modif) {
-		stats.put("maxHp", stats.get("maxHp")+modif);
+		stats.put("maxHp",(double) Math.round( stats.get("maxHp")+modif));
     }
     
 	/**

@@ -55,6 +55,11 @@ public class Fight {
 			//phase des mobs
 			int monsterNumber = 1;
 			for(Monster mob:mobs) {
+				System.out.println("Monstre "+monsterNumber+ ":"+mob.isDead());
+				if(mob.isDead()) {
+					monsterNumber +=1;
+					continue;		
+				}	
 				fightProgress.add("=> Monstre "+monsterNumber+" attaque.");
 				
 				if(!hero.doEvade()) {
@@ -74,10 +79,13 @@ public class Fight {
 					//System.out.println("les pv du hero après : "+hero.hp());
 					
 					// A FAIRE 
+					if (vampirismRegen>0) {
 					fightProgress.add("-Le Monstre "+monsterNumber+" a récupéré "+vampirismRegen+" points");
 					fightProgress.add("de vie grâce à son vampirisme.");
+					}
 					monsterNumber +=1;
 				}else {
+					fightProgress.add("=> Monstre "+monsterNumber+" attaque.");
 					fightProgress.add("-Le héros a esquivé.");
 				}
 				
@@ -106,9 +114,13 @@ public class Fight {
 				//System.out.println("les pv du mob après: " + mob.hp());
 				
 				vampirismRegen = hero.vampirismRegen(damage);
-				fightProgress.add("-Le Héros a récupéré "+vampirismRegen+" points");
-				fightProgress.add("de vie grâce à son vampirisme.");
+				if (vampirismRegen>0) {
+					fightProgress.add("-Le Héros a récupéré "+vampirismRegen+" points");
+					fightProgress.add("de vie grâce à son vampirisme.");
+				}
+				
 			}else {
+				fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
 				fightProgress.add("-Le Monstre "+(indexAttack+1)+" a esquivé.");
 				//System.out.println("ho no il a veski le batar");
 			}
@@ -141,7 +153,7 @@ public class Fight {
 	private void drawFight(ArrayList<String> fightProgress) {
 		gameView.drawFight(ctx, hero, mobs, fightProgress);
 		try {
-			TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -69,7 +69,7 @@ public class GameView {
 		graphics.setColor(Color.BLACK);
 		graphics.fill(new Rectangle2D.Float(0, heigth/10, 5*width/6, heigth));
 		
-		graphics.setColor(new Color(104, 111, 111));
+		graphics.setColor(Color.DARK_GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
 		
 		drawTimeBar(timeData.timeFraction(), gameData);
@@ -631,6 +631,9 @@ public class GameView {
 		drawFightZone(xFightZone, yFightZone, 2*widthFightZone/3, heigthFightZone, fontSizeTitle, fontSizeText, hero, mobs);
 		drawStatsMob(xStatFightZone, yFightZone, (widthFightZone/3), heigthFightZone, fontSizeTitle, fontSizeText, mobs);
 		drawFightProgress(xStatFightZone, yTerminalZone, (widthFightZone/3), (heigthFightZone/3), fontSizeTitle, fontSizeText, fightProgress);
+		graphics.setColor(Color.WHITE);
+		graphics.drawLine(xStatFightZone, yFightZone, xStatFightZone, yFightZone+heigthFightZone);
+		graphics.drawLine(xStatFightZone, yTerminalZone, xFightZone+widthFightZone, yTerminalZone);
 		
 	}
 	
@@ -644,12 +647,17 @@ public class GameView {
 		drawAnHealthBar(x+10,y+(2*heigthZone/5),(widthZone/5)-20, (heigthZone/5),hero, fontSizeTitle);
 		
 		int i=0;
+		int monsterNumber=1;
 		for(Monster mob:mobs) {
 			img= stringToImage(mob.pictureFight());
 			drawAnEntityInFight(x+(3*widthZone/5), y+i*heigthZone/5, img, heigthZone);
 			
 			drawAnHealthBar((int)(x+(4*widthZone/5)+10), y+(i*heigthZone/5)+heigthZone/15, (widthZone/5)-20, (heigthZone/5),  mob, fontSizeTitle);
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeTitle*2));
+			graphics.setColor(Color.WHITE);
+			graphics.drawString(monsterNumber+"", x+(3*widthZone/5), y+(i)*heigthZone/5+fontSizeTitle*2);
 			i++;
+			monsterNumber++;
 		}
 	}
 
@@ -671,12 +679,12 @@ public class GameView {
 		graphics.fill(new Rectangle2D.Double(x, yBar, width*entity.hpPercentage(), heigthBar));
 		
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
-		graphics.drawString(entity.hp()+"/"+entity.maxHp()+"HP", x, y+3*heigth/5);
+		graphics.drawString(entity.hp()+"/"+entity.maxHp()+"HP", x, (y+3*heigth/5));
 		
 	}
 	
 	private void drawStatsMob(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<Monster> mobs) {
-		graphics.setColor(new Color(110, 52, 52));
+		graphics.setColor(new Color(96, 34, 23));
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
 		graphics.setColor(Color.WHITE);
 		int line = 1;
@@ -714,7 +722,7 @@ public class GameView {
 	
 	
 	private void drawFightProgress(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<String> fightProgress) {
-		graphics.setColor(new Color(109, 123, 133));
+		graphics.setColor(Color.DARK_GRAY);
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
 		
 		graphics.setColor(Color.WHITE);
