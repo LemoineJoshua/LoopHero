@@ -42,8 +42,11 @@ public abstract class AbstractEntities {
      * Regenere l'entite en fonction de son vampirisme
      */
     public int vampirismRegen(int damage) {
-    	stats.put("hp",stats.get("hp")+damage*stats.get("vampirism"));
-    	return (int)(stats.get("hp")+damage*stats.get("vampirism"));
+    	stats.put("hp",(double) Math.round(stats.get("hp")+damage*stats.get("vampirism")));
+    	if (stats.get("hp")>stats.get("maxHp")) {
+    		stats.put("hp", stats.get("maxHp"));
+    	}
+    	return (int) (damage*stats.get("vampirism"));
     }
     
     /**
@@ -79,7 +82,7 @@ public abstract class AbstractEntities {
      * regenere les pv en fonction de la stat regen
      */
     public void regenTurn() {
-    	stats.put("hp", stats.get("hp") + stats.get("hp")*(stats.get("regen")));
+    	stats.put("hp", (double) Math.round(stats.get("hp") + stats.get("hp")*(stats.get("regen"))));
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}

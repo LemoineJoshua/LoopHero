@@ -57,8 +57,8 @@ public class Monster extends AbstractEntities{
 	 * actualise les stats du montre en fonction du tour de boucle
 	 */
 	public void fightStats(int loopNumber){
-		stats.put("strength", stats.get("strength")* loopNumber * 0.95 * (1+(loopNumber-1)*0.02));
-		stats.put("maxHp", stats.get("maxHp")* loopNumber * 0.95 * (1+(loopNumber-1)*0.02));
+		stats.put("strength",(double) Math.round(stats.get("strength")* loopNumber * 0.95 * (1+(loopNumber-1)*0.02)));
+		stats.put("maxHp", (double) Math.round(stats.get("maxHp")* loopNumber * 0.95 * (1+(loopNumber-1)*0.02)));
 		stats.put("hp", stats.get("maxHp"));
 	}
     

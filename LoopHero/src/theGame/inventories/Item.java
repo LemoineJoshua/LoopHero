@@ -19,13 +19,13 @@ public class Item {
 	
 	public Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type) {
 		this.stats=new HashMap<String,Double>() {{
-			put("maxHp",hp);
-			put("strength",strength);
-			put("defense",defense);
-			put("counterAttack",counterAttack);
-			put("regen",regen);
-			put("evade",evade);
-			put("vampirism",vampirism);
+			put("maxHp",(double) Math.round(hp));
+			put("strength",(double) Math.round(strength));
+			put("defense",(double) Math.round(defense));
+			put("counterAttack",(double) Math.round(counterAttack));
+			put("regen",(double) Math.round(regen));
+			put("evade",(double) Math.round(evade));
+			put("vampirism",(double) Math.round(vampirism));
 		}};
 		this.rarity=rarity;
 		this.image=stringToImage(image);
