@@ -15,10 +15,11 @@ public class Game {
 	private TimeData timeData;
 	
 	/**
-	 * Fait bouger le hero sur le plateau, l'effet de loop si il passe sur le 
-	 * feu de camp, et le combat si il y en a un
+	 * Move the Hero on the board, 
+	 * activate the loop effect, if the hero pass on the campfire
+	 * and launch the fight, if there is one
 	 * 
-	 * @param context contexte de l'Application
+	 * @param context : Global context of the game
 	 */
 	private void moveHeroAndDraw(ApplicationContext context) {
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
@@ -31,7 +32,7 @@ public class Game {
 			
 			if(gameData.isFight()) {
 				
-				Fight fight = new Fight(timeData,gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory(),gameData.itemInventory(),ctx);
+				Fight fight = new Fight(gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory(),gameData.itemInventory(),ctx);
 				if(!fight.doFight()) {
 					System.out.println("Oh non le hero est mort, dommage");
 					ctx.exit(0);
@@ -41,10 +42,10 @@ public class Game {
 	}
 	
 	/**
-	 * Passe le jour si suffisament de temps s'est écoulé
-	 * et applique l'effet du jour dans ce cas.
+	 * Pass to the next day, if enough time has passed
+	 * and activate the day effect if needed
 	 * 
-	 * @param ctx contexte de l'Application
+	 * @param ctx : Global context of the game
 	 */
 	private void dayAction(ApplicationContext ctx) {
 		if(timeData.elapsedDay()>= TimeData.DAY_MILLISECONDS) {
@@ -56,11 +57,11 @@ public class Game {
 	
 
 	/**
-	 * Fonction principale du jeu:
-	 * crée les objets qui gèrent l'affichage/les données/le temps
-	 * Puis lance le jeux à travers la fonction Update (qui actualise l'écran)
+	 * Main function of the Game : 
+	 * Create objects which manage the display, the data and the time
+	 * Then start the Game, with the funtion update (which update the screen)
 	 * 
-	 * @param ctx le contexte de l'Application
+	 * @param ctx : Global context of the game
 	 */
 	public void Run(ApplicationContext ctx) { 
 			
@@ -70,21 +71,19 @@ public class Game {
 		this.timeData = new TimeData();
 		
 		while(true) {
-			
 			Update(); 
-			
 		}
 	}
 	
 	/**
-	 * Fonction qui déclenche une action en fonction de la touche appuyée
+	 * Function which trigger an action based on the key pressed
 	 * 
-	 * @param e touche appuyée 
+	 * @param e : an event which represents the key pressed
 	 */
 	private void doKeyAction(Event e) {
-		switch(e.getKey()) {//on récupère une touche
+		switch(e.getKey()) {// we get the key pressed
 		
-		case SPACE -> { //si c'est espace on arrette tout (je sais pas pourquoi la flèche)
+		case SPACE -> { // if it's the space bar, we stop the game
 			ctx.exit(0);
 		}
 		
@@ -96,31 +95,30 @@ public class Game {
 		
 		case D -> startTime();
 		
-		default -> System.out.println("touche inactive "+e.getKey()); //pour le debug
+		default -> System.out.println("touche inactive "+e.getKey()); 
 
 		}
 		
 	}
 	
 	/**
-	 * Fonction ui déclenche une action en fonction de ou clique
-	 * la sourie
+	 * Function which trigger an action based on where the player clicked
 	 * 
-	 * @param e evenement de la sourie
+	 * @param e : an event which represents the mouse pressed
 	 */
 	private void doMouseAction(Event e) {
-		if (!gameData.aCardIsSelected()) { // no cell is selected
+		if (!gameData.aCardIsSelected()) { // If player hasn't selected a card before
 			Point2D.Float location = e.getLocation();
-			if (gameView.clickInCardZone(location)) {
+			if (gameView.clickInCardZone(location)) {	// if the click is in the zone where are stocked the card
 				gameData.selectCard(gameView.selectCard(location.x));
 				if(gameData.selectedCardIndex()>gameData.cardInventory().cardList().size()-1) {
 					gameData.unselectCard();
 					gameData.unselectItem();
 				}
 			}
-		}else {
+		}else {					// If the player has selected a card before
 			Point2D.Float location = e.getLocation();
-			if (gameView.clickInBoardZone(location)) {
+			if (gameView.clickInBoardZone(location)) { // Check if the click of the player is somewhere on the board, in order to place the card
 				int indexY = gameView.selectLine(location.y);
 				int indexX = gameView.selectColumn(location.x);
 				if (gameData.placeACard(indexY,indexX)) {
@@ -133,25 +131,19 @@ public class Game {
 			gameData.unselectItem();
 		}
 		
-		// CLIQUAGE DE STUFF EN COURS DE GESTION 
-		
-		if (!gameData.anItemIsSelected()) { // no item is selected
-			System.out.println("Pas d'item selectionné");
+		if (!gameData.anItemIsSelected()) { // If player hasn't selected an item to equip before
 			Point2D.Float location = e.getLocation();
-			if (gameView.clickInItemInventoryZone(location)) {
-				System.out.println("Dans zone item");
+			if (gameView.clickInItemInventoryZone(location)) {	// if the click is in the zone where are stocked the items
 				gameData.selectItem(gameView.selectItemInInventory(location.x, location.y)); 
-				System.out.println(gameData.selectedItemIndex());
 				if(gameData.selectedItemIndex()>gameData.itemInventory().itemInventory().size()-1) {
 					gameData.unselectItem();
 					gameData.unselectCard();
 				}
 			}
-		}else {
+		}else {				// If the player has selected an item before
 			System.out.println("Item sélectionné");
 			Point2D.Float location = e.getLocation();
-			if (gameView.clickInStuffZone(location)) {
-				System.out.println("Dans zone stuff");
+			if (gameView.clickInStuffZone(location)) { 	// Check if the click of the player is in the hero stuff, in order to equip the item
 				String key = gameView.getItemKey(location.x);
 				Item selectedItem = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
 				if (key.equals(selectedItem.type())){
@@ -165,7 +157,7 @@ public class Game {
 	}
 	
 	/**
-	 * Fonction qui relance le passage du temps
+	 * Function that ralaunch the passage of time 
 	 */
 	private void startTime() {
 		timeData.start();
@@ -173,7 +165,7 @@ public class Game {
 	}
 	
 	/**
-	 * Fonction d'actualisation de l'écran et des différentes données
+	 * Update the screen display, and the differents data
 	 */
 	private void Update() {
 		

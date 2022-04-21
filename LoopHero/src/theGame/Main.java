@@ -7,7 +7,7 @@ import fr.umlv.zen5.Application;
 public class Main {
 	
 	/**
-	 * Fonction main du jeu
+	 * Main function of the Game
 	 * 
 	 * @param args 
 	 */

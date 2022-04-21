@@ -39,11 +39,11 @@ public class GameView {
 	private Graphics2D graphics;
 	
 	/**
-	 * Constructeur de GameView,
-	 * memorise la largeur et la hauteur de la fenetre
-	 * Ainsi que la largeur et la hauteur de la grille de jeu, et ses coordonnées
+	 * GameView constructor : 
+	 * Memorize the screen width and heigth
+	 * The screen et heigth board, and his coords
 	 * 
-	 * @param ctx contexte de l'application
+	 * @param ctx : Global context of the game
 	 */
 	public GameView(ApplicationContext ctx) {
 		ScreenInfo screen = ctx.getScreenInfo();
@@ -57,13 +57,11 @@ public class GameView {
 		this.yPlayingZone =Math.round(heigth/10);
 	}
 	
-	
 	/**
-	 * Dessinne l'interface du jeu (hors grille de jeu et cartes)
+	 * Draw the whole game interface except the board and the cards
 	 * 
-	 * @param graphics Objet de dessin
-	 * @param timeData Données temporelles
-	 * @param gameData Données du jeu
+	 * @param timeData : Data related to the course of time in the game
+	 * @param gameData : All the data used in the game
 	 */
 	public void drawInterface(TimeData timeData, GameData gameData) {
 		graphics.setColor(Color.BLACK);
@@ -86,9 +84,7 @@ public class GameView {
 	}
 	
 	/**
-	 * Fonction qui dessine le logo en haut à droite de l'écran
-	 * 
-	 * @param graphics Objet de dessin
+	 * Function which draw the logo at the top right of the screen
 	 */
 	private void drawLogo() {
 		BufferedImage img = stringToImage("pictures/HUD/logo.png"); 
@@ -100,13 +96,12 @@ public class GameView {
 	
 	
 	/**
-	 * Dessine le HUD sur la droite ainsi que les PV du Hero
+	 * Draw the HUD on the right of the screen, with all the items and the hero's stats
 	 * 
-	 * @param graphics Objet de dessin
-	 * @param board plateau du jeu
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
 	 */
 	public void drawHud(GameData gameData) {
-		// Dessins des cases vides pour équipement
+		// Draw the cell, where the items will be placed 
 		
 		graphics.setColor(Color.DARK_GRAY);
 		graphics.fill(new Rectangle2D.Float(5*width/6, 0, width/6, heigth));
@@ -141,7 +136,7 @@ public class GameView {
 			drawItemSelection(gameData, cellSize, yStuffCell);
 		}
 		
-		// Dessin de la zone rouge pour les stats
+		// Draw the red Zone with hero's stats
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
 		img = stringToImage("pictures/HUD/Hud3.png");
 		double yStuffStat = yStuffCell+4*cellSize;
@@ -151,10 +146,16 @@ public class GameView {
 				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-yStuffStat) / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
 		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));		
-		drawStats(gameData.board().hero(), yStuffStat);
-			
+		drawStats(gameData.board().hero(), yStuffStat);	
 	}
 		
+	/**
+	 * Draw a square on the slot where the player can place the item he choose, and display the stats
+	 * 
+	 * @param gameData : All the data used in the game
+	 * @param cellSize : The size of one item cell
+	 * @param y : The y coord of the first line of cell, in the item inventory
+	 */
 	private void drawItemSelection(GameData gameData , double cellSize, double y) {
 		BufferedImage img = stringToImage("pictures/HUD/cursor.png");			
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
@@ -188,6 +189,14 @@ public class GameView {
 		drawItemStats(gameData, y, cellSize, type);
 	}
 		
+	/**
+	 * Display the stats of the item, that the player choose, and the stats of the item the player has already equipped  
+	 *
+	 * @param gameData : All the data used in the game
+	 * @param y : The y coord of the first line of cell, in the item inventory
+	 * @param cellSize : The size of one item cell
+	 * @param type : The type of the item, the player has clicked
+	 */
 	private void drawItemStats(GameData gameData,double y, double cellSize, String type) {
 		graphics.setColor(new Color(62, 59, 59));
 		graphics.fill(new Rectangle2D.Float(widthPlayingZone,(float) y, (5*width/6)-widthPlayingZone, (float) (4*cellSize)));
@@ -238,6 +247,12 @@ public class GameView {
 		}
 	}
 	
+	/**
+	 * Display all the hero's stats
+	 * 
+	 * @param hero : The hero, his inventories and his stats
+	 * @param y : the coord y of the beginning of the stats zone
+	 */
 	private void drawStats(Hero hero, double y) {
 		int zoneHeigth = (int) (heigth-y);
 		graphics.setColor(Color.WHITE);
@@ -250,6 +265,12 @@ public class GameView {
 		graphics.drawString("Vampirism : " +hero.vampirism(),(float) (5*width/6 + 20),(float) y+7*zoneHeigth/8);
 	}
 	
+	/**
+	 * Draw every items, the player got in the inventory
+	 * 
+	 * @param itemInventory : Inventory that contains all the equipment the hero has collected, which can now be equipped.
+	 * @param yStuffCell : the y coord of the first line of items inventory
+	 */
 	private void drawStuffInventory(ItemInventory itemInventory, double yStuffCell ) {
 		int x=0;
 		int y=0;
@@ -272,6 +293,11 @@ public class GameView {
 	}
 	
 
+	/**
+	 * Draw every items, the player already equipped
+	 * 
+	 * @param stuff : The four items, the hero has equipped, 1 weapon, 1shield, 1ring and 1 armor
+	 */
 	private void drawStuffEquiped(HeroStuff stuff ) {
 		double cellSize = (1*width/6)/4;
 		Item item = stuff.get("weapon");
@@ -317,8 +343,10 @@ public class GameView {
 	
 	
 	/**
-	 * @param pictureName chemin de l'image
-	 * @return l'image créée avec le chemin de l'image
+	 * Return the buffered image corresponding to the path given
+	 * 
+	 * @param pictureName : the picture path
+	 * @return a buffered image of the path
 	 */
 	public BufferedImage stringToImage(String pictureName) {
 		Path path = Path.of(pictureName);
@@ -331,12 +359,12 @@ public class GameView {
 	}
 	
 	/**
-	 * Dessine une tuile sur le plateau de jeu
+	 * Draw a tile on the board
 	 * 
-	 * @param graphics Objet de dessin
-	 * @param x colonne du plateau
-	 * @param y ligne du plateau
-	 * @param img image de la case à dessiner
+	 *  
+	 * @param x : the cell's column on the board
+	 * @param y :the cell's line on the board
+	 * @param img : the tile's picture
 	 */
 	public void drawATile(int x, int y, BufferedImage img) {		
 			AffineTransformOp scaling = new AffineTransformOp(AffineTransform
@@ -346,14 +374,13 @@ public class GameView {
 	}
 	
 	/**
-	 * Dessine un monstre sur le plateau de jeu
+	 * Draw the hero on the board 
 	 * 
-	 * @param graphics Objet de dessin
-	 * @param x colonne du plateau
-	 * @param y ligne du plateau
-	 * @param img image de la case à dessiner
+	 * @param x : the hero's position column on the board
+	 * @param y : the hero's position line on the board
+	 * @param img : the hero's pictures
 	 */
-	public void drawAnEntity(int x, int y, BufferedImage img) {
+	public void drawHero(int x, int y, BufferedImage img) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(squareSize / ((double) img.getWidth()*2), squareSize / ((double) img.getHeight()*2)),
 				AffineTransformOp.TYPE_BILINEAR);
@@ -361,30 +388,46 @@ public class GameView {
 	}
 	
 	/**
-	 * Dessine tout les monstres du jeux
-	 * 
-	 * @param graphics Objet de dessin
-	 * @param gameData Données du jeux
+	 * @param x : the monster's position column on the board
+	 * @param y : the monster's position line on the board
+	 * @param img : the monster's picture
+	 * @param column : : the monster's position column on his cell
+	 * @param line : the monster's position line on his cell
+	 */
+	public void drawAMonster(int x, int y, BufferedImage img, int column, int line) {
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance(squareSize / ((double) img.getWidth()*3), squareSize / ((double) img.getHeight()*3)),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(img, scaling, (int) Math.round(xPlayingZone + x * squareSize + (squareSize/2)*column) + squareSize/10, (int) Math.round(yPlayingZone + y * squareSize + (squareSize/2)*line )+ squareSize/10);
+	}
+	
+	/**
+	 * Draw all monsters that are on the board at this time
+	 *
+	 * @param gameData : All the data used in the game
 	 */
 	public void drawAllMob(GameData gameData) {
 		for (Coord coord: gameData.board().coordList()) {	
 			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
+			int column = 0;
+			int line = 0;
 			for (Monster mob: caseAffiche.aliveMonster()) {
+				if (column == 2) {
+					column=0;
+					line++;
+				}
 				BufferedImage img = stringToImage(mob.picture());
-				drawAnEntity(coord.x(),coord.y(),img);
-				
+				drawAMonster(coord.x(),coord.y(),img,column,line);
+				column ++;
 			}
-			
 		}
-		
 	}
 	
 	/**
-	 * Dessine la barre de temps sur le haut du plateau, et écrit les indications en dessous
-	 * 
-	 * @param graphics Objet de Dessin
-	 * @param timeFraction fraction de journée écoulée
-	 * @param gameData Données du jeu
+	 * Draw the time bar on the top of the board, and write the informations below
+	 *  
+	 * @param timeFraction : A time fraction showing the day time passed
+	 * @param gameData : All the data used in the game
 	 */
 	public void drawTimeBar(double timeFraction, GameData gameData) {
 		graphics.setColor(Color.LIGHT_GRAY);
@@ -396,7 +439,7 @@ public class GameView {
 		
 	
 		BufferedImage img = stringToImage("pictures/HUD/hourglass.png"); 
-		drawAnEntity(0, -1, img);
+		drawHero(0, -1, img);
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
@@ -404,10 +447,9 @@ public class GameView {
 	}
 	
 	/**
-	 * Dessine les cartes de la mains du joueur
+	 * Draw all the cards in the hands of the player
 	 * 
-	 * @param graphics graphics Objet de Dessin
-	 * @param gameData données du jeux
+	 * @param gameData : All the data used in the game
 	 */
 	public void drawCards(GameData gameData) {
 		int y = Math.round(heigth-(heigth/6));
@@ -429,12 +471,11 @@ public class GameView {
 	}
 	
 	/**
-	 * Dessine une carte sur le plateau
+	 * Draw one card below the board
 	 * 
-	 * @param graphics Objet de Dessin
-	 * @param x colonne du plateau
-	 * @param y ligne du plateau
-	 * @param img image de la carte
+	 * @param x : The card position on the x axis
+	 * @param y : The card position on the y axis
+	 * @param img : The card picture
 	 */
 	public void drawACard(int x, int y, BufferedImage img) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
@@ -444,10 +485,9 @@ public class GameView {
 	}
 	
 	/**
-	 * Dessine le plateau de jeu en entier
+	 * Draw the whole game board
 	 * 
-	 * @param graphics Objet de Dessin
-	 * @param gameData Donnée du jeux
+	 * @param gameData : All the data used in the game
 	 */
 	public void drawBoard(GameData gameData) {
 		
@@ -459,12 +499,11 @@ public class GameView {
 	        		if (!(gameData.board().boardMatrix()[y][x].picture()==null)) {
 	        			drawATile(x, y, gameData.board().boardMatrix()[y][x].picture());
 	        		}
-	        		
 	        	}
 	        }
 		 
 		BufferedImage img = stringToImage("pictures/Entities/heroB.png");
-		drawAnEntity(gameData.board().heroX(),gameData.board().heroY(),img);
+		drawHero(gameData.board().heroX(),gameData.board().heroY(),img);
 		drawAllMob(gameData);
 		drawCards(gameData);
 		
@@ -484,11 +523,11 @@ public class GameView {
  
 	
 	/**
-	 * Dessine tout l'écran
+	 * Draw the whole screen
 	 * 
-	 * @param graphics Objet de Dessin
-	 * @param gameData données du jeux
-	 * @param timeData données temporelles du jeux
+	 * @param graphics : Draw item
+	 * @param gameData : All the data used in the game
+	 * @param timeData : Data related to the course of time in the game
 	 */
 	public void drawFrame(Graphics2D graphics, GameData gameData, TimeData timeData) {
 		this.graphics = graphics;
@@ -501,20 +540,27 @@ public class GameView {
 	}
 	
 	
-	// Fonctions pour placer des cartes :
+	
+	
+	
+	// Placing cards functions :
 	
 	
 	/**
-	 * @param location location du clique de la sourie
-	 * @return true si la sourie clique dans la mains du joueur, false sinon
+	 * Check if the player clicked in the card zone
+	 * 
+	 * @param location : Mouse click location 
+	 * @return true if the player clicked in the card zone, else false
 	 */
 	public boolean clickInCardZone(Point2D.Float location) {
 		return location.x < (4*width/5) && location.y >= heigth-(heigth/6);
 	}
 	
 	/**
-	 * @param coordX coordonée X du clique de la sourie
-	 * @return la coordonnée de la colonne ou le sourie à cliquee
+	 * Get the index of the card the player clicked
+	 * 
+	 * @param coordX : coord x of the player click
+	 * @return the index of card the player clicked
 	 */
 	private int indexFromCardZone(float coordX) {
 		int cardWidth = Math.round((4*width/5)/13);
@@ -522,43 +568,66 @@ public class GameView {
 	}
 	
 	/**
-	 * @param coordX coordonée X du clique de la sourie
-	 * @return la coordonnée de la colonne ou le sourie à cliquee (sans donner accès au calcul)
+	 * Get the index of the card the player clicked
+	 * 
+	 * @param coordX : coord x of the player click
+	 * @return the index of card the player clicked (without giving access to the calculs)
 	 */
 	public int selectCard(float coordX) {
 		return indexFromCardZone(coordX);
 	}
 	
 	/**
-	 * @param location location du clique de la sourie
-	 * @return true si la sourie a cliquee sur le plateau de jeu
+	 * Check if the player clicked on the board
+	 * 
+	 * @param location : Mouse click location 
+	 * @return true if the player clicked on the board, else false
 	 */
 	public boolean clickInBoardZone(Point2D.Float location) {
 		return ((int) location.x < (xPlayingZone + 21*squareSize)) && ((int)location.x > (xPlayingZone)) && ((int)location.y< (yPlayingZone+12*squareSize)) && ((int)location.y > (yPlayingZone));
 	}
 	
 	/**
-	 * @param coordY coordonee Y du clique de la sourie
-	 * @return la ligne sur laquelle à cliquee la sourie
+	 * Return the line of the board where the player have clicked
+	 * 
+	 * @param coordY : coord y of the mouse click 
+	 * @return the line the player clicked, to use it as an index in the board matrix
 	 */
 	public int selectLine(float coordY) {
 		return (int) ((coordY-yPlayingZone) / (squareSize));
 	}
 	
 	/**
-	 * @param coordX coordonee X du clique de la sourie
-	 * @return la colonne sur laquelle à cliquee la sourie
+	 * Return the column of the board where the player have clicked
+	 * 
+	 * @param coordX : coord x of the mouse click
+	 * @return the column the player clicked, to use it as an index in the board matrix
 	 */
 	public int selectColumn(float coordX) {
 		return (int) ((coordX-xPlayingZone) / (squareSize));
 	}
 	
-	// Fonctions pour équiper son stuff 
 	
+	
+	// Stuff equipping functions 
+	
+	/**
+	 * Check if the player clicked in the item inventory zone
+	 * 
+	 * @param location : Mouse click location
+	 * @return true if the player clicked in the item inventory zone
+	 */
 	public boolean clickInItemInventoryZone(Point2D.Float location) {
 		return location.x > (5*width/6) && location.y >= yPlayingZone+2*((1*width/6)/4) && location.y<=yPlayingZone+5*((1*width/6)/4);
 	}
 	
+	/**
+	 * Get the index of the item, the player clicked
+	 * 
+	 * @param coordX : coord x of the mouse click
+	 * @param coordY : coord y of the mouse click 
+	 * @return the index of the item, the player clicked on
+	 */
 	private int indexFromItemInventory(float coordX, float coordY) {
 		int cellSize = Math.round((1*width/6)/4);
 		int x = (int)((coordX-(5*width/6)) / cellSize);
@@ -570,14 +639,33 @@ public class GameView {
 		return index;
 	}
 	
+	/**
+	 * Get the index of the item, the player clicked
+	 * 
+	 * @param coordX : coord x of the mouse click
+	 * @param coordY : coord y of the mouse click 
+	 * @return the index of the item, the player clicked on
+	 */
 	public int selectItemInInventory(float coordX, float coordY) {
 		return indexFromItemInventory(coordX,coordY);
 	}
 	
+	/**
+	 * Check if the player clicked in the stuff zone
+	 * 
+	 * @param location : Mouse click location
+	 * @return true if the player clicked in the stuff zone, else false
+	 */
 	public boolean clickInStuffZone(Point2D.Float location) {
 		return location.x > (5*width/6) && location.y >= yPlayingZone && location.y<=yPlayingZone+1*((1*width/6)/4);
 	}
 	
+	/**
+	 * Get the type of item, of the cell where the player clicked
+	 * 
+	 * @param coordX : coord x of the mouse click
+	 * @return the type of item, in the cell the player clicked
+	 */
 	public String getItemKey(float coordX) {
 		int cellSize = Math.round((1*width/6)/4);
 		int x = (int)((coordX-(5*width/6)) / cellSize);
@@ -586,34 +674,46 @@ public class GameView {
 		switch (x) {
 		case 0:
 			key="weapon";
-			System.out.println("Clic dans Weapon");
 			break;
 		case 1:
 			key="shield";
-			System.out.println("Clic dans Shield");
 			break;
 		case 2:
 			key="armor";
-			System.out.println("Clic dans Armor");
 			break;
 		case 3:
 			key="ring";
-			System.out.println("Clic dans Ring");
 			break;
 		}
 		
 		return key;
 	}
-	// Gestion de Dessin pour le Combat 
 	
+	
+	// Fight Drawing 
+	
+	/**
+	 * Draw the whole fight Zone
+	 * 
+	 * @param ctx : Global context of the game
+	 * @param hero : The hero, his inventories and his stats
+	 * @param mobs : The list of all monsters who are in the Fight
+	 * @param fightProgress : A list of sentence which explained the fight
+	 */
 	public void drawFight(ApplicationContext ctx, Hero hero, ArrayList<Monster> mobs, ArrayList<String> fightProgress) {
 		ctx.renderFrame(graphics -> drawFight(graphics, hero, mobs, fightProgress));
 	}
 	
+	/**
+	 * Draw the whole fight Zone
+	 * 
+	 * @param graphics
+	 * @param hero : The hero, his inventories and his stats
+	 * @param mobs : The list of all monsters who are in the Fight
+	 * @param fightProgress : A list of sentence which explained the fight
+	 */
 	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<Monster> mobs, ArrayList<String> fightProgress) {
-		this.graphics = graphics;
-		//Rectangle de Fond:
-		
+		this.graphics = graphics;		
 		int xFightZone = xPlayingZone+15;
 		int yFightZone = yPlayingZone +15;
 		int widthFightZone = widthPlayingZone-30;
@@ -633,10 +733,21 @@ public class GameView {
 		drawFightProgress(xStatFightZone, yTerminalZone, (widthFightZone/3), (heigthFightZone/3), fontSizeTitle, fontSizeText, fightProgress);
 		graphics.setColor(Color.WHITE);
 		graphics.drawLine(xStatFightZone, yFightZone, xStatFightZone, yFightZone+heigthFightZone);
-		graphics.drawLine(xStatFightZone, yTerminalZone, xFightZone+widthFightZone, yTerminalZone);
-		
+		graphics.drawLine(xStatFightZone, yTerminalZone, xFightZone+widthFightZone, yTerminalZone);		
 	}
 	
+	/**
+	 * Draw the left Rectangle of the fight zone, where the fight take place
+	 * 
+	 * @param x : coord x of the beginning of this rectangle
+	 * @param y : coord y of the beginning of this rectangle
+	 * @param widthZone : width of this zone
+	 * @param heigthZone : heigth of this zone
+	 * @param fontSizeTitle : font size used for the title
+	 * @param fontSizeText : font size used for the classic text
+	 * @param hero : The hero, his inventories and his stats
+	 * @param mobs : The list of all monsters who are in the Fight
+	 */
 	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<Monster> mobs) {
 		graphics.setColor(Color.BLACK);
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
@@ -661,6 +772,14 @@ public class GameView {
 		}
 	}
 
+	/**
+	 * Draw one entity in the fight
+	 * 
+	 * @param x : the coord x of the entity
+	 * @param y : the coord y of the entity
+	 * @param img : the entity picture
+	 * @param heigthFightZone : the heigth of the left zone of the fight zone
+	 */
 	public void drawAnEntityInFight(int x, int y, BufferedImage img, int heigthFightZone) {
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance(heigthFightZone / ((double) img.getWidth()*5), heigthFightZone / ((double) img.getHeight()*5)),
@@ -668,6 +787,16 @@ public class GameView {
 		graphics.drawImage(img, scaling, x, y);
 	}
 	
+	/**
+	 * Draw the health bar and the health of an entity
+	 * 
+	 * @param x : the coord x of the health bar beginning
+	 * @param y : the coord y of the health bar beginning
+	 * @param width : the width of the health bar
+	 * @param heigth : the heigth of the health bar
+	 * @param entity : the entity to who belong the health bar
+	 * @param fontSize : the font size used to draw the health below the bar
+	 */
 	private void drawAnHealthBar(int x, int y, int width, int heigth, AbstractEntities entity, int fontSize) {
 		int heigthBar = heigth/5;
 		int yBar = y+heigthBar;
@@ -683,6 +812,17 @@ public class GameView {
 		
 	}
 	
+	/**
+	 * Draw the top right rectangle of the fight zone, where is displayed all monsters stats
+	 * 
+	 * @param x : the coord x of the beginning of the stats zone
+	 * @param y : the coord y of the beginning of the stats zone
+	 * @param widthZone : the width of the beginning of the stats zone
+	 * @param heigthZone : the heigth of the beginning of the stats zone
+	 * @param fontSizeTitle : font size used for the title
+	 * @param fontSizeText : font size used for the classic text
+	 * @param mobs : The list of all monsters who are in the Fight
+	 */
 	private void drawStatsMob(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<Monster> mobs) {
 		graphics.setColor(new Color(96, 34, 23));
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
@@ -721,6 +861,18 @@ public class GameView {
 	}
 	
 	
+	/**
+	 * Draw the little terminal in the bottom right of the figth zone
+	 * In this terminal is displayed all information about the fight progression
+	 * 
+	 * @param x : the coord x of the beginning of the terminal zone
+	 * @param y : the coord y of the beginning of the terminal zone
+	 * @param widthZone : the width of the beginning of the terminal zone
+	 * @param heigthZone : the heigth of the beginning of the terminal zone
+	 * @param fontSizeTitle : font size used for the title
+	 * @param fontSizeText : font size used for the classic text
+	 * @param fightProgress : A list of sentence which resume the progression of the figth
+	 */
 	private void drawFightProgress(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<String> fightProgress) {
 		graphics.setColor(Color.DARK_GRAY);
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));

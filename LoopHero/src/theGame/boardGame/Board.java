@@ -22,8 +22,8 @@ public class Board {
 	
 	
 	/**
-	 * Constructeur du plateau,
-	 * Initialise la loop à 0 crée le chemin et le plateau
+	 * Board Constructor,
+	 * Set the loop number to one and create the path and the board
 	 */
 	public Board() {
 		this.loop=1;
@@ -33,9 +33,9 @@ public class Board {
 	}
 	
 	/**
-	 * Initialise la matrice de jeu
+	 * Set the board matrix
 	 * 
-	 * @return la matrice initilisée
+	 * @return the matrix created
 	 */
 	private AbstractTile[][] initCases(){
 		AbstractTile[][] boardMatrix = new AbstractTile[12][21];
@@ -49,9 +49,9 @@ public class Board {
     }
 
     /**
-     * Initialise le chemin et les roadSide
+     * Initialize the path and the roadside around
      * 
-     * @return le chemin initialisé
+     * @return the initialized path
      */
     private Coord[] initPath(){
         Coord[] coordList = 
@@ -95,14 +95,14 @@ public class Board {
         ArrayList<String> drop = new ArrayList<>();
  	    drop.add("Shapeless Mass");
  	    drop.add("Craft Fragment");
-        ArrayList<Monster> beginningSlime = new ArrayList<Monster>();
-        beginningSlime.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.00,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
-        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
-        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
-        beginningSlime.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
-        beginningSlime.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        ArrayList<Monster> beginningMob = new ArrayList<Monster>();
+        beginningMob.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.00,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
+        beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
+        beginningMob.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
+        //beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
         
-        boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningSlime));
+        boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningMob));
         
         boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();        
         return coordList;
@@ -110,7 +110,7 @@ public class Board {
 
        
     /**
-     * applique les effets du jours de chaque case
+     * Apply the day effect of each case of the board
      */
     public void dailyEffect() {
     	for(int x=0;x<21;x++){
@@ -121,7 +121,7 @@ public class Board {
     }
     
     /**
-     * applique les effets d'un tour de chaque case
+     * Apply the loop effect of each case of the board
      */
     public void loopEffect() {
     	for(int x=0;x<21;x++){
@@ -132,11 +132,11 @@ public class Board {
     }
     
     /**
-     * Renvoie l'index de la case dans le chemin si il existe
+     * Return the index of the case, if it's in the path
      * 
-     * @param indexY ligne testée
-     * @param indexX colonne testée
-     * @return l'index du chemin si la case est dedans, -1 sinon
+     * @param indexY : the index of the line tested
+     * @param indexX : the index of the column tested
+     * @return the index of the path in the matrix, if it's in, else return -1
      */
     public int getIndexInLoop(int indexY, int indexX) {
     	for (int i=0; i<coordList.length;i++) {
@@ -148,11 +148,11 @@ public class Board {
     }
     
     /**
-     * Effectue le combat si il y a un monstre sur la case ou est le héro
+     * Load the fight, if the hero is on a cell where there is monsters
      * 
-     * @param lootList l'inventaire des ressources
-     * @param CardList l'inventaire des cartes
-     * @return vrai si un combat à eu lieu
+     * @param lootList : All the resources collected by the hero
+     * @param CardList : All cards of the game, split in the deck, and the cards in the player's hand
+     * @return true if there is a fight, else false
      */
     public boolean isFight(RessourcesInventory lootList, CardInventory CardList){
     	AbstractRoad heroTile = (AbstractRoad) boardMatrix[heroY()][heroX()]; 
@@ -160,14 +160,14 @@ public class Board {
     }
 
 	/**
-	 * Augmente le conteur de  tour de 1
+	 * Increase the loop counter by 1
 	 */
 	public void plusloop(){
 		loop+=1;
 	}
 	
     /**
-     * Change l'index du héro sur le chemin
+     * Change the index of the hero in the path to move him
      */
     public void move(){
         position+=1;
@@ -175,30 +175,36 @@ public class Board {
 	}
 
 	/**
-	 * @return la coordonnée X du héro
+	 * Get the x coord of the Hero
+	 * 
+	 * @return the x coord of the Hero
 	 */
 	public int heroX(){
 		return coordList[position].x();
     }
 
 	/**
-	 * @return la coordonnée Y du héro
+	 * Get the y coord of the Hero
+	 * 
+	 * @return the y coord of the Hero
 	 */
 	public int heroY(){
 		return coordList[position].y();
     }
 	
 	/**
-	 * @return la liste des coordonée du chemin
+	 * Get the list of path cell
+	 * 
+	 * @return the list of path cell
 	 */
 	public Coord[] coordList() {
 		return coordList;
 	}
 	
 	/**
-	 * Bouge le héro
+	 * Move the Hero
 	 * 
-	 * @return vrai si le héro passe au feux de camps
+	 * @return true if the hero pass on the campfire, else false
 	 */
 	public boolean moveHero() {
 		position +=1;
@@ -212,21 +218,27 @@ public class Board {
 	
 	
 	/**
-	 * @return la matrice de case
+	 * BoardMatrix Accessor
+	 * 
+	 * @return the board matrix
 	 */
 	public AbstractTile[][] boardMatrix(){
 		return boardMatrix;
 	}
 	
 	/**
-	 * @return le numéro de la boucle
+	 * LoopCounter Accessor 
+	 * 
+	 * @return the loop counter
 	 */
 	public int loop() {
 		return loop;
 	}
 	
 	/**
-	 * @return le hero
+	 * Heor Accessor
+	 * 
+	 * @return hero
 	 */
 	public Hero hero() {
 		return hero;

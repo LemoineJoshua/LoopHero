@@ -97,7 +97,7 @@ public class AbstractRoad extends AbstractTile {
 	 * @param newMonster ajoute un monstre sur la carte
 	 */
 	public void addMob(Monster newMonster){
-        if(aliveMonster.size()<1) {
+        if(aliveMonster.size()<4) {
         	aliveMonster.add(newMonster);
         }
     }

@@ -11,7 +11,7 @@ public class TimeData {
 	
 
 	/**
-	 * Augmente le temps écoulé depuis son dernier appel
+	 * Update the pass time since the last call
 	 */
 	private void tickTock() {
 		long tock = System.currentTimeMillis();
@@ -21,7 +21,9 @@ public class TimeData {
 	}
 
 	/**
-	 * @return le pourcentage de journée écoulé
+	 * Give the time fraction of the day to display
+	 * 
+	 * @return the percentage of day passed
 	 */
 	public double timeFraction() {
 		if (!stopped) {
@@ -31,14 +33,16 @@ public class TimeData {
 	}
 
 	/**
-	 * Remet le temps du jour à 0
+	 * Reset day time 
 	 */
 	public void resetelapsedDay() {
 		elapsedDay = 0;
 	}
 	
 	/**
-	 * @return le temps écoulé du le jour
+	 * Get the elapsed time of the day
+	 * 
+	 * @return the elapsed time of the day
 	 */
 	public long elapsedDay() {
 		if (stopped) {
@@ -49,7 +53,9 @@ public class TimeData {
 	}
 	
 	/**
-	 * @return le temps écoulé depuis la derniere action du hero
+	 * Get the elapsed time since the hero last action
+	 * 
+	 * @return the elapsed time since the hero last action
 	 */
 	public long elapsedHero() {
 		if (stopped) {
@@ -60,14 +66,14 @@ public class TimeData {
 	}
 
 	/**
-	 * Remet le temps depuis la dernière action du hero à 0
+	 * Reset elapsed time since the hero last action
 	 */
 	public void resetElapsedHero() {
 		elapsedHero = 0;
 	}
 
 	/**
-	 * Arrette le temps
+	 * Stop the time
 	 */
 	public void stop() {
 		if (!stopped) {
@@ -77,7 +83,7 @@ public class TimeData {
 	}
 
 	/**
-	 * Relance le temps
+	 * Restart the time progression
 	 */
 	public void start() {
 		stopped = false;
@@ -85,7 +91,7 @@ public class TimeData {
 	}
 	
 	/**
-	 * Diminue la vitesse de passage du temps de 50%
+	 * Divide the time pass speed by half
 	 */
 	public void slower() {
 		if (timeModifier > 0.25) {
@@ -94,7 +100,7 @@ public class TimeData {
 	}
 	
 	/**
-	 * Augmente la vitesse de passage du temps de 50%
+	 * Multiply the time pass speed by two
 	 */
 	public void faster() {
 		if (timeModifier < 4) {
@@ -103,15 +109,9 @@ public class TimeData {
 	}
 	
 	/**
-	 * Fait passer le temps après un combat
-	 */
-	public void fight() {
-		elapsedHero+=2000;
-		elapsedDay+=2000;
-	}
-	
-	/**
-	 * @return true si le temps est stoppé,false sinon
+	 * Check if the time is stopped
+	 * 
+	 * @return true if time is stopped, else false 
 	 */
 	public boolean isStopped() {
 		return stopped;

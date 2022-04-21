@@ -19,14 +19,14 @@ public class GameData {
 	private Integer selectedItemIndex;
 
 	/**
-	 * appelle la fonction dailyEffect des cases stockées dans le board
+	 * Call the function dailyEffect of all board case
 	 */
 	public void dailyEffect() {
 		board.dailyEffect();
 	}
 	
 	/**
-	 * appelle la fonction loopEffect des cases stockées dans le board
+	 * Call the function loopEffect of all board case
 	 */
 	public void loopEffect() {
 		board.loopEffect();
@@ -34,9 +34,9 @@ public class GameData {
 	
 	
 	/**
-	 * Bouge le hero sur la boucle
+	 * Move the Hero on the board d=foolowing the Path
 	 * 
-	 * @return true si le hero passe sur le feu de camp, false sinon
+	 * @return true if the hero pass on campfire, false else
 	 */
 	public boolean moveHero() {
 		boolean heroHasMoved = board.moveHero();
@@ -49,68 +49,88 @@ public class GameData {
 	}
 	
 	/**
-	 * appelle la fonction fight du board
+	 * Call the function fight from the board 
 	 * 
-	 * @return true si il y a eu un combat, false sinon
+	 * @return true if there is a fight, else false
 	 */
 	public boolean isFight() {
 		return board.isFight(ressourcesInventory,cardInventory);
 	}
 	
+	/**
+	 * Check if an item is selected 
+	 * 
+	 * @return true if an item is selected 
+	 */
 	public boolean anItemIsSelected() {
 		return selectedItemIndex != null;
 	}
 	
+	/**
+	 * Unselect the current selected item,  by setting the index to null
+	 */
 	public void unselectItem() {
 		selectedItemIndex = null;
 	}
 	
+	/**
+	 * Select an item, by putting the value of selected item to the index of the item
+	 * 
+	 * @param index : The index of the item we want to select
+	 */
 	public void selectItem(int index) {
 		selectedItemIndex = index;
 	}
 	
+	/**
+	 * Item Selected Index Accessor
+	 * 
+	 * @return the selected item index in the list
+	 */
 	public Integer selectedItemIndex() {
 		return selectedItemIndex;
 	}
 	
 	/**
-	 * @return true si une carte est sélectionée, false sinon
+	 * Check if a card is selected
+	 * 
+	 * @return true if a card is selected, else return false
 	 */
 	public boolean aCardIsSelected() {
 		return selectedCardIndex != null;
 	}
 	
 	/**
-	 * Deselectionne les cartes
+	 * Unselect the current selected card
 	 */
 	public void unselectCard() {
 		selectedCardIndex = null;
 	}
 	
 	/**
-	 * Actualise la carte selectionnee
+	 * Select the card at the indicated index
 	 * 
-	 * @param index position de la carte dans la main du joueur
+	 * @param index : Index in the list of the card we want to select
 	 */
 	public void selectCard(int index) {
 		selectedCardIndex = index;
 	}
 	
 	/**
-	 * @return l'index, de la carte selectionee, dans la main du joueur
+	 * Selected Card Index Accessor
+	 * 
+	 * @return the index of the current selected card
 	 */
 	public Integer selectedCardIndex() {
 		return selectedCardIndex;
 	}
 	
 	/**
-	 * Place la carte selectionnee sur le plateau de jeu si elle peut être placée à l'endroit sélectionné, et renvoie true. 
-	 * Sinon renvoie false,
+	 * Place the selected card, on the board, if the card can be placed at the cell, the player choose.
 	 * 
-	 * @param indexY ligne de placement dans le plateau
-	 * @param indexX colonne de placement dans le plateau
-	 * 
-	 * @return true si la carte est placée, false sinon.
+	 * @param indexY : The ligne of the cell, where we want to place the card
+	 * @param indexX : The column of the cell, where we want to place the card
+	 * @return true if the card is placed, else false
 	 */
 	public boolean placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
@@ -138,28 +158,36 @@ public class GameData {
 	}
 	
 	/**
-	 * @return renvoie le plateau de jeu
+	 * Board Accessor
+	 * 
+	 * @return the game board
 	 */
 	public Board board() {
 		return board;
 	}
 	
 	/**
-	 * @return l'inventaire des ressources
+	 * Ressources Inventory Acesory
+	 * 
+	 * @return the ressources inventory
 	 */
 	public RessourcesInventory ressourcesInventory() {
 		return ressourcesInventory;
 	}
 	
 	/**
-	 * @return l'inventaire des cartes
+	 * Card Inventory Accessor
+	 * 
+	 * @return the card inventory
 	 */
 	public CardInventory cardInventory() {
 		return cardInventory;
 	}
 	
 	/**
-	 * @return l'inventaire des items
+	 * Item Inventory Accessor
+	 * 
+	 * @return the item inventory
 	 */
 	public ItemInventory itemInventory() {
 		return itemInventory;
