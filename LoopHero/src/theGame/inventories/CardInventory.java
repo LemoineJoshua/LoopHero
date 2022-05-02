@@ -7,10 +7,11 @@ public class CardInventory {
 	private final ArrayList<Card> deck;
     private final ArrayList<Card> cardList;
 
+
     /**
-     * Constructeur de Card Inventory,
-     * Initialise la main du joeur et son contenu
-     * Ainsi que le deck et son contenu
+     * Card Inventory constructor
+     * Initialize the player's hand, and the cards inside
+     * And also the deck and the cards inside
      */
     public CardInventory(){
         this.cardList=new ArrayList<Card>();
@@ -21,7 +22,9 @@ public class CardInventory {
     }
 
     /**
-     * @return un deck initialisée
+     * Initialize the deck
+     * 
+     * @return the initialized deck
      */
     private ArrayList<Card> initDeck(){
     	ArrayList<Card> deck = new ArrayList<>();
@@ -40,35 +43,35 @@ public class CardInventory {
     }
     
     /**
-     * Ajoute une carte à la main du joueur
+     * Add a card to the player's hand
      * 
-     * @param carte carte ajoutée à la main du joueur
+     * @param card : the card to had in the player's hand
      */
-    public void add(Card carte){
-        cardList.add(carte);
+    public void add(Card card){
+        cardList.add(card);
         overflowForbidden();
     }
 
     /**
-     * Enleve une carte de la main du joueur
+     * Remove a card from the player's hand
      * 
-     * @param index index de la carte à retirer
+     * @param index : The index of the card to remove
      */
     public void remove(int index){
         cardList.remove(index);
     }
     
     /**
-     * Remet une carte de la main au deck
+     * Put back a card of the player's hand in the deck
      * 
-     * @param myCard La carte à remettre dans le deck
+     * @param myCard : the card to put back in the deck
      */
     public void addCardInDeck(Card myCard) {
     	deck.add(myCard);
     }
     
     /**
-     * Verifie si la main est pleine et enlève une carte dans ce cas
+     * Check if the player's hand is full, and if needed remove the first card of the hand
      */
     public void overflowForbidden() {
     	if (cardList.size()>13) {
@@ -78,14 +81,18 @@ public class CardInventory {
     }
     
     /**
-     * @return la main du joueur
+     * CardList accessor
+     * 
+     * @return the player's hand
      */
     public ArrayList<Card> cardList(){
     	return cardList;
     }
     
     /**
-     * @return le deck
+     * Deck accessor
+     * 
+     * @return the deck
      */
     public ArrayList<Card> deck(){
     	return deck;

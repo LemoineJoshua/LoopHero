@@ -6,23 +6,25 @@ public class ItemInventory {
 	private final ArrayList<Item> inventory;
 	
 	/**
-	 * Constructeur de ItemInventory
+	 * ItemInventory constructor 
 	 */
 	public ItemInventory() {
 		this.inventory=new ArrayList<>();
 	}
 	
 	/**
-	 * @return l'inventaire des items
+	 * Item Inventory accessor
+	 * 
+	 * @return the item inventory
 	 */
 	public ArrayList<Item> itemInventory(){
 		return inventory;
 	}
 	
 	/**
-	 * @param item
-	 * 
-	 * ajoute un item et vérrifie la taille de la liste
+	 * add an item and verify the length of the list
+	 *  
+	 * @param item : the item to add
 	 */
 	public void add(Item item) {
 		System.out.println("le hero a gagné : "+item.type());
@@ -30,13 +32,18 @@ public class ItemInventory {
 		overflowForbidden();
 	}
 	
+	/**
+	 * Remove the item at the indicated index
+	 * 
+	 * @param index : the index of the item to remove
+	 */
 	public void remove(int index){
         inventory.remove(index);
     }
 	
 	
 	/**
-	 * enleve le premier item de l'inventaire si ce dernier est plein
+	 * Remove the first item of the inventory if the inventory is full
 	 */
 	public void overflowForbidden() {
     	if (inventory.size()>12) {

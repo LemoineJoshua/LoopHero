@@ -6,68 +6,68 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class RessourcesInventory {
-    private final ArrayList<String> inventaireRessourceNom;
-	private final ArrayList<Integer> inventaireRessourceQuantite;
+    private final ArrayList<String> inventaireRessourceName;
+	private final ArrayList<Integer> inventaireRessourceQuantity;
 	
 	
 	/**
-	 * Constructeur de l'inventaire des ressources
-	 * Initialise les différentes ressources et met leur quantité à 0
+	 * RessourcesInventory constructor
+	 * Initialize all ressources and put their quantity to 0
 	 */
 	public RessourcesInventory() {
-		this.inventaireRessourceNom = new ArrayList<String>();
+		this.inventaireRessourceName = new ArrayList<String>();
         initName();
-		this.inventaireRessourceQuantite = new ArrayList<Integer>();
-        initQuantitie();
+		this.inventaireRessourceQuantity = new ArrayList<Integer>();
+		initQuantity();
         }
 	
 
     /**
-     * nitialise les différentes ressources
+     * Initialize all ressources
      */
     public void initName(){        
-		inventaireRessourceNom.add("Branches");
-        inventaireRessourceNom.add("Wood");
-        inventaireRessourceNom.add("Pebbles");
-        inventaireRessourceNom.add("Rock");
-        inventaireRessourceNom.add("ScrapMetal");
-        inventaireRessourceNom.add("Metal");
-        inventaireRessourceNom.add("Ration");
-        inventaireRessourceNom.add("FoodSupply");
-        inventaireRessourceNom.add("MemoryFragment");
-        inventaireRessourceNom.add("MemoryBook");
-        inventaireRessourceNom.add("NoticableChange");
-        inventaireRessourceNom.add("Metamorphosis");
-        inventaireRessourceNom.add("Craft Fragment");
-        inventaireRessourceNom.add("Shapeless Mass");
-        inventaireRessourceNom.add("Living Fabric");
+    	inventaireRessourceName.add("Branches");
+    	inventaireRessourceName.add("Wood");
+    	inventaireRessourceName.add("Pebbles");
+    	inventaireRessourceName.add("Rock");
+    	inventaireRessourceName.add("ScrapMetal");
+    	inventaireRessourceName.add("Metal");
+    	inventaireRessourceName.add("Ration");
+    	inventaireRessourceName.add("FoodSupply");
+    	inventaireRessourceName.add("MemoryFragment");
+    	inventaireRessourceName.add("MemoryBook");
+    	inventaireRessourceName.add("NoticableChange");
+    	inventaireRessourceName.add("Metamorphosis");
+    	inventaireRessourceName.add("Craft Fragment");
+    	inventaireRessourceName.add("Shapeless Mass");
+    	inventaireRessourceName.add("Living Fabric");
     }
 
     /**
-     * Met les quantitées des ressources à 0
+     * Put the quantity of each ressources to 0
      */
-    public void initQuantitie(){
+    public void initQuantity(){
         for (int i=0; i<15; i++){
-            inventaireRessourceQuantite.add(0);
+        	inventaireRessourceQuantity.add(0);
         }
     }
 
     /**
-     * Ajoute des ressources à l'inventaire
+     * Add ressources to the inventory
      * 
-     * @param name nom de la ressource à ajouter
-     * @param quantitie quantite à ajouter
+     * @param name : the name of the added ressource 
+     * @param quantity : the quantity to add
      */
-    public void addRessources(String name, int quantitie){
-        int indexRessource=inventaireRessourceNom.indexOf(name);
-        inventaireRessourceQuantite.set(indexRessource,inventaireRessourceQuantite.get(indexRessource)+quantitie);   
+    public void addRessources(String name, int quantity){
+        int indexRessource=inventaireRessourceName.indexOf(name);
+        inventaireRessourceQuantity.set(indexRessource,inventaireRessourceQuantity.get(indexRessource)+quantity);   
     }
     
     /**
-     * Affiche la liste des ressources du joueur
+     * Draw the ressource list 
      * 
-     * @param x abscisse 
-     * @param y ordonnée
+     * @param x : the beginning x coord
+     * @param y : the beginning y coord
      * @param graphics Objet de dessin
      * @param squareSize Taille d'un carré de du plateau (taille de référence)
      */
@@ -75,7 +75,7 @@ public class RessourcesInventory {
     	graphics.setColor(Color.WHITE);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));		
     	for(int i = 0;i<15;i++) {
-    		graphics.drawString(inventaireRessourceNom.get(i)+" : "+ inventaireRessourceQuantite.get(i), x , y+i*squareSize/2 );
+    		graphics.drawString(inventaireRessourceName.get(i)+" : "+ inventaireRessourceQuantity.get(i), x , y+i*squareSize/2 );
     	}
     }
 }

@@ -6,6 +6,18 @@ public abstract class AbstractEntities {
 	
 	protected final HashMap<String,Double> stats;
 	
+
+	/**
+	 * Abstract Entities Constructor
+	 * 
+	 * @param hp : The entity max hp and current hp at his creation
+	 * @param strength : The entity strength
+	 * @param defense : The entity defense
+	 * @param counterAttack : The entity chance to counter attack
+	 * @param regen : The entity regen
+	 * @param evade : The entity chance to evade 
+	 * @param vampirism : The entity vampirism percentage
+	 */
 	public AbstractEntities(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
 		this.stats=new HashMap<String,Double>() {{
 			put("maxHp",hp);
@@ -20,12 +32,19 @@ public abstract class AbstractEntities {
 	}
 	
 	
+	/**
+	 * Damage accessor
+	 * 
+	 * @return the entity damage
+	 */
 	public int damage() {
 		return stats.get("strength").intValue();
 	}
     
     /**
-     * @param lostHP les hp que l'entite doit perdre
+     * Get the hp the entity lost, calculated with the ennemy damage and entity defense
+     * 
+     * @param lostHP : the amount of hp the entity has lost
      */
     public int lossHp(int lostHP){
     	int damage=(int) ((lostHP)-stats.get("defense")) ;
@@ -36,10 +55,11 @@ public abstract class AbstractEntities {
     	return damage;
     }
     
-    /**
-     * @param damage les dégats que l'entite inflige
+    /*
+     * Regen the entity with his vampirism
      * 
-     * Regenere l'entite en fonction de son vampirisme
+     * @param damage : the damage, the entity has made
+     *
      */
     public int vampirismRegen(int damage) {
     	stats.put("hp",(double) Math.round(stats.get("hp")+damage*stats.get("vampirism")));
@@ -50,14 +70,18 @@ public abstract class AbstractEntities {
     }
     
     /**
-     * @return true si l'entite esquive, false sinon
+     * Check if the entity has evade
+     * 
+     * @return true if the enity evade, else false
      */
     public boolean doEvade() {
     	return stats.get("evade")>Math.random();
     }
     
     /**
-     * @return true si l'entite contre attaque, false sinon
+     * Check if the entity counter attack
+     * 
+     * @return true if the entity counter attack, else false
      */
     public boolean doCounter() {
     	return stats.get("counterAttack")>Math.random();
@@ -65,21 +89,25 @@ public abstract class AbstractEntities {
     
     
     /**
-     * @return le pourcentage de pv restant
+     * Get the percentage of hp, the entity has
+     * 
+     * @return the percentage of hp of the entity
      */
     public double hpPercentage() {
     	return stats.get("hp")/stats.get("maxHp");
     }
     
     /**
-     * @return true si l'entite est vivante, false sinon
+     * Check if the entity is alive
+     * 
+     * @return true true if the entity is alive, else false
      */
     public boolean isDead() {
     	return stats.get("hp")<=0;
     }
     
     /**
-     * regenere les pv en fonction de la stat regen
+     * Regen the hp, using the regen stat of the entity
      */
     public void regenTurn() {
     	stats.put("hp", (double) Math.round(stats.get("hp") + stats.get("hp")*(stats.get("regen"))));
@@ -87,34 +115,75 @@ public abstract class AbstractEntities {
     		stats.put("hp", stats.get("maxHp"));
     	}
     }
+    
+    /**
+     * MaxHp accessor
+     * 
+     * @return the maxHp of the entity
+     */
     public long maxHp() {
     	return stats.get("maxHp").longValue();
     }
     
+    /**
+     * Hp accessor
+     * 
+     * @return the hp of the entity
+     */
     public long hp() {
 		return stats.get("hp").longValue();
 	}
     
+    /**
+     * Strength accessor
+     * 
+     * @return the strength of the entity
+     */
     public double strength() {
     	return stats.get("strength");
     }
     
+    /**
+     * Defense accessor
+     * 
+     * @return the defense of the entity
+     */
     public double defense() {
     	return stats.get("defense");
     }
     
+    /**
+     * counterAtack Chance accessor
+     * 
+     * @return the percentage of chance the enity had to counter attack
+     */
     public double counterAttack() {
     	return stats.get("counterAttack");
     }
     
+    /**
+     * Regen accessor
+     * 
+     * @return the regen of the entity
+     */
     public double regen() {
     	return stats.get("regen");
     }
     
+    /**
+     * Evade Chance accessor
+     * 
+     * @return the percentage of chance the enity had to evade
+     */
     public double evade() {
     	return stats.get("evade");
     }
     
+    /**
+     * Vampirism regen accessor
+     * 
+     * @return the vampirsm regen percentage of the entity
+     */
     public double vampirism() {
     	return stats.get("vampirism");
     }

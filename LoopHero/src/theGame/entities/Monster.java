@@ -10,6 +10,22 @@ public class Monster extends AbstractEntities{
     private final String picture;
     private final String pictureFight;
 
+    /**
+	 * Abstract Entities Constructor
+	 * 
+	 * @param hp : The monster max hp and current hp at his creation
+	 * @param strength : The monster strength
+	 * @param defense : The monster defense
+	 * @param counterAttack : The monster chance to counter attack
+	 * @param regen : The monster regen
+	 * @param evade : The monster chance to evade 
+	 * @param vampirism : The monster vampirism percentage
+     * @param chanceSpawn : The percentage of chance, the monster got to spawn each day
+     * @param chanceCard : The percentage of chance, the monster got to drop a card
+     * @param drop : The list of ressources, the monster can drop
+     * @param picture : The path to the picture of the monster, when he is on the board
+     * @param pictureFight : The path to the picture of the monster, when he is in fight
+     */
     public Monster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight){
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
         this.chanceSpawn=chanceSpawn;
@@ -20,41 +36,54 @@ public class Monster extends AbstractEntities{
     }
 
     /**
-     * @return true si le mob spawn, false sinon
+     * Check if a mob spawn
+     * 
+     * @return true if the mob spawn0, else false
      */
     public boolean doSpawn(){
     	return chanceSpawn > Math.random();
     }
     
     /**
-     * @return true si le mob drop une carte, false sinon
+     * Check if mob drop a card or not
+     * 
+     * @return true if the mob drop a card, else false
      */
     public boolean dropCard() {
     	return chanceCard > Math.random();
     }
     
     /**
-     * @return les drops du monstre
+     * drop accessor
+     * 
+     * @return the drops of the monster
      */
     public ArrayList<String> drop(){
     	return drop;
     }
     
     /**
-	 * @return l'image du mob
+     * Picture accessor
+     * 
+	 * @return the picture path
 	 */
 	public String picture() {
 		return picture;
 	}
 	
+	/**
+	 * Picture Fight accessor
+	 * 
+	 * @return the picture in fight path
+	 */
 	public String pictureFight() {
 		return pictureFight;
 	}
 
 	/**
-	 * @param loopNumber
+	 * Refresh the stats of the monster at the current loop.
 	 * 
-	 * actualise les stats du montre en fonction du tour de boucle
+	 * @param loopNumber : The number of the current loop
 	 */
 	public void fightStats(int loopNumber){
 		stats.put("strength",(double) Math.round(stats.get("strength")* loopNumber * 0.95 * (1+(loopNumber-1)*0.02)));

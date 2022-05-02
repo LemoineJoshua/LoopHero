@@ -137,16 +137,8 @@ public class GameView {
 		}
 		
 		// Draw the red Zone with hero's stats
-		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
-		img = stringToImage("pictures/HUD/Hud3.png");
-		double yStuffStat = yStuffCell+4*cellSize;
-		
-		graphics.drawString("Mes Statistiques",(float) (5*width/6 +10),(float) yStuffStat-10);
-		scaling = new AffineTransformOp(AffineTransform
-				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-yStuffStat) / (double) img.getHeight()),
-				AffineTransformOp.TYPE_BILINEAR);
-		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(yStuffStat));		
-		drawStats(gameData.board().hero(), yStuffStat);	
+		double yStuffStat = yStuffCell+4*cellSize;				
+		drawStats(gameData.board().hero(), yStuffStat, fontSize);	
 	}
 		
 	/**
@@ -253,7 +245,15 @@ public class GameView {
 	 * @param hero : The hero, his inventories and his stats
 	 * @param y : the coord y of the beginning of the stats zone
 	 */
-	private void drawStats(Hero hero, double y) {
+	private void drawStats(Hero hero, double y, int fontSize) {
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
+		BufferedImage img = stringToImage("pictures/HUD/Hud3.png");
+		graphics.drawString("Mes Statistiques",(float) (5*width/6 +10),(float) y-10);
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-y) / (double) img.getHeight()),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(img, scaling, (int)Math.round(5*width/6), (int) Math.round(y));
+		
 		int zoneHeigth = (int) (heigth-y);
 		graphics.setColor(Color.WHITE);
 		graphics.drawString("HP : " +hero.hp()+"/"+hero.maxHp()+"HP",(float) (5*width/6 + 20),(float) y+1*zoneHeigth/8);
@@ -734,6 +734,7 @@ public class GameView {
 		graphics.setColor(Color.WHITE);
 		graphics.drawLine(xStatFightZone, yFightZone, xStatFightZone, yFightZone+heigthFightZone);
 		graphics.drawLine(xStatFightZone, yTerminalZone, xFightZone+widthFightZone, yTerminalZone);		
+		drawStats(hero, yPlayingZone+6*((1*width/6)/4),(int)(((1*width/6)/4))/3);
 	}
 	
 	/**

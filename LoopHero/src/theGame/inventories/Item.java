@@ -17,6 +17,20 @@ public class Item {
 	private final BufferedImage image;
 	private final String type;
 	
+	/**
+	 * Item constructor
+	 * 
+	 * @param hp : The item max hp stat
+	 * @param strength : The item strength
+	 * @param defense : The item defense
+	 * @param counterAttack : The item chance to counter attack
+	 * @param regen : The item regen
+	 * @param evade : The item chance to evade 
+	 * @param vampirism : The item vampirism percentage
+	 * @param rarity : The item rarity
+	 * @param image : The path to the item picture
+	 * @param type : the type of the item
+	 */
 	public Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type) {
 		this.stats=new HashMap<String,Double>() {{
 			put("maxHp",(double) Math.round(hp));
@@ -33,12 +47,14 @@ public class Item {
 	}
 	
 	/**
-	 * @param pictureName
-	 * @return l'image contenue dans le dossier 'pictureName'
+	 * Change to path to the image to a bufferedImage
+	 * 
+	 * @param picturePath : the path of the item picture
+	 * @return the picture at the indicated path
 	 */
-	public BufferedImage stringToImage(String pictureName) {
-		Path path = Path.of(pictureName);
-		if (pictureName.equals("")) {return null;}
+	public BufferedImage stringToImage(String picturePath) {
+		Path path = Path.of(picturePath);
+		if (picturePath.equals("")) {return null;}
 		try (InputStream in = Files.newInputStream(path)) {
 			BufferedImage img = ImageIO.read(in);
 			return img;
@@ -48,32 +64,49 @@ public class Item {
 	}
 
 	/**
-	 * @return les stats de l'objet
+	 * Stats accessor
+	 * 
+	 * @return the item statistics
 	 */
 	public HashMap<String,Double> stats(){
 		return stats;
 	}
 
 	/**
-	 * @return l'iamge de l'item
+	 * Picture accessor
+	 * 
+	 * @return the picture of the item
 	 */
 	public BufferedImage getImage() {
 		return image;
 	}
 	
+	/**
+	 * Type accessor
+	 * 
+	 * @return the type of the item
+	 */
 	public String type() {
 		return type;
 	}
 	
+	/**
+	 * Rarity accessor
+	 * 
+	 * @return the rarity of the item
+	 */
 	public int rarity() {
 		return rarity;
 	}
 	
 	
+	/**
+	 * The function to print correctly the item
+	 */
 	@Override
 	public String toString() {
 		String retour = "";
-		for(Map.Entry entree : stats.entrySet()) {
+		for(Map.Entry<String,Double> entree : stats.entrySet()) {
 			retour+=(" stat : "+entree.getKey() + " | value : "+entree.getValue());
 		}
 		return retour;
