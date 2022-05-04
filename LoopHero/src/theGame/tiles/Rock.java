@@ -5,13 +5,13 @@ import theGame.boardGame.Board;
 public class Rock extends AbstractTile {
 
 	/**
-	 * Constructeur du Rock,
-	 * Vérifie toutes les cartes autours pour appliquer sa synergie avec d'autre Rock
-	 * et faire fleurir les Meadow autour
+	 * rock constructor
+	 * Check all tiles around to apply the synergy with the others Rock
+	 * and bloom the Meadow around 
 	 * 
-	 * @param board le plateau de jeu
-	 * @param y sa ligne
-	 * @param x sa colonne
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 * @param y : the cell line
+	 * @param x : the cell column
 	 */
 	public Rock(Board board, int y,int x) {
 		super("Field","pictures/Tiles/rock.png"); 
@@ -30,6 +30,11 @@ public class Rock extends AbstractTile {
 		
 	}
  
+	/**
+	 * Check if the cell is Empty, which mean we could place a card on it
+	 * 
+	 * @return true if the cell is empty, false else
+	 */
 	@Override
 	public boolean isEmpty() {
 		return false;

@@ -14,10 +14,10 @@ public abstract class AbstractTile {
 	protected BufferedImage picture;
 	
 	/**
-	 * Constructeur de la classe AbstracTile qui représente toute les cases du plateau de jeu
+	 * AbstractTile constructor, which represent every tile on the gameboard
 	 * 
-	 * @param type type de la case (road/sideRoad/Field)
-	 * @param pathToPicture Le chemin vers l'image de la case
+	 * @param type : Type of the tile (road/roadside/field)
+	 * @param pathToPicture : The path to the picture of the tile
 	 */
 	public AbstractTile(String type, String pathToPicture) {
 		this.type = type;
@@ -27,10 +27,11 @@ public abstract class AbstractTile {
 	
 	
 	/**
-	 * Fonction permettant de récupérer l'image avec son chemin
 	 * 
-	 * @param pictureName chemin de l'image que l'on veut avoir
-	 * @return Une image créee à partir du chemin fourni
+	 * A function which transform the path of the picture to a buffered imagae
+	 * 
+	 * @param pictureName : the path to picture we want
+	 * @return the buffered image at the precised path
 	 */
 	public BufferedImage stringToImage(String pictureName) {
 		Path path = Path.of(pictureName);
@@ -43,18 +44,22 @@ public abstract class AbstractTile {
 		}
 	}
 	
+	/**
+	 * picture accessor
+	 * 
+	 * @return the picture of the tile
+	 */
 	public BufferedImage picture() {
 		return picture;
 	}
 	
 	
 	/**
-	 * Regarde tout autour de la case si il y a une tuile 'Meadow'
-	 * a faire fleurir (synergie)
+	 * Check every cell around, to know if there is a Meadow tile to bloom (synergy)
 	 * 
-	 * @param board le plateau de jeu
-	 * @param x la colonne de la case
-	 * @param y la ligne de la case
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 * @param x : the column of the cell
+	 * @param y : the line of the cell
 	 */
 	public void searchMeadowtoBloom(Board board, int x, int y) {
 		for (int i= x-1;i<x+2; i+=2) {
@@ -75,29 +80,33 @@ public abstract class AbstractTile {
 	
 	
 	/**
-	 * Fonction représentant l'effet du jour d'une tuile
+	 * Apply the daily effect of the tile
 	 * 
-	 * @param board le plateau de jeu
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
 	 */
 	public void dailyEffect(Board board){}
 	
 	/**
-	 * Fonction représentant l'effet d'un tour de boucle  d'une tuile
+	 * Apply the loop effect of the tile
 	 * 
-	 * @param board le plateau de jeu
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
 	 */
 	public void loopEffect(Board board){}
 	
 	
 	/**
-	 * @return true si la case est vide false sinon
+	 * Check if the cell is Empty, which mean we could place a card on it
+	 * 
+	 * @return true if the cell is empty, false else
 	 */
 	public boolean isEmpty(){
 		return true;
 	}
 	
 	/**
-	 * @return le type de la case (road/sideRoad/Field)
+	 * Type accessor
+	 * 
+	 * @return the type of the tile (road/roadSide/field)
 	 */
 	public String type() {
 		return type;

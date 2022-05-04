@@ -8,12 +8,16 @@ import theGame.entities.Monster;
 public class CampFire extends AbstractRoad{
 
 	/**
-	 * Le feu de camps, soigne le joueur à chaque boucle
+	 * The CampFire constructor
+	 * The Campfire heal the player at each loop beginning
 	 */
 	public CampFire() {
 		super("pictures/Tiles/campFire.png",new ArrayList<Monster>());
 	}
 	
+	/**
+	 * Check if the cell is Empty, which mean we could place a card on it
+	 */
 	@Override
 	public boolean isEmpty() {
 		return false;
@@ -21,7 +25,8 @@ public class CampFire extends AbstractRoad{
 	
 	//@Override
 	/**
-	 *Soigne les pv du héro à chaque tour 
+	 * The loop effect of the Campfire
+	 * Heal the Hero at each beginning of a loop
 	 */
 	public void loopEffect(Board board){
 		board.hero().regenHPloop();		

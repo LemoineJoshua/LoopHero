@@ -8,18 +8,24 @@ import theGame.entities.Monster;
 public class Wastelands extends AbstractRoad{
 	
 	/**
-	 * Une case de chemin 'vide', peut faire apparaitre des slime
+	 * WasteLands constructor
+	 * A empty path cell, which can spawn slime
 	 */
 	public Wastelands() {
 		super("pictures/Tiles/chemin.png",new ArrayList<Monster>());
 	}
 	
+	/**
+	 * WasteLands constructor
+	 * A empty path cell, which can spawn slime
+	 */
 	public Wastelands(ArrayList<Monster> monsterList) {
 		super("pictures/Tiles/chemin.png",monsterList);
 	}
     
    /**
-    *5% de chance qu'un slime spawn tout les jours
+    * Apply the daily effect of the tile each day
+    * Got 5% chance to spawn a slime each day
     */
 	@Override
    public void dailyEffect(Board board) {

@@ -13,11 +13,11 @@ public class AbstractRoad extends AbstractTile {
 	private final ArrayList<Monster> aliveMonster;
 	
 	/**
-	 * Constructeur d'une abstractRoad
-	 * initialise sont image, son type, et les monstres dessus
+	 * Abstract Road constructor
+	 * Initialize the tile picture, her type and the mob thaht can spawn on it
 	 * 
-	 * @param img l'image de la carte 
-	 * @param aliveMonster les monstres sur la tuile avant le placage de carte
+	 * @param img The tile picture
+	 * @param aliveMonster The mob alive on the tile, before we place the card on it
 	 */
 	public AbstractRoad(String img, ArrayList<Monster> aliveMonster) {
 		super("Road",img);
@@ -31,23 +31,26 @@ public class AbstractRoad extends AbstractTile {
 	
 	
 	/**
-	 * @return true si il y à un combat, false sinon
+	 * Check if there is a monster on the tile to start fight
+	 * 
+	 * @return true if there is a fight, else false
 	 */
 	public boolean isFight() {
 		return !aliveMonster.isEmpty();
 	}
 	
-	/**
-	 * Vide les mobs de la case à la fin d'un combat.
-	 * Gère les loot et les branches du grove (seule carte ayant ce type de comportement)
+	/***
+	 * Remove every mob on the tile at the end of a fight
+	 * Give every loot, and the branches if it's a grove (because it's the only  card with this behavior)
 	 * 
-	 * 
-	 * @param lootList l'inventaire des ressources
-	 * @param cardInventory l'inventaire des cartes
+	 * @param lootList : All the resources collected by the hero
+	 * @param cardInventory : All cards of the game, split in the deck, and the cards in the player's hand
+	 * @param itemInventory : Inventory that contains all the equipment the hero has collected, which can now be equipped.
+	 * @param loop : The current loop number
 	 */
 	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory,ItemInventory itemInventory, int loop){
 		int countBranches = 0;
-		for(Monster mob:aliveMonster) {//comme ça on pourra gérer le drop facilement à la fin du combat quand on vide la case
+		for(Monster mob:aliveMonster) {
 			if(!mob.dropCard()) {
 				
 				double type = Math.random();
@@ -72,29 +75,30 @@ public class AbstractRoad extends AbstractTile {
 			}
 			if (Math.random()>0.5) {countBranches ++;}
 			
-			for(String loot:mob.drop()) { //en fait ils loots tout le temps des ressources
+			for(String loot:mob.drop()) { 
 				lootList.addRessources(loot, 5);
 			}
 		}
-		
-		
-		
+				
 		if (this instanceof Grove) {
 			lootList.addRessources("Branches", 1+countBranches);
 		}
-		
 		aliveMonster.clear();
 	}
 	
 	/**
-	 * @return la liste des monstres sur la carte
+	 * aliveMonster accessor
+	 * 
+	 * @return the list of all living monster on this tile
 	 */
 	public ArrayList<Monster> aliveMonster(){
 		 return aliveMonster;
 	}
 	
 	/**
-	 * @param newMonster ajoute un monstre sur la carte
+	 * Add a mob in the aliveMonster list
+	 * 
+	 * @param newMonster : the mob we want to add
 	 */
 	public void addMob(Monster newMonster){
         if(aliveMonster.size()<4) {
@@ -103,9 +107,9 @@ public class AbstractRoad extends AbstractTile {
     }
 	
 	/**
-	 * Gère les effets lorsque le hero arrive sur une case
+	 * Deal with all effect that happened, when the hero come on a tile 
 	 * 
-	 * @param gameData données du jeux
+	 * @param gameData : All the data used in the game
 	 */
 	public void enteringEffect(GameData gameData) {}
 	
