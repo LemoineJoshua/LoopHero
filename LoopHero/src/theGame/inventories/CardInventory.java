@@ -18,6 +18,7 @@ public class CardInventory {
         cardList.add(new Card("meadow","Field","pictures/Card/MeadowCard.png"));
         cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
         cardList.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
+        cardList.add(new Card("cemetery","Road","pictures/Card/CemeteryCard.png"));
         this.deck = initDeck();
     }
 
@@ -28,7 +29,7 @@ public class CardInventory {
      */
     private ArrayList<Card> initDeck(){
     	ArrayList<Card> deck = new ArrayList<>();
-    	for (int i =0; i<3;i++) { // A chaque fois une de moins que dans le deck car il y'en a une dans la main.
+    	for (int i =0; i<3;i++) { // Each time, one less in the deck because there is already one in the player hand.
     		deck.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
     	}
     	
@@ -38,6 +39,10 @@ public class CardInventory {
     	
     	for (int i =0; i<11;i++) {
     		deck.add(new Card("rock","Field","pictures/Card/RockCard.png"));
+    	}
+    	
+    	for (int i =0; i<2; i++) {
+    		deck.add(new Card("cemetery","Road","pictures/Card/CemeteryCard.png"));
     	}
     	return deck;
     }

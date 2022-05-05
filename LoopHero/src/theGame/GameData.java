@@ -6,6 +6,7 @@ import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
+import theGame.tiles.Cemetery;
 import theGame.tiles.Grove;
 import theGame.tiles.Meadow;
 import theGame.tiles.Rock;
@@ -150,6 +151,11 @@ public class GameData {
 				case "grove":
 					AbstractRoad tile= (AbstractRoad) board.boardMatrix()[indexY][indexX];
 					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), tile.aliveMonster());
+					break;
+					
+				case "cemetery":
+					AbstractRoad tile2= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Cemetery(board.getIndexInLoop(indexY, indexX), tile2.aliveMonster());
 					break;
 				}
 			return true;

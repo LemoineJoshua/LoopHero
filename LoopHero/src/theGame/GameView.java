@@ -633,9 +633,6 @@ public class GameView {
 		int x = (int)((coordX-(5*width/6)) / cellSize);
 		int y = (int)((coordY-(yPlayingZone+2*cellSize)) / cellSize);
 		int index = (x%4)+(4*y);
-		System.out.println("X vaut : "+x);
-		System.out.println("Y vaut : "+y);
-		System.out.println("Calcul d'index : "+index);
 		return index;
 	}
 	
