@@ -6,10 +6,15 @@ import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
+import theGame.tiles.CampFire;
 import theGame.tiles.Cemetery;
+import theGame.tiles.EmptyField;
+import theGame.tiles.EmptyRoadSide;
 import theGame.tiles.Grove;
 import theGame.tiles.Meadow;
 import theGame.tiles.Rock;
+import theGame.tiles.Ruins;
+import theGame.tiles.Wastelands;
 
 public class GameData {
 	private final Board board = new Board();
@@ -135,7 +140,7 @@ public class GameData {
 	 */
 	public boolean placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
-		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()) && board.boardMatrix()[indexY][indexX].isEmpty()) {
+		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty())||(myCard.type()=="Oblivion" && !(board.boardMatrix()[indexY][indexX].isEmpty())&& !(board.boardMatrix()[indexY][indexX] instanceof CampFire))) {
 			
 			switch (myCard.name()) {
 				case "rock":
@@ -156,6 +161,23 @@ public class GameData {
 				case "cemetery":
 					AbstractRoad tile2= (AbstractRoad) board.boardMatrix()[indexY][indexX];
 					board.boardMatrix()[indexY][indexX]=new Cemetery(board.getIndexInLoop(indexY, indexX), tile2.aliveMonster());
+					break;
+					
+				case "ruins":
+					AbstractRoad tile3= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Ruins(board.getIndexInLoop(indexY, indexX), tile3.aliveMonster());
+					break;
+					
+				case "oblivion":
+					
+					if (board.boardMatrix()[indexY][indexX].type()=="Road") {
+						board.boardMatrix()[indexY][indexX]=new Wastelands();
+					}else if(board.boardMatrix()[indexY][indexX].type()=="RoadSide") {
+						board.boardMatrix()[indexY][indexX]=new EmptyRoadSide();
+					}else if(board.boardMatrix()[indexY][indexX].type()=="Field") {
+						board.boardMatrix()[indexY][indexX]=new EmptyField();
+					}
+					board.boardMatrix()[indexY][indexX].searchMeadowtoUnbloom(board, indexX, indexY);
 					break;
 				}
 			return true;

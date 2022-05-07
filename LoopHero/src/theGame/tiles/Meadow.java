@@ -16,8 +16,11 @@ public class Meadow extends AbstractTile {
 	 */
 	public Meadow(Board board, int y,int x) {
 		super("Field","pictures/Tiles/meadow.png");
+		searchToBloom(x ,y ,board);
+	}
+	
+	public void searchToBloom(int x, int y, Board board) {
 		boolean isBloomingMeadow = false;
-		
 		for (int i= x-1;i<x+2; i+=2) {
 			if(i<0 || i>20) {continue;}
 				if(!(board.boardMatrix()[y][i] instanceof Meadow) && !(board.boardMatrix()[y][i].isEmpty())){
@@ -45,6 +48,12 @@ public class Meadow extends AbstractTile {
 		pathToPicture="pictures/Tiles/bloomingmeadow.png";
 		picture = stringToImage(pathToPicture);
 		heal=3;
+	}
+	
+	public void becomingUnbloom() {
+		pathToPicture="pictures/Tiles/meadow.png";
+		picture = stringToImage(pathToPicture);
+		heal=2;
 	}
 	
 	/**

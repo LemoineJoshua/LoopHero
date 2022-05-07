@@ -84,7 +84,8 @@ public class Fight {
 					
 					if(hero.doCounter()) {					// If the hero counter, then the monster take their own damage
 						lossHp = mob.lossHp(damage);
-						fightProgress.add("-Le héros a contré, Monstre "+monsterNumber+" a subi "+lossHp+" dégâts.");
+						fightProgress.add("-Le héros a contré, ");
+						fightProgress.add("Monstre "+monsterNumber+" a subi "+lossHp+" dégâts.");
 					}else {
 						lossHp = hero.lossHp(damage); 		// Else hero loss Hp, calculated with his defense and mob damage.
 						fightProgress.add("-Le héros a subi "+lossHp+" dégâts.");
@@ -126,7 +127,8 @@ public class Fight {
 				
 				if(mob.doCounter()) {			// If the monster counter, then the hero take his own attack
 					lossHp = hero.lossHp(damage);
-					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a contré, le héros a subi "+lossHp+" dégâts.");
+					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a contré,");
+					fightProgress.add("Le héros a subi "+lossHp+" dégâts."); 
 				}else {							// Else the monster loss Hp, calculated with his defense and hero damage.
 					lossHp = mob.lossHp(damage);
 					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a subi "+lossHp+" dégâts.");

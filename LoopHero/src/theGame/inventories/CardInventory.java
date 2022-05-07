@@ -19,6 +19,8 @@ public class CardInventory {
         cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
         cardList.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
         cardList.add(new Card("cemetery","Road","pictures/Card/CemeteryCard.png"));
+        cardList.add(new Card("oblivion","Oblivion","pictures/Card/OblivionCard.png"));
+       
         this.deck = initDeck();
     }
 
@@ -43,6 +45,13 @@ public class CardInventory {
     	
     	for (int i =0; i<2; i++) {
     		deck.add(new Card("cemetery","Road","pictures/Card/CemeteryCard.png"));
+    	}
+    	
+    	for (int i =0; i<2; i++) {
+    		deck.add(new Card("ruins","Road","pictures/Card/RuinsCard.png"));
+    	}
+    	for (int i =0; i<1; i++) {
+    		deck.add(new Card("oblivion","Oblivion","pictures/Card/OblivionCard.png"));
     	}
     	return deck;
     }

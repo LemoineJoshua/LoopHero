@@ -9,7 +9,6 @@ import theGame.entities.Monster;
 public class Cemetery extends AbstractRoad {
 	private final int position;
 	private int day = 0;
-	private final Monster skeleton;
 	
 
 	/**
@@ -18,9 +17,6 @@ public class Cemetery extends AbstractRoad {
 	 */
 	public Cemetery(int position,ArrayList<Monster> aliveMonster) {
 		super("pictures/Tiles/cemetery.png", aliveMonster);
-		ArrayList<String> drop = new ArrayList<>();
-		drop.add("MemoryFragment");
-		this.skeleton= new Monster(12,9,0.0,0.0,0.0,0.5,0.0,(float)0.00,(float)0.15,drop,"pictures/Entities/skeleton.png", "pictures/Entities/skeletonFight.png");
 		this.position = position;
 	} 
 	
@@ -42,6 +38,10 @@ public class Cemetery extends AbstractRoad {
 	 */
 	@Override
 	public void dailyEffect(Board board) {
+
+		ArrayList<String> drop = new ArrayList<>();
+		drop.add("PitifulRemains");
+		Monster skeleton= new Monster(12,9,0.0,0.0,0.0,0.5,0.0,(float)0.00,(float)0.15,drop,"pictures/Entities/skeleton.png", "pictures/Entities/skeletonFight.png");
 		if(day%3==0) {
 			this.addMob(skeleton);
 		}

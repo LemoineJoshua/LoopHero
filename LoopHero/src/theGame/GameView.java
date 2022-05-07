@@ -26,6 +26,8 @@ import theGame.inventories.HeroStuff;
 import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
 import theGame.tiles.AbstractRoad;
+import theGame.tiles.CampFire;
+import theGame.tiles.Meadow;
 import theGame.Cards.Card;
 
 public class GameView {
@@ -512,7 +514,7 @@ public class GameView {
 			img = stringToImage("pictures/Tiles/selectRoadSide.png");
 			for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
-	        		if ((myCard.type()==gameData.board().boardMatrix()[y][x].type())&&gameData.board().boardMatrix()[y][x].isEmpty()) {
+	        		if ((myCard.type()==gameData.board().boardMatrix()[y][x].type()&& gameData.board().boardMatrix()[y][x].isEmpty())||(myCard.type()=="Oblivion"  && !(gameData.board().boardMatrix()[y][x].isEmpty()) && !(gameData.board().boardMatrix()[y][x] instanceof CampFire))) {
 	        			drawATile(x, y, img);
 	        		}
 	        		

@@ -36,11 +36,12 @@ public class RessourcesInventory {
     	inventaireRessourceName.add("FoodSupply");
     	inventaireRessourceName.add("MemoryFragment");
     	inventaireRessourceName.add("MemoryBook");
-    	inventaireRessourceName.add("NoticableChange");
+    	inventaireRessourceName.add("NoticeableChange");
     	inventaireRessourceName.add("Metamorphosis");
     	inventaireRessourceName.add("Craft Fragment");
     	inventaireRessourceName.add("Shapeless Mass");
     	inventaireRessourceName.add("Living Fabric");
+    	inventaireRessourceName.add("PitifulRemains");
     }
 
     /**
