@@ -4,6 +4,8 @@ import theGame.boardGame.Board;
 
 public class Rock extends AbstractTile {
 
+	int x;
+	int y;
 	/**
 	 * rock constructor
 	 * Check all tiles around to apply the synergy with the others Rock
@@ -16,7 +18,7 @@ public class Rock extends AbstractTile {
 	public Rock(Board board, int y,int x) {
 		super("Field","pictures/Tiles/rock.png"); 
 				
-		board.hero().modifMaxHP((float) 1.01); //la tuile n'étant pas construite elle n'est pas détectée par la boucle ci dessous
+		board.hero().modifMaxHP((float) (board.hero().maxHp()*0.01)); //la tuile n'étant pas construite elle n'est pas détectée par la boucle ci dessous
 		
 		for(int i=(y-1); i<=(y+1) ;i++) {
 			for(int j=(x-1) ;j<=(x+1) ;j++) {
@@ -26,7 +28,10 @@ public class Rock extends AbstractTile {
 				}
 			}
 		}
+		
 		super.searchMeadowtoBloom(board, x, y);
+		this.x = x;
+		this.y = y;
 		
 	}
  
@@ -38,6 +43,19 @@ public class Rock extends AbstractTile {
 	@Override
 	public boolean isEmpty() {
 		return false;
+	}
+	
+	@Override
+	public void removingEffect(Board board) {
+		for(int i=(y-1); i<=(y+1) ;i++) {
+			for(int j=(x-1) ;j<=(x+1) ;j++) {
+				if(j>20 || j<0 || i<0|| i>11) {continue;}
+				if(board.boardMatrix()[i][j] instanceof Rock){
+					board.hero().modifMaxHP((float) ((-1) * board.hero().maxHp()/101));
+				}
+			}
+		}
+		System.out.println(board.hero().maxHp());
 	}
 	
 }

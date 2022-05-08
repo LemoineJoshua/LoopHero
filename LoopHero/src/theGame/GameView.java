@@ -514,7 +514,7 @@ public class GameView {
 			img = stringToImage("pictures/Tiles/selectRoadSide.png");
 			for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
-	        		if ((myCard.type()==gameData.board().boardMatrix()[y][x].type()&& gameData.board().boardMatrix()[y][x].isEmpty())||(myCard.type()=="Oblivion"  && !(gameData.board().boardMatrix()[y][x].isEmpty()) && !(gameData.board().boardMatrix()[y][x] instanceof CampFire))) {
+	        		if ((myCard.type()==gameData.board().boardMatrix()[y][x].type()&& gameData.board().boardMatrix()[y][x].isEmpty())||(myCard.type()=="Oblivion"  && (gameData.board().boardMatrix()[y][x].isOblivionable()))){
 	        			drawATile(x, y, img);
 	        		}
 	        		

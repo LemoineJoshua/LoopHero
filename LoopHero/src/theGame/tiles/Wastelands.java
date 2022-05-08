@@ -37,5 +37,16 @@ public class Wastelands extends AbstractRoad{
            addMob(slime);
 	   }
    }
+	
+	
+	/**
+	 * Check if we can the oblivion card on this tile
+	 * 
+	 * @return true if we can use it, false else.
+	 */
+	@Override
+	public boolean isOblivionable() {
+		return (super.aliveMonster().size()>0);
+	}
    
 }

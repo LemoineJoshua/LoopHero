@@ -112,6 +112,13 @@ public abstract class AbstractTile {
 	 */
 	public void loopEffect(Board board){}
 	
+	/**
+	 * Remove the effect of the tile, after an oblivion is used
+	 * 
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 */
+	public void removingEffect(Board board) {}
+	
 	
 	/**
 	 * Check if the cell is Empty, which mean we could place a card on it
@@ -129,5 +136,14 @@ public abstract class AbstractTile {
 	 */
 	public String type() {
 		return type;
+	}
+	
+	/**
+	 * Check if we can the oblivion card on this tile
+	 * 
+	 * @return true if we can use it, false else.
+	 */
+	public boolean isOblivionable() {
+		return true;
 	}
 }

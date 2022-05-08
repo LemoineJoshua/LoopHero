@@ -140,7 +140,7 @@ public class GameData {
 	 */
 	public boolean placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
-		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty())||(myCard.type()=="Oblivion" && !(board.boardMatrix()[indexY][indexX].isEmpty())&& !(board.boardMatrix()[indexY][indexX] instanceof CampFire))) {
+		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty())||(myCard.type()=="Oblivion" && board.boardMatrix()[indexY][indexX].isOblivionable())) {
 			
 			switch (myCard.name()) {
 				case "rock":
@@ -169,7 +169,7 @@ public class GameData {
 					break;
 					
 				case "oblivion":
-					
+					board.boardMatrix()[indexY][indexX].removingEffect(board);
 					if (board.boardMatrix()[indexY][indexX].type()=="Road") {
 						board.boardMatrix()[indexY][indexX]=new Wastelands();
 					}else if(board.boardMatrix()[indexY][indexX].type()=="RoadSide") {
