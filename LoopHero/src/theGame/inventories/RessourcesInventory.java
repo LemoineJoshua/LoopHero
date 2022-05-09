@@ -48,7 +48,7 @@ public class RessourcesInventory {
      * Put the quantity of each ressources to 0
      */
     public void initQuantity(){
-        for (int i=0; i<15; i++){
+        for (int i=0; i<16; i++){
         	inventaireRessourceQuantity.add(0);
         }
     }
@@ -75,7 +75,7 @@ public class RessourcesInventory {
     public void drawRessources(int x, int y, Graphics graphics, int squareSize, int fontSize) {
     	graphics.setColor(Color.WHITE);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));		
-    	for(int i = 0;i<15;i++) {
+    	for(int i = 0;i<16;i++) {
     		graphics.drawString(inventaireRessourceName.get(i)+" : "+ inventaireRessourceQuantity.get(i), x , y+i*squareSize/2 );
     	}
     }
