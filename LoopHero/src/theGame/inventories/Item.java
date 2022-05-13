@@ -37,10 +37,10 @@ public class Item {
 			put("maxHp",(double) Math.round(hp));
 			put("strength",(double) Math.round(strength));
 			put("defense",(double) Math.round(defense));
-			put("counterAttack",(double) Math.round(counterAttack));
-			put("regen",(double) Math.round(regen));
-			put("evade",(double) Math.round(evade));
-			put("vampirism",(double) Math.round(vampirism));
+			put("counterAttack",counterAttack);
+			put("regen",(double) regen);
+			put("evade",(double) evade);
+			put("vampirism",(double) vampirism);
 		}};
 		this.rarity=rarity;
 		this.image=stringToImage(image);
@@ -149,7 +149,7 @@ public class Item {
 		}else if(type>0.5){
 			item = new Item(0.0,0.0,4*loop,0.0,0.0,0.0,0.0,0,"","shield");
 		}else if(type>0.25) {
-			item = new Item(((loop*80)+(Math.random()*(loop*80 - loop*100))),0.0,0.0,0.0,0.0,0.0,0.0,0,"","armor");
+			item = new Item(((loop*80)+(Math.random()*(loop*100 - loop*80))),0.0,0.0,0.0,0.0,0.0,0.0,0,"","armor");
 		}else {
 			double defense = 0;
 			double counterAttack = 0;
@@ -161,13 +161,13 @@ public class Item {
 			if(stat>0.80) {
 				defense = loop * 1.5;
 			}else if(stat>0.60) {
-				counterAttack = (8 + (loop - 1) * 4)/100;
+				counterAttack =0.001* (8 + (loop - 1) * 4);
 			}else if(stat>0.40) {
-				regen = (loop * 0.6)/100;
+				regen =0.001*(loop * 0.6);
 			}else if(stat>0.20) {
-				evade = (8 + (loop - 1) * 2)/100;
+				evade =0.001* (8 + (loop - 1) * 2);
 			}else {
-				vampirism = (8 + (loop - 1) * 1.5)/100;
+				vampirism =0.001* (8 + (loop - 1) * 1.5);
 			}
 			
 			item = new Item(0.0,0.0,defense,counterAttack,regen,evade,vampirism,0,"","ring");
@@ -190,7 +190,7 @@ public class Item {
 		double Itemtype = Math.random();
 		if(Itemtype>0.75) {
 			type = "weapon";
-			strength =0.9* (Math.random()*(loop*6 - loop*4));
+			strength =0.9* ((loop*4)+Math.random()*(loop*6 - loop*4));
 			ArrayList<String> newStat = new ArrayList<>();
 			statSup = rollAStat(newStat);
 		}else if(Itemtype>0.5){
@@ -202,35 +202,36 @@ public class Item {
 			
 		}else if(Itemtype>0.25) {
 			type = "armor";
-			hp = 0.9*((loop*80)+(Math.random()*(loop*80 - loop*100)));
+			hp = 0.9*((loop*80)+(Math.random()*(loop*100 - loop*80)));
 			ArrayList<String> newStat = new ArrayList<>();
 			statSup = rollAStat(newStat);
 			
 		}else {
 			type = "ring";
 			double stat = Math.random();
+			System.out.println("stat :"+stat+"\n");
 			if(stat>0.80) {
 				defense = 0.9*loop * 1.5;
 				ArrayList<String> newStat = new ArrayList<>();
 				newStat.add("defense");
 				statSup = rollAStat(newStat);
 			}else if(stat>0.60) {
-				counterAttack = (0.9*(8 + (loop - 1) * 4))/100;
+				counterAttack = 0.01*(0.9*(8 + (loop - 1) * 4));
 				ArrayList<String> newStat = new ArrayList<>();
 				newStat.add("counterAttack");
 				statSup = rollAStat(newStat);
 			}else if(stat>0.40) {
-				regen = (0.9*loop * 0.6)/100;
+				regen = 0.01*(0.9*loop * 0.6);
 				ArrayList<String> newStat = new ArrayList<>();
 				newStat.add("regen");
 				statSup = rollAStat(newStat);
 			}else if(stat>0.20) {
-				evade = (0.9*(8 + (loop - 1) * 2))/100;
+				evade = 0.01*(0.9*(8 + (loop - 1) * 2));
 				ArrayList<String> newStat = new ArrayList<>();
 				newStat.add("evade");
 				statSup = rollAStat(newStat);
 			}else {
-				vampirism = (0.9*(8 + (loop - 1) * 1.5))/100;
+				vampirism = 0.01*(0.9*(8 + (loop - 1) * 1.5));
 				ArrayList<String> newStat = new ArrayList<>();
 				newStat.add("vampirism");
 				statSup = rollAStat(newStat);
@@ -238,19 +239,19 @@ public class Item {
 		}
 		
 		if(statSup.equals("defense")) {
-			defense = (loop * 1.5)/3;
+			defense =0.3* (loop * 1.5);
 		}
 		if(statSup.equals("counterAttack")) {
-			counterAttack = (8 + (loop - 1) * 4)/300;
+			counterAttack =0.03*(8 + (loop - 1) * 4);
 		}
 		if(statSup.equals("regen")) {
-			regen = (loop * 0.6)/300;
+			regen =0.03*(loop * 0.6);
 		}
 		if(statSup.equals("evade")) {
-			evade = (8 + (loop - 1) * 2)/300;
+			evade = 0.03*(8 + (loop - 1) * 2);
 		}
 		if(statSup.equals("vampirism")) {
-			vampirism = (8 + (loop - 1) * 1.5)/300;
+			vampirism = 0.03*(8 + (loop - 1) * 1.5);
 		}
 		
 		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"",type);
@@ -266,14 +267,14 @@ public class Item {
 		double vampirism = 0;
 		int rarity = 2;
 		String type;
-		ArrayList<String> statSup = new ArrayList<>();;
-		double percentage =Math.round(90 + Math.random()*10)/100;
+		ArrayList<String> statSup = new ArrayList<>();
+		ArrayList<String> newStat = new ArrayList<>();
+		double percentage =0.01*(Math.round(80 + (Math.random()*10)));
 		
 		double Itemtype = Math.random();
 		if(Itemtype>0.75) {
 			type = "weapon";
-			strength =percentage* (Math.random()*(loop*6 - loop*4));
-			ArrayList<String> newStat = new ArrayList<>();
+			strength =percentage* ((loop*4)+Math.random()*(loop*6 - loop*4));
 			for(int i=0;i<2;i++) {
 				String tmp = rollAStat(newStat);
 				statSup.add(tmp);
@@ -282,8 +283,8 @@ public class Item {
 			
 		}else if(Itemtype>0.5){
 			type = "shield";
-			defense =percentage* 4*loop;
-			ArrayList<String> newStat = new ArrayList<>();
+			defense =percentage*4*loop;
+			
 			newStat.add("defense");
 			for(int i=0;i<2;i++) {
 				String tmp = rollAStat(newStat);
@@ -293,8 +294,7 @@ public class Item {
 			
 		}else if(Itemtype>0.25) {
 			type = "armor";
-			hp = percentage*((loop*80)+(Math.random()*(loop*80 - loop*100)));
-			ArrayList<String> newStat = new ArrayList<>();
+			hp = percentage*((loop*80)+(Math.random()*(loop*100 - loop*80)));
 			for(int i=0;i<2;i++) {
 				String tmp = rollAStat(newStat);
 				statSup.add(tmp);
@@ -304,9 +304,10 @@ public class Item {
 		}else {
 			type = "ring";
 			double stat = Math.random();
+			System.out.println("stat :"+stat+"\n");
 			if(stat>0.80) {
 				defense = percentage*loop * 1.5;
-				ArrayList<String> newStat = new ArrayList<>();
+
 				newStat.add("defense");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -314,8 +315,8 @@ public class Item {
 					newStat.add(tmp);
 				}
 			}else if(stat>0.60) {
-				counterAttack = (percentage*(8 + (loop - 1) * 4))/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				counterAttack = 0.01*(percentage*(8 + (loop - 1) * 4));
+
 				newStat.add("counterAttack");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -323,8 +324,8 @@ public class Item {
 					newStat.add(tmp);
 				}
 			}else if(stat>0.40) {
-				regen = (percentage*loop * 0.6)/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				regen = 0.01*(percentage*loop * 0.6);
+
 				newStat.add("regen");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -332,8 +333,8 @@ public class Item {
 					newStat.add(tmp);
 				}
 			}else if(stat>0.20) {
-				evade = (percentage*(8 + (loop - 1) * 2))/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				evade = 0.01*(percentage*(8 + (loop - 1) * 2));
+
 				newStat.add("evade");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -341,8 +342,8 @@ public class Item {
 					newStat.add(tmp);
 				}
 			}else {
-				vampirism = (percentage*(8 + (loop - 1) * 1.5))/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				vampirism = 0.01*(percentage*(8 + (loop - 1) * 1.5));
+
 				newStat.add("vampirism");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -356,16 +357,16 @@ public class Item {
 			defense = (loop * 1.5)/2;
 		}
 		if(statSup.contains("counterAttack")) {
-			counterAttack = (8 + (loop - 1) * 4)/200;
+			counterAttack =0.05* (8 + (loop - 1) * 4);
 		}
 		if(statSup.contains("regen")) {
-			regen = (loop * 0.6)/200;
+			regen = 0.05*(loop * 0.6);
 		}
 		if(statSup.contains("evade")) {
-			evade = (8 + (loop - 1) * 2)/200;
+			evade = 0.05*(8 + (loop - 1) * 2);
 		}
 		if(statSup.contains("vampirism")) {
-			vampirism = (8 + (loop - 1) * 1.5)/200;
+			vampirism = 0.05*(8 + (loop - 1) * 1.5);
 		}
 		
 		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"",type);
@@ -382,14 +383,15 @@ public class Item {
 		int rarity = 3;
 		String type;
 		ArrayList<String> statSup = new ArrayList<>();
+		ArrayList<String> newStat = new ArrayList<>();
 		String statSup2 = "";
-		double percentage =Math.round(90 + Math.random()*10)/100;
+		double percentage =0.01*(Math.round(80 + (Math.random()*10)));
 		
 		double Itemtype = Math.random();
 		if(Itemtype>0.75) {
 			type = "weapon";
-			strength =percentage* (Math.random()*(loop*6 - loop*4));
-			ArrayList<String> newStat = new ArrayList<>();
+			strength =percentage* ((loop*4)+Math.random()*(loop*6 - loop*4));
+
 			for(int i=0;i<2;i++) {
 				String tmp = rollAStat(newStat);
 				statSup.add(tmp);
@@ -400,7 +402,7 @@ public class Item {
 		}else if(Itemtype>0.5){
 			type = "shield";
 			defense =percentage* 4*loop;
-			ArrayList<String> newStat = new ArrayList<>();
+
 			newStat.add("defense");
 			for(int i=0;i<2;i++) {
 				String tmp = rollAStat(newStat);
@@ -411,8 +413,8 @@ public class Item {
 			
 		}else if(Itemtype>0.25) {
 			type = "armor";
-			hp = percentage*((loop*80)+(Math.random()*(loop*80 - loop*100)));
-			ArrayList<String> newStat = new ArrayList<>();
+			hp = percentage*((loop*80)+(Math.random()*(loop*100 - loop*80)));
+
 			for(int i=0;i<2;i++) {
 				String tmp = rollAStat(newStat);
 				statSup.add(tmp);
@@ -423,9 +425,10 @@ public class Item {
 		}else {
 			type = "ring";
 			double stat = Math.random();
+			System.out.println("stat :"+stat+"\n");
 			if(stat>0.80) {
 				defense = percentage*loop * 1.5;
-				ArrayList<String> newStat = new ArrayList<>();
+
 				newStat.add("defense");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -434,8 +437,8 @@ public class Item {
 				}
 				statSup2 = rollAStat(newStat); 
 			}else if(stat>0.60) {
-				counterAttack = (percentage*(8 + (loop - 1) * 4))/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				counterAttack = 0.01*(percentage*(8 + (loop - 1) * 4));
+
 				newStat.add("counterAttack");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -444,8 +447,8 @@ public class Item {
 				}
 				statSup2 = rollAStat(newStat); 
 			}else if(stat>0.40) {
-				regen = (percentage*loop * 0.6)/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				regen = 0.01*(percentage*loop * 0.6);
+
 				newStat.add("regen");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -454,8 +457,8 @@ public class Item {
 				}
 				statSup2 = rollAStat(newStat); 
 			}else if(stat>0.20) {
-				evade = (percentage*(8 + (loop - 1) * 2))/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				evade = 0.01*(percentage*(8 + (loop - 1) * 2));
+
 				newStat.add("evade");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -464,8 +467,8 @@ public class Item {
 				}
 				statSup2 = rollAStat(newStat); 
 			}else {
-				vampirism = percentage*((8 + (loop - 1) * 1.5))/100;
-				ArrayList<String> newStat = new ArrayList<>();
+				vampirism =0.01* percentage*((8 + (loop - 1) * 1.5));
+
 				newStat.add("vampirism");
 				for(int i=0;i<2;i++) {
 					String tmp = rollAStat(newStat);
@@ -477,19 +480,19 @@ public class Item {
 		}
 		
 		if(statSup.contains("defense")) {
-			defense = (loop * 1.5)/2;
+			defense = 0.5*(loop * 1.5);
 		}
 		if(statSup.contains("counterAttack")) {
-			counterAttack = (8 + (loop - 1) * 4)/200;
+			counterAttack = 0.05*(8 + (loop - 1) * 4);
 		}
 		if(statSup.contains("regen")) {
-			regen = (loop * 0.6)/200;
+			regen = 0.05*(loop * 0.6);
 		}
 		if(statSup.contains("evade")) {
-			evade = (8 + (loop - 1) * 2)/200;
+			evade = 0.05*(8 + (loop - 1) * 2);
 		}
 		if(statSup.contains("vampirism")) {
-			vampirism = (8 + (loop - 1) * 1.5)/200;
+			vampirism =0.05* (8 + (loop - 1) * 1.5);
 		}
 		
 		
@@ -497,16 +500,16 @@ public class Item {
 			defense = (loop * 1.5);
 		}
 		if(statSup2.equals("counterAttack")) {
-			counterAttack = (8 + (loop - 3) * 4)/100;
+			counterAttack = 0.01*(8 + (loop - 3) * 4);
 		}
 		if(statSup2.equals("regen")) {
-			regen = (loop-2 * 0.6)/100;
+			regen = 0.01*(loop-2 * 0.6);
 		}
 		if(statSup2.equals("evade")) {
-			evade = (8 + (loop - 3) * 2)/100;
+			evade = 0.01*(8 + (loop - 3) * 2);
 		}
 		if(statSup2.equals("vampirism")) {
-			vampirism = (8 + (loop - 3) * 1.5)/100;
+			vampirism = 0.01*(8 + (loop - 3) * 1.5);
 		}
 		
 		
@@ -522,9 +525,9 @@ public class Item {
 		statList.add("evade");
 		statList.add("vampirism");
 		
-		String newStat = statList.get((int)Math.round(Math.random()*6));
+		String newStat = statList.get((int)Math.round(Math.random()*4));
 		while(statsSup.contains(newStat)) {
-			newStat = statList.get((int)Math.round(Math.random()*6));
+			newStat = statList.get((int)Math.round(Math.random()*4));
 		}
 		
 		return newStat;

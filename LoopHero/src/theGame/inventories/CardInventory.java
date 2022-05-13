@@ -17,15 +17,6 @@ public class CardInventory {
         this.cardList=new ArrayList<Card>();
         cardList.add(new Card("meadow","Field","pictures/Card/MeadowCard.png"));
         cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
-        cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
         cardList.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
         cardList.add(new Card("cemetery","Road","pictures/Card/CemeteryCard.png"));
         cardList.add(new Card("ruins","Road","pictures/Card/RuinsCard.png"));
