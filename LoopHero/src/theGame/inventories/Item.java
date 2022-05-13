@@ -238,6 +238,7 @@ public class Item {
 			}
 		}
 		
+		System.out.println(statSup);
 		if(statSup.equals("defense")) {
 			defense =0.3* (loop * 1.5);
 		}

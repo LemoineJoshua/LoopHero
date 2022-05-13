@@ -61,7 +61,7 @@ public class HeroStuff {
 				continue;
 			}
 			Double statAAjouter=newItem.stats().get(statAModif);
-			stats.put(statAModif, stats.get(statAModif)+(int) Math.round(statAAjouter));
+			stats.put(statAModif, stats.get(statAModif)+statAAjouter);
 		}
 	}
 	

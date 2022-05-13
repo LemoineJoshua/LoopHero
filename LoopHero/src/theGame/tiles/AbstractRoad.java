@@ -51,7 +51,7 @@ public class AbstractRoad extends AbstractTile {
 	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory,ItemInventory itemInventory, int loop){
 		int countBranches = 0;
 		for(Monster mob:aliveMonster) {
-			if(!mob.dropCard()) {
+			if(!mob.dropCard()||true) {
 				
 				Item item = Item.getAnItem(loop);
 				itemInventory.add(item);
