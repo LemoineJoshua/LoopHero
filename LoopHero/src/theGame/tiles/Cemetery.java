@@ -41,7 +41,7 @@ public class Cemetery extends AbstractRoad {
 
 		ArrayList<String> drop = new ArrayList<>();
 		drop.add("PitifulRemains");
-		Monster skeleton= new Monster(12,9,0.0,0.0,0.0,0.5,0.0,(float)0.00,(float)0.15,drop,"pictures/Entities/skeleton.png", "pictures/Entities/skeletonFight.png");
+		Monster skeleton= new Monster(12,9,0.0,0.0,0.0,0.05,0.0,(float)0.00,(float)0.15,drop,"pictures/Entities/skeleton.png", "pictures/Entities/skeletonFight.png");
 		if(day%3==0) {
 			this.addMob(skeleton);
 		}

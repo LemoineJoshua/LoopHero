@@ -53,17 +53,7 @@ public class AbstractRoad extends AbstractTile {
 		for(Monster mob:aliveMonster) {
 			if(!mob.dropCard()) {
 				
-				double type = Math.random();
-				Item item;
-				if(type>0.75) {
-					item = new Item(0.0,((loop*4)+(Math.random()*(loop*6 - loop*4))),0.0,0.0,0.0,0.0,0.0,0,"","weapon");
-				}else if(type>0.5){
-					item = new Item(0.0,0.0,4*loop,0.0,0.0,0.0,0.0,0,"","shield");
-				}else if(type>0.25) {
-					item = new Item(((loop*80)+(Math.random()*(loop*80 - loop*100))),0.0,0.0,0.0,0.0,0.0,0.0,0,"","armor");
-				}else {
-					item = new Item(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,"","ring");
-				}
+				Item item = Item.getAnItem(loop);
 				itemInventory.add(item);
 				
 				
