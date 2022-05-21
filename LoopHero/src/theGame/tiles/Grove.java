@@ -41,7 +41,7 @@ public class Grove extends AbstractRoad {
 		ArrayList<String> drop = new ArrayList<>();
 		drop.add("Living Fabric");
 		Monster ratWolf= new Monster(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png");
-		if(day%2d==0) {
+		if(day%2==0) {
 			double test = Math.random();
 			
 			AbstractRoad upperTile=null;
