@@ -280,7 +280,7 @@ public class GameView {
 		BufferedImage img;
 		AffineTransformOp scaling;
 		for (Item item: itemInventory.itemInventory()) {
-			img = stringToImage("pictures/Stuff/"+item.type().toString()+item.rarity()+".png");
+			img = item.getImage();
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -306,7 +306,7 @@ public class GameView {
 		BufferedImage img = stringToImage("pictures/Stuff/shield0.png");
 		AffineTransformOp scaling;
 		if (item!=null) {
-			img = stringToImage("pictures/Stuff/"+item.type()+item.rarity()+".png");
+			img = item.getImage();
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -315,7 +315,7 @@ public class GameView {
 		}
 		item = stuff.get("shield");
 		if (item!=null) {			
-			img = stringToImage("pictures/Stuff/"+item.type()+item.rarity()+".png");
+			img = item.getImage();
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -324,7 +324,7 @@ public class GameView {
 		}
 		item = stuff.get("armor");
 		if (item!=null) {
-			img = stringToImage("pictures/Stuff/"+item.type()+item.rarity()+".png");
+			img = item.getImage();
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -333,7 +333,7 @@ public class GameView {
 		}
 		item = stuff.get("ring");
 		if (item!=null) {
-			img = stringToImage("pictures/Stuff/"+item.type()+item.rarity()+".png");
+			img = item.getImage();
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
