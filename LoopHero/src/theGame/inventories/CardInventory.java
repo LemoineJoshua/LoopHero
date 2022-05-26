@@ -23,6 +23,7 @@ public class CardInventory {
         cardList.add(new Card("oblivion","Oblivion","pictures/Card/OblivionCard.png"));
         cardList.add(new Card("spiderCocoon","RoadSide","pictures/Card/SpiderCocoonCard.png"));
         cardList.add(new Card("vampireMansion","RoadSide","pictures/Card/VampireMansionCard.png"));
+        cardList.add(new Card("battleField","RoadSide","pictures/Card/battleFieldCard.png"));
        
         this.deck = initDeck();
     }
@@ -55,6 +56,18 @@ public class CardInventory {
     	}
     	for (int i =0; i<1; i++) {
     		deck.add(new Card("oblivion","Oblivion","pictures/Card/OblivionCard.png"));
+    	}
+    	
+    	for (int i =0;i<2; i++) {
+    		deck.add(new Card("vampireMansion","RoadSide","pictures/Card/VampireMansionCard.png"));
+    	}
+    	
+    	for (int i =0;i<5; i++) {
+    		deck.add(new Card("spiderCocoon","RoadSide","pictures/Card/SpiderCocoonCard.png"));
+    	}
+    	
+    	for (int i =0;i<1; i++) {
+            deck.add(new Card("battleField","RoadSide","pictures/Card/battleFieldCard.png"));
     	}
     	return deck;
     }

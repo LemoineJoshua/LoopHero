@@ -21,7 +21,7 @@ import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
 import theGame.entities.AbstractEntities;
 import theGame.entities.Hero;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
 import theGame.inventories.HeroStuff;
 import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
@@ -413,7 +413,7 @@ public class GameView {
 			AbstractRoad caseAffiche = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
 			int column = 0;
 			int line = 0;
-			for (Monster mob: caseAffiche.aliveMonster()) {
+			for (AbstractMonster mob: caseAffiche.aliveMonster()) {
 				if (column == 2) {
 					column=0;
 					line++;
@@ -699,7 +699,7 @@ public class GameView {
 	 * @param mobs : The list of all monsters who are in the Fight
 	 * @param fightProgress : A list of sentence which explained the fight
 	 */
-	public void drawFight(ApplicationContext ctx, Hero hero, ArrayList<Monster> mobs, ArrayList<String> fightProgress) {
+	public void drawFight(ApplicationContext ctx, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress) {
 		ctx.renderFrame(graphics -> drawFight(graphics, hero, mobs, fightProgress));
 	}
 	
@@ -711,7 +711,7 @@ public class GameView {
 	 * @param mobs : The list of all monsters who are in the Fight
 	 * @param fightProgress : A list of sentence which explained the fight
 	 */
-	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<Monster> mobs, ArrayList<String> fightProgress) {
+	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress) {
 		this.graphics = graphics;		
 		int xFightZone = xPlayingZone+15;
 		int yFightZone = yPlayingZone +15;
@@ -748,7 +748,7 @@ public class GameView {
 	 * @param hero : The hero, his inventories and his stats
 	 * @param mobs : The list of all monsters who are in the Fight
 	 */
-	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<Monster> mobs) {
+	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<AbstractMonster> mobs) {
 		graphics.setColor(Color.BLACK);
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
 		
@@ -759,7 +759,7 @@ public class GameView {
 		
 		int i=0;
 		int monsterNumber=1;
-		for(Monster mob:mobs) {
+		for(AbstractMonster mob:mobs) {
 			img= stringToImage(mob.pictureFight());
 			drawAnEntityInFight(x+(3*widthZone/5), y+i*heigthZone/5, img, heigthZone);
 			
@@ -823,13 +823,13 @@ public class GameView {
 	 * @param fontSizeText : font size used for the classic text
 	 * @param mobs : The list of all monsters who are in the Fight
 	 */
-	private void drawStatsMob(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<Monster> mobs) {
+	private void drawStatsMob(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, ArrayList<AbstractMonster> mobs) {
 		graphics.setColor(new Color(96, 34, 23));
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
 		graphics.setColor(Color.WHITE);
 		int line = 1;
 		int monsterNumber = 1;
-		for (Monster mob:mobs) {
+		for (AbstractMonster mob:mobs) {
 			if (monsterNumber==3) {
 				x+=widthZone/2;
 				line=1;

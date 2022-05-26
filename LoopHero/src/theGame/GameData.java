@@ -7,6 +7,7 @@ import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
+import theGame.tiles.BattleField;
 import theGame.tiles.CampFire;
 import theGame.tiles.Cemetery;
 import theGame.tiles.EmptyField;
@@ -190,6 +191,10 @@ public class GameData {
 				case "vampireMansion":
 					board.boardMatrix()[indexY][indexX]=new VampireMansion();
 					break;
+				
+				case "battleField":
+					board.boardMatrix()[indexY][indexX]=new BattleField(new Coord(indexX,indexY),board.boardMatrix());
+				
 				}
 			return true;
 		}

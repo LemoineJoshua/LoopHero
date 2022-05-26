@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
+import theGame.entities.ScorchWorm;
 
 public class Ruins extends AbstractRoad {
 	private final int position;
@@ -16,7 +17,7 @@ public class Ruins extends AbstractRoad {
 	 * @param position
 	 * @param aliveMonster
 	 */
-	public Ruins(int position,ArrayList<Monster> aliveMonster) {
+	public Ruins(int position,ArrayList<AbstractMonster> aliveMonster) {
 		super("pictures/Tiles/ruins.png", aliveMonster);
 		
 		this.position = position;
@@ -52,11 +53,9 @@ public class Ruins extends AbstractRoad {
 	 * Spawn a scorch worms in the ruins, each two days
 	 */
 	@Override
-	public void dailyEffect(Board board) {
-		ArrayList<String> drop = new ArrayList<>();
-		drop.add("Living Fabric");		
-		Monster worm= new Monster(10,2.7,0.0,0.10,0.0,0.10,0.0,(float)0.00,(float)0.15,drop,"pictures/Entities/worm.png", "pictures/Entities/wormFight.png");
+	public void dailyEffect(Board board) {	
 		if(day%2==0) {
+			ScorchWorm worm= new ScorchWorm();
 			this.addMob(worm);
 		}
 		day+=1;

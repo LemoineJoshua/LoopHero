@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
+import theGame.entities.RatWolf;
 
 public class Grove extends AbstractRoad {
 	private final int position;
@@ -17,7 +18,7 @@ public class Grove extends AbstractRoad {
 	 * @param position : his position on the board
 	 * @param aliveMonster : the monsters on the cell before the card is place
 	 */
-	public Grove(int position,ArrayList<Monster> aliveMonster) {
+	public Grove(int position,ArrayList<AbstractMonster> aliveMonster) {
 		super("pictures/Tiles/grove.png", aliveMonster);
 		this.position = position;
 	} 
@@ -38,10 +39,8 @@ public class Grove extends AbstractRoad {
 	 */
 	@Override
 	public void dailyEffect(Board board) {
-		ArrayList<String> drop = new ArrayList<>();
-		drop.add("Living Fabric");
-		Monster ratWolf= new Monster(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png");
 		if(day%2==0) {
+			RatWolf ratWolf= new RatWolf();
 			double test = Math.random();
 			
 			AbstractRoad upperTile=null;

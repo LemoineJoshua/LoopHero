@@ -3,7 +3,7 @@ package theGame.boardGame;
 import java.util.ArrayList;
 
 import theGame.entities.Hero;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
@@ -92,10 +92,8 @@ public class Board {
         	}
         } 
         
-        ArrayList<String> drop = new ArrayList<>();
- 	    drop.add("Shapeless Mass");
- 	    drop.add("Craft Fragment");
-        ArrayList<Monster> beginningMob = new ArrayList<Monster>();
+ 	   
+        ArrayList<AbstractMonster> beginningMob = new ArrayList<AbstractMonster>();
         /*
         beginningMob.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.00,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
         beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));

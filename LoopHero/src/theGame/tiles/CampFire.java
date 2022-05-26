@@ -3,7 +3,7 @@ package theGame.tiles;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
 
 public class CampFire extends AbstractRoad{
 
@@ -12,7 +12,7 @@ public class CampFire extends AbstractRoad{
 	 * The Campfire heal the player at each loop beginning
 	 */
 	public CampFire() {
-		super("pictures/Tiles/campFire.png",new ArrayList<Monster>());
+		super("pictures/Tiles/campFire.png",new ArrayList<AbstractMonster>());
 	}
 	
 	/**

@@ -8,12 +8,16 @@ import theGame.GameView;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.Hero;
-import theGame.entities.Monster;
+import theGame.entities.Skeleton;
+import theGame.entities.Vampire;
+import theGame.entities.AbstractMonster;
+import theGame.entities.Ghost;
 import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.AbstractTile;
+import theGame.tiles.BattleField;
 import theGame.tiles.VampireMansion;
 
 public class Fight {
@@ -23,8 +27,9 @@ public class Fight {
 	private final CardInventory cardInventory;
 	private final RessourcesInventory ressources;
 	private final ItemInventory items;
-	private final ArrayList<Monster> mobs;
+	private final ArrayList<AbstractMonster> mobs;
 	private final Hero hero;
+	private boolean battleFieldAround = false;
 	
 	
 	/**
@@ -48,10 +53,21 @@ public class Fight {
 		this.ctx = ctx;
 		
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
-		this.mobs=tile.aliveMonster();
+		
+		this.mobs = new ArrayList<AbstractMonster>();
+		for (AbstractMonster monster:tile.aliveMonster()) {
+			mobs.add(monster);
+		}
+		
 		//System.out.println("---------------------------------");
 		
 		
+		checkAround();
+		
+		
+	}
+	
+	private void checkAround() {
 		AbstractTile[][] matrix = board.boardMatrix();
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
@@ -60,14 +76,13 @@ public class Fight {
 		posibilities.add(new Coord(-1,0));
 		
 		
+		
 		for(Coord coord : posibilities) {
 			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
 				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof VampireMansion) {
-					ArrayList<String> drop = new ArrayList<>();
-					drop.add("PitifulRemains");
-					mobs.add(new Monster(18,5.8,0.0,0.0,0.0,0.10,0.0,1,(float)0.55,drop,"", "pictures/Entities/VampireFight.png"));
+					mobs.add(new Vampire());
 					
-					for(Monster mob : mobs) {
+					for(AbstractMonster mob : mobs) {
 						mob.vampireNearby();
 					}
 					
@@ -76,9 +91,15 @@ public class Fight {
 			}
 		}
 		
+		for(Coord coord : posibilities) {
+			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
+				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof BattleField) {
+					battleFieldAround=true; 
+					break;
+				}
+			}
+		}
 	}
-	
-	
 	/**
 	 * Main function of the class Fight, which is a loop that ends 
 	 * when either the hero is dead or all ennemies are dead.
@@ -87,7 +108,8 @@ public class Fight {
 	 * @return true if the hero win, and false if he loosed.
 	 */
 	public boolean doFight() {
-		for(Monster mob:mobs) {
+		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
+		for(AbstractMonster mob:mobs) {
 			mob.fightStats(board.loop());
 			
 		}
@@ -98,7 +120,7 @@ public class Fight {
 		while(true){
 			//Mobs turn
 			int monsterNumber = 1;
-			for(Monster mob:mobs) {
+			for(AbstractMonster mob:mobs) {
 				if(mob.isDead()) {
 					monsterNumber +=1;
 					continue;		
@@ -129,7 +151,6 @@ public class Fight {
 					monsterNumber +=1;
 					
 				}else {				// If the hero has evade
-					fightProgress.add("=> Monstre "+monsterNumber+" attaque.");
 					fightProgress.add("-Le héros a esquivé.");
 				}
 				
@@ -145,13 +166,13 @@ public class Fight {
 			}
 			
 			// Hero's turn
-			Monster mob=mobs.get(indexAttack);
+			AbstractMonster mob=mobs.get(indexAttack);
+
+			fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
 			if(!mob.doEvade()) {			// Condition to know if the monster has evade the mob attack
 				int damage=hero.damage();
-				fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
 				//System.out.println("les du mob pv avant : " + mob.hp());
 				//System.out.println("damage du hero : "+damage);
-				
 				
 				if(mob.doCounter()) {			// If the monster counter, then the hero take his own attack
 					lossHp = hero.lossHp(damage);
@@ -170,12 +191,19 @@ public class Fight {
 				//System.out.println("les pv du mob après: " + mob.hp());				
 				
 			}else {				// If the hero has evade
-				fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
 				fightProgress.add("-Le Monstre "+(indexAttack+1)+" a esquivé.");
 				//System.out.println("il a esquive");
 			}
 			if(mobs.get(indexAttack).isDead()) {
-				indexAttack++;	
+				if (battleFieldAround && Math.random()>0.5 && !(mobs.get(indexAttack) instanceof Ghost ) && mobs.get(indexAttack).hasASoul()){
+					mobs.remove(indexAttack);
+					mobs.add(indexAttack, new Ghost());
+					mobs.get(indexAttack).fightStats(board.loop());
+					tile.aliveMonster().add(new Ghost());					
+				}else {
+					indexAttack++;	
+				}
+				
 			}
 			
 			//Draw everything that happened during the hero turn
@@ -187,9 +215,8 @@ public class Fight {
 			mob.regenTurn();
 						
 			// Fight end condition
-			if (allMobDead()) {
+			if (indexAttack>(mobs.size()-1)) {
 				//System.out.println("les pv du hero à la fin du combat : "+hero.hp());
-				AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 				tile.clearMob(ressources, cardInventory, items, board.loop());
 				return true;
 			}
@@ -216,7 +243,7 @@ public class Fight {
 	 * @return true if all monsters are dead, else return false
 	 */
 	public boolean allMobDead() {
-		for(Monster mob:mobs) {
+		for(AbstractMonster mob:mobs) {
 			if(!mob.isDead()) {
 				return false;
 			}

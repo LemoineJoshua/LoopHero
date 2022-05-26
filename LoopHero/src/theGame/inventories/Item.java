@@ -181,7 +181,8 @@ public class Item {
 				percentage=0.9;
 				break;
 			default:
-				percentage=0.01*(Math.round(80 + (Math.random()*10)));
+				percentage=0.01*(Math.round(80 + (Math.random()*20))); //
+
 		}
 		
 		
@@ -229,13 +230,13 @@ public class Item {
 			defense = 0.5*(loop * 1.5);
 		}
 		if(statSup.contains("counterAttack")) {
-			counterAttack = 0.05*(8 + (loop - 1) * 4);
+			counterAttack = 0.005*(8 + (loop - 1) * 4);
 		}
 		if(statSup.contains("regen")) {
 			regen = 0.05*(loop * 0.6);
 		}
 		if(statSup.contains("evade")) {
-			evade = 0.05*(8 + (loop - 1) * 2);
+			evade = 0.005*(8 + (loop - 1) * 2);
 		}
 		if(statSup.contains("vampirism")) {
 			vampirism =0.05* (8 + (loop - 1) * 1.5);
@@ -246,13 +247,13 @@ public class Item {
 				defense = (loop * 1.5);
 			}
 			if(statSup2.equals("counterAttack")) {
-				counterAttack = 0.01*(8 + (loop - 3) * 4);
+				counterAttack = 0.001*(8 + (loop - 3) * 4);
 			}
 			if(statSup2.equals("regen")) {
 				regen = 0.01*(loop-2 * 0.6);
 			}
 			if(statSup2.equals("evade")) {
-				evade = 0.01*(8 + (loop - 3) * 2);
+				evade = 0.001*(8 + (loop - 3) * 2);
 			}
 			if(statSup2.equals("vampirism")) {
 				vampirism = 0.01*(8 + (loop - 3) * 1.5);

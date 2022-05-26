@@ -2,7 +2,7 @@ package theGame.tiles;
 
 import java.util.ArrayList;
 import theGame.GameData;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
@@ -10,7 +10,7 @@ import theGame.inventories.RessourcesInventory;
 
 public class AbstractRoad extends AbstractTile {
 
-	private final ArrayList<Monster> aliveMonster;
+	private final ArrayList<AbstractMonster> aliveMonster;
 	
 	/**
 	 * Abstract Road constructor
@@ -19,10 +19,10 @@ public class AbstractRoad extends AbstractTile {
 	 * @param img The tile picture
 	 * @param aliveMonster The mob alive on the tile, before we place the card on it
 	 */
-	public AbstractRoad(String img, ArrayList<Monster> aliveMonster) {
+	public AbstractRoad(String img, ArrayList<AbstractMonster> aliveMonster) {
 		super("Road",img);
 		if (aliveMonster.isEmpty()) {
-			this.aliveMonster = new ArrayList<Monster>();
+			this.aliveMonster = new ArrayList<AbstractMonster>();
 		}else {
 			this.aliveMonster = aliveMonster;
 		}
@@ -50,7 +50,7 @@ public class AbstractRoad extends AbstractTile {
 	 */
 	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory,ItemInventory itemInventory, int loop){
 		int countBranches = 0;
-		for(Monster mob:aliveMonster) {
+		for(AbstractMonster mob:aliveMonster) {
 			if(!mob.dropCard()) {
 				
 				Item item = Item.getAnItem(loop);
@@ -81,7 +81,7 @@ public class AbstractRoad extends AbstractTile {
 	 * 
 	 * @return the list of all living monster on this tile
 	 */
-	public ArrayList<Monster> aliveMonster(){
+	public ArrayList<AbstractMonster> aliveMonster(){
 		 return aliveMonster;
 	}
 	
@@ -90,7 +90,7 @@ public class AbstractRoad extends AbstractTile {
 	 * 
 	 * @param newMonster : the mob we want to add
 	 */
-	public void addMob(Monster newMonster){
+	public void addMob(AbstractMonster newMonster){
         if(aliveMonster.size()<4) {
         	aliveMonster.add(newMonster);
         }

@@ -6,21 +6,15 @@ import theGame.GameData;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
+import theGame.entities.Chest;
 import theGame.entities.Spider;
 
-public class SpiderCocoon extends AbstractTile {
+public class BattleField extends AbstractTile {
 	private final ArrayList<Coord> spawningTiles;
 	
-	/**
-	 * SpiderCocoon constructor
-	 * Initialize the mobs, the mobs that can spawn, and where the spiders can spawn
-	 * 
-	 * @param coord : it's coordinates on the board
-	 * @param matrix : the board 
-	 * @param aliveMonster : the monsters on the cell before the card is place
-	 */
-	public SpiderCocoon(Coord position,AbstractTile[][] matrix) {
-		super("RoadSide","pictures/Tiles/SpiderCocoon.png");
+	
+	public BattleField(Coord position,AbstractTile[][] matrix) {
+		super("RoadSide","pictures/Tiles/battleField.png");
 		
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
@@ -51,12 +45,8 @@ public class SpiderCocoon extends AbstractTile {
 		return false;
 	}
 	
-	
-	/**
-	 * Spawn a spider on  an adjacent tile, each days
-	 */
 	@Override
-	public void dailyEffect(Board board) {
+	public void loopEffect(Board board) {
 		ArrayList<AbstractRoad>trueSpawningTiles= new ArrayList<AbstractRoad>();
 		for (Coord tileCoord: spawningTiles) {
 			AbstractRoad tile = (AbstractRoad) board.boardMatrix()[tileCoord.y()][tileCoord.x()];
@@ -64,15 +54,16 @@ public class SpiderCocoon extends AbstractTile {
 				trueSpawningTiles.add(tile);
 			}
 		}
-		
+		Chest chest= new Chest();	
 		if (trueSpawningTiles.size()>0) {
-			Spider spider= new Spider();		
 			AbstractRoad spawningTile = trueSpawningTiles.get(Math.round((float) Math.random()*(trueSpawningTiles.size()-1)));
-			spawningTile.addMob(spider);
+			spawningTile.addMob(chest);
 		}
 		
-	
 	}
+	
+	
+
 	
 	
 

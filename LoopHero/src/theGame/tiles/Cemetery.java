@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
-import theGame.entities.Monster;
+import theGame.entities.AbstractMonster;
+import theGame.entities.Skeleton;
 
 public class Cemetery extends AbstractRoad {
 	private final int position;
@@ -15,7 +16,7 @@ public class Cemetery extends AbstractRoad {
 	 * @param position
 	 * @param aliveMonster
 	 */
-	public Cemetery(int position,ArrayList<Monster> aliveMonster) {
+	public Cemetery(int position,ArrayList<AbstractMonster> aliveMonster) {
 		super("pictures/Tiles/cemetery.png", aliveMonster);
 		this.position = position;
 	} 
@@ -38,11 +39,8 @@ public class Cemetery extends AbstractRoad {
 	 */
 	@Override
 	public void dailyEffect(Board board) {
-
-		ArrayList<String> drop = new ArrayList<>();
-		drop.add("PitifulRemains");
-		Monster skeleton= new Monster(12,9,0.0,0.0,0.0,0.05,0.0,(float)0.00,(float)0.15,drop,"pictures/Entities/skeleton.png", "pictures/Entities/skeletonFight.png");
 		if(day%3==0) {
+			Skeleton skeleton= new Skeleton();
 			this.addMob(skeleton);
 		}
 		day+=1;

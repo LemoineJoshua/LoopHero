@@ -2,11 +2,11 @@ package theGame.entities;
 
 import java.util.ArrayList;
 
-public class Monster extends AbstractEntities{
+public abstract class AbstractMonster extends AbstractEntities{
 	
     private final float chanceSpawn;
     private final float chanceCard;
-    private final ArrayList<String> drop;
+    protected final ArrayList<String> drop;
     private final String picture;
     private final String pictureFight;
 
@@ -26,7 +26,7 @@ public class Monster extends AbstractEntities{
      * @param picture : The path to the picture of the monster, when he is on the board
      * @param pictureFight : The path to the picture of the monster, when he is in fight
      */
-    public Monster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight){
+    public AbstractMonster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight){
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
@@ -91,9 +91,12 @@ public class Monster extends AbstractEntities{
 		stats.put("hp", stats.get("maxHp"));
 	}
 	
-	public void vampireNearby() {
-		stats.put("vampirism",stats.get("vampirism")+0.1);
+	public boolean hasASoul() {
+		return false;
 	}
+		
+	public void vampireNearby() {}
+	
     
 	
 	
