@@ -11,7 +11,7 @@ public class SpiderCocoon extends AbstractTile {
 	private final ArrayList<Coord> spawningTiles;
 	
 	/**
-	 * Grove constructor
+	 * SpiderCocoon constructor
 	 * Initialize the mobs, the mobs that can spawn, and where the spiders can spawn
 	 * 
 	 * @param coord : it's coordinates on the board

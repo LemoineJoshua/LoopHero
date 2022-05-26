@@ -6,12 +6,15 @@ import java.util.concurrent.TimeUnit;
 import fr.umlv.zen5.ApplicationContext;
 import theGame.GameView;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.Hero;
 import theGame.entities.Monster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
+import theGame.tiles.AbstractTile;
+import theGame.tiles.VampireMansion;
 
 public class Fight {
 	private final ApplicationContext ctx;
@@ -47,6 +50,31 @@ public class Fight {
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 		this.mobs=tile.aliveMonster();
 		//System.out.println("---------------------------------");
+		
+		
+		AbstractTile[][] matrix = board.boardMatrix();
+		ArrayList<Coord> posibilities = new ArrayList<>();
+		posibilities.add(new Coord(0,1));
+		posibilities.add(new Coord(0,-1));
+		posibilities.add(new Coord(1,0));
+		posibilities.add(new Coord(-1,0));
+		
+		
+		for(Coord coord : posibilities) {
+			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
+				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof VampireMansion) {
+					ArrayList<String> drop = new ArrayList<>();
+					drop.add("PitifulRemains");
+					mobs.add(new Monster(18,5.8,0.0,0.0,0.0,0.10,0.0,1,(float)0.55,drop,"", "pictures/Entities/VampireFight.png"));
+					
+					for(Monster mob : mobs) {
+						mob.vampireNearby();
+					}
+					
+					break;
+				}
+			}
+		}
 		
 	}
 	

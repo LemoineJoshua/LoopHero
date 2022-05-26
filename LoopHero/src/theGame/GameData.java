@@ -16,6 +16,7 @@ import theGame.tiles.Meadow;
 import theGame.tiles.Rock;
 import theGame.tiles.Ruins;
 import theGame.tiles.SpiderCocoon;
+import theGame.tiles.VampireMansion;
 import theGame.tiles.Wastelands;
 
 public class GameData {
@@ -184,6 +185,11 @@ public class GameData {
 					
 				case "spiderCocoon":
 					board.boardMatrix()[indexY][indexX]=new SpiderCocoon(new Coord(indexX,indexY),board.boardMatrix());
+					break;
+					
+				case "vampireMansion":
+					board.boardMatrix()[indexY][indexX]=new VampireMansion();
+					break;
 				}
 			return true;
 		}

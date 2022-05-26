@@ -90,6 +90,10 @@ public class Monster extends AbstractEntities{
 		stats.put("maxHp", (double) Math.round(stats.get("maxHp")* loopNumber * 0.95 * (1+(loopNumber-1)*0.02)));
 		stats.put("hp", stats.get("maxHp"));
 	}
+	
+	public void vampireNearby() {
+		stats.put("vampirism",stats.get("vampirism")+0.1);
+	}
     
 	
 	
