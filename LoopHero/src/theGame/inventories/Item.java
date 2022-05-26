@@ -259,8 +259,7 @@ public class Item {
 			}
 		}
 		
-		
-		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"",type);
+		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"pictures/Stuff/"+type+""+rarity+".png",type);
 	}
 	
 }
