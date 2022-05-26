@@ -167,6 +167,7 @@ public class Item {
 		double evade = 0;
 		double vampirism = 0;
 		String type;
+		
 		ArrayList<String> statSup = new ArrayList<>();
 		ArrayList<String> newStat = new ArrayList<>();
 		String statSup2 = "";

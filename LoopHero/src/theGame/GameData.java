@@ -2,6 +2,7 @@ package theGame;
 
 import theGame.Cards.Card;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
@@ -14,6 +15,7 @@ import theGame.tiles.Grove;
 import theGame.tiles.Meadow;
 import theGame.tiles.Rock;
 import theGame.tiles.Ruins;
+import theGame.tiles.SpiderCocoon;
 import theGame.tiles.Wastelands;
 
 public class GameData {
@@ -179,6 +181,9 @@ public class GameData {
 					}
 					board.boardMatrix()[indexY][indexX].searchMeadowtoUnbloom(board, indexX, indexY);
 					break;
+					
+				case "spiderCocoon":
+					board.boardMatrix()[indexY][indexX]=new SpiderCocoon(new Coord(indexX,indexY),board.boardMatrix());
 				}
 			return true;
 		}

@@ -21,6 +21,7 @@ public class CardInventory {
         cardList.add(new Card("cemetery","Road","pictures/Card/CemeteryCard.png"));
         cardList.add(new Card("ruins","Road","pictures/Card/RuinsCard.png"));
         cardList.add(new Card("oblivion","Oblivion","pictures/Card/OblivionCard.png"));
+        cardList.add(new Card("spiderCocoon","RoadSide","pictures/Card/SpiderCocoonCard.png"));
        
         this.deck = initDeck();
     }
