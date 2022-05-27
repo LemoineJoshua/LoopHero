@@ -27,7 +27,7 @@ public class Hero extends AbstractEntities{
      * Regen the hp hero at the end of a loop
      */    
     public void regenHPloop(){
-    	stats.put("hp", (double) Math.round(stats.get("hp")+stats.get("hp")*0.2));
+    	stats.put("hp", (double) Math.round(stats.get("hp")+stats.get("maxHp")*0.2));
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}

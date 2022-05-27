@@ -207,7 +207,7 @@ public class GameView {
 		
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
 		if (equippedStuff!=null) {
-			graphics.drawString("- "+equippedStuff.type()+" "+equippedStuff.rarity(),(float) x,(float) y+line*fontSizeTitle);
+			graphics.drawString("- "+equippedStuff.type()+", rarity "+equippedStuff.rarity()+", lvl "+equippedStuff.loop(),(float) x,(float) y+line*fontSizeTitle);
 			line++;
 			for(Map.Entry entree : equippedStuff.stats().entrySet()){
 				String statName=entree.getKey().toString();
@@ -229,7 +229,7 @@ public class GameView {
 		
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeText));
 		Item selectionnedStuff = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
-		graphics.drawString("- "+selectionnedStuff.type()+" "+selectionnedStuff.rarity(),(float) x,(float) y+line*fontSizeTitle);
+		graphics.drawString("- "+selectionnedStuff.type()+", rarity "+selectionnedStuff.rarity()+", lvl "+selectionnedStuff.loop(),(float) x,(float) y+line*fontSizeTitle);
 		line++;
 		for(Map.Entry entree : selectionnedStuff.stats().entrySet()){
 			String statName=entree.getKey().toString();

@@ -17,6 +17,7 @@ public class Item {
 	private final int rarity;
 	private final BufferedImage image;
 	private final String type;
+	private final int loop;
 	
 	/**
 	 * Item constructor
@@ -31,8 +32,9 @@ public class Item {
 	 * @param rarity : The item rarity
 	 * @param image : The path to the item picture
 	 * @param type : the type of the item
+	 * @param loop: the loop number when we get the item
 	 */
-	private Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type) {
+	private Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type, int loop) {
 		this.stats=new HashMap<String,Double>() {{
 			put("maxHp",(double) Math.round(hp));
 			put("strength",(double) Math.round(strength));
@@ -45,6 +47,7 @@ public class Item {
 		this.rarity=rarity;
 		this.image=stringToImage(image);
 		this.type=type;
+		this.loop=loop;
 	}
 	
 	/**
@@ -100,6 +103,14 @@ public class Item {
 		return rarity;
 	}
 	
+	/**
+	 * Loop Number accesor
+	 * 
+	 * @return the loop number of the item
+	 */
+	public int loop() {
+		return loop;
+	}
 	
 	/**
 	 * The function to print correctly the item
@@ -158,7 +169,7 @@ public class Item {
 		return newStat;
 	}
 	
-	static private Item generalItem(int loop, int rarity) {
+	static private Item classicItem(int loop, int rarity, String type) {
 		double hp = 0;
 		double strength = 0;
 		double defense = 0;
@@ -166,12 +177,12 @@ public class Item {
 		double regen = 0;
 		double evade = 0;
 		double vampirism = 0;
-		String type;
-		
 		ArrayList<String> statSup = new ArrayList<>();
 		ArrayList<String> newStat = new ArrayList<>();
 		String statSup2 = "";
+		
 		double percentage=0;
+		double rarityMultiplier=1;
 		
 		switch(rarity) {
 			case 0:
@@ -179,88 +190,136 @@ public class Item {
 				break;
 			case 1:
 				percentage=0.9;
+				rarityMultiplier=0.33;
 				break;
 			default:
-				percentage=0.01*(Math.round(80 + (Math.random()*20))); //
-
-		}
-		
-		
-		double Itemtype = Math.random();
-		if(Itemtype>0.75) {
-			type = "weapon";
-			strength =percentage* ((loop*4)+Math.random()*(loop*6 - loop*4));
-		}else if(Itemtype>0.5){
-			type = "shield";
-			defense =percentage* 4*loop;
-			newStat.add("defense");
-		}else if(Itemtype>0.25) {
-			type = "armor";
-			hp = percentage*((loop*80)+(Math.random()*(loop*100 - loop*80)));	
-		}else {
-			type = "ring";
-			double stat = Math.random();
-			System.out.println("stat :"+stat+"\n");
-			if(stat>0.80) {
-				defense = percentage*loop * 1.5;
-				newStat.add("defense"); 
-			}else if(stat>0.60) {
-				counterAttack = 0.01*(percentage*(8 + (loop - 1) * 4));
-				newStat.add("counterAttack"); 
-			}else if(stat>0.40) {
-				regen = 0.01*(percentage*loop * 0.6);
-				newStat.add("regen"); 
-			}else if(stat>0.20) {
-				evade = 0.01*(percentage*(8 + (loop - 1) * 2));
-				newStat.add("evade"); 
-			}else {
-				vampirism =0.01* percentage*((8 + (loop - 1) * 1.5));
-				newStat.add("vampirism");
+				percentage=0.01*(Math.round(80 + (Math.random()*20))); 
+				rarityMultiplier=0.5;
+			}
+			
+		switch(type) {
+			case "weapon"-> {
+				strength = percentage * ((loop*4)+Math.random()*(loop*6 - loop*4));
+			}
+			case "shield"->{
+				defense =percentage* 4*loop;
+				newStat.add("defense");
+			}
+			case "armor" ->{
+				hp = percentage*((loop*80)+(Math.random()*(loop*100 - loop*80)));
 			}
 		}
 		
-		for(int i=0;i<rarity;i++) {
+		for(int i=0;(i<rarity&&i<2);i++) {
 			String tmp = rollAStat(newStat);
 			statSup.add(tmp);
 			newStat.add(tmp);
 		}
-		statSup2 = rollAStat(newStat); 
+		
+		if(statSup.contains("defense")) {
+			defense = rarityMultiplier*(loop * 1.5);
+		}
+		if(statSup.contains("counterAttack")) {
+			counterAttack = 0.01*rarityMultiplier*(8 + (loop - 1) * 4);
+		}
+		if(statSup.contains("regen")) {
+			regen = rarityMultiplier*(loop * 0.6);
+		}
+		if(statSup.contains("evade")) {
+			evade = 0.01*rarityMultiplier*(8 + (loop - 1) * 2);
+		}
+		if(statSup.contains("vampirism")) {
+			vampirism =0.01*rarityMultiplier*(8 + (loop - 1) * 1.5);
+		}
+		
+		if(rarity==3) {
+			statSup2 = rollAStat(newStat); 
+			if(statSup2.equals("defense")) {
+				defense = ((loop-2) * 1.5);
+			}
+			if(statSup2.equals("counterAttack")) {
+				counterAttack = 0.01*(8 + (loop - 3) * 4);
+			}
+			if(statSup2.equals("regen")) {
+				regen = ((loop-2) * 0.6);
+			}
+			if(statSup2.equals("evade")) {
+				evade = 0.01*(8 + (loop - 3) * 2);
+			}
+			if(statSup2.equals("vampirism")) {
+				vampirism = 0.01*(8 + (loop - 3) * 1.5);
+			}
+		}		
+		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"pictures/Stuff/"+type+""+rarity+".png",type, loop); 
+	}
+	
+	static private Item ringItem(int loop, int rarity) {
+		double hp = 0;
+		double strength = 0;
+		double defense = 0;
+		double counterAttack = 0;
+		double regen = 0;
+		double evade = 0;
+		double vampirism = 0;
+		String type= "ring";
+		ArrayList<String> statSup = new ArrayList<>();
+		ArrayList<String> newStat = new ArrayList<>();
+		
+		double stat = Math.random();
+		if(stat>0.80) {
+			defense = loop * 1.5;
+			newStat.add("defense"); 
+		}else if(stat>0.60) {
+			counterAttack = 0.01*((8 + (loop - 1) * 4));
+			newStat.add("counterAttack"); 
+		}else if(stat>0.40) {
+			regen = (loop * 0.6);
+			newStat.add("regen"); 
+		}else if(stat>0.20) {
+			evade = 0.01*((8 + (loop - 1) * 2));
+			newStat.add("evade"); 
+		}else {
+			vampirism =0.01*((8 + (loop - 1) * 1.5));
+			newStat.add("vampirism");
+		}
+		
+		for(int i=1;i<=rarity;i++) {
+			String tmp = rollAStat(newStat);
+			statSup.add(tmp);
+			newStat.add(tmp);
+		}
 		
 		if(statSup.contains("defense")) {
 			defense = 0.5*(loop * 1.5);
 		}
 		if(statSup.contains("counterAttack")) {
-			counterAttack = 0.005*(8 + (loop - 1) * 4);
+			counterAttack = 0.01*0.5*(8 + (loop - 1) * 4);
 		}
 		if(statSup.contains("regen")) {
-			regen = 0.05*(loop * 0.6);
+			regen = 0.5*(loop * 0.6);
 		}
 		if(statSup.contains("evade")) {
-			evade = 0.005*(8 + (loop - 1) * 2);
+			evade = 0.01*0.5*(8 + (loop - 1) * 2);
 		}
 		if(statSup.contains("vampirism")) {
-			vampirism =0.05* (8 + (loop - 1) * 1.5);
+			vampirism =0.01*0.5*(8 + (loop - 1) * 1.5);
 		}
 		
-		if(rarity==3) {
-			if(statSup2.equals("defense")) {
-				defense = (loop * 1.5);
-			}
-			if(statSup2.equals("counterAttack")) {
-				counterAttack = 0.001*(8 + (loop - 3) * 4);
-			}
-			if(statSup2.equals("regen")) {
-				regen = 0.01*(loop-2 * 0.6);
-			}
-			if(statSup2.equals("evade")) {
-				evade = 0.001*(8 + (loop - 3) * 2);
-			}
-			if(statSup2.equals("vampirism")) {
-				vampirism = 0.01*(8 + (loop - 3) * 1.5);
-			}
-		}
+		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"pictures/Stuff/"+type+""+rarity+".png",type, loop);
 		
-		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"pictures/Stuff/"+type+""+rarity+".png",type);
+	}
+	
+	static private Item generalItem(int loop, int rarity) {		
+		double Itemtype = Math.random();
+		if(Itemtype>0.75) {
+			return classicItem(loop,rarity, "weapon");
+		}else if(Itemtype>0.5){
+			return classicItem(loop,rarity, "shield");
+		}else if(Itemtype>0.25) {
+			return classicItem(loop,rarity, "armor");	
+		}else {
+			return ringItem(loop, rarity);
+		}		
 	}
 	
 }
