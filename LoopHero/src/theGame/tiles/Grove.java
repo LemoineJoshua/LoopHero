@@ -39,6 +39,7 @@ public class Grove extends AbstractRoad {
 	 */
 	@Override
 	public void dailyEffect(Board board) {
+		day+=1;
 		if(day%2==0) {
 			RatWolf ratWolf= new RatWolf();
 			double test = Math.random();
@@ -61,7 +62,6 @@ public class Grove extends AbstractRoad {
 			}
 
 		}
-		day+=1;
 	}
 	
 	/**

@@ -18,7 +18,9 @@ import theGame.tiles.Rock;
 import theGame.tiles.Ruins;
 import theGame.tiles.SpiderCocoon;
 import theGame.tiles.VampireMansion;
+import theGame.tiles.Village;
 import theGame.tiles.Wastelands;
+import theGame.tiles.WheatFields;
 
 public class GameData {
 	private final Board board = new Board();
@@ -194,6 +196,15 @@ public class GameData {
 				
 				case "battleField":
 					board.boardMatrix()[indexY][indexX]=new BattleField(new Coord(indexX,indexY),board.boardMatrix());
+					break;
+					
+				case "village":
+					board.boardMatrix()[indexY][indexX]=new Village();
+					break;
+				
+				case "wheatFields":
+					board.boardMatrix()[indexY][indexX]=new WheatFields();
+					break;
 				
 				}
 			return true;

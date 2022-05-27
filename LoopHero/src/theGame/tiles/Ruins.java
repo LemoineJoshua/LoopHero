@@ -54,11 +54,11 @@ public class Ruins extends AbstractRoad {
 	 */
 	@Override
 	public void dailyEffect(Board board) {	
+		day+=1;
 		if(day%2==0) {
 			ScorchWorm worm= new ScorchWorm();
 			this.addMob(worm);
 		}
-		day+=1;
 	}
 	
 	/**

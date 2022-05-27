@@ -39,11 +39,11 @@ public class Cemetery extends AbstractRoad {
 	 */
 	@Override
 	public void dailyEffect(Board board) {
+		day+=1;
 		if(day%3==0) {
 			Skeleton skeleton= new Skeleton();
 			this.addMob(skeleton);
 		}
-		day+=1;
 	}
 	
 	/**
