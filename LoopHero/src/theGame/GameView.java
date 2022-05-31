@@ -351,6 +351,10 @@ public class GameView {
 	 * @return a buffered image of the path
 	 */
 	public static BufferedImage stringToImage(String pictureName) {
+		if(pictureName=="") {
+			return null;
+		}
+		
 		Path path = Path.of(pictureName);
 		try (InputStream in = Files.newInputStream(path)) {
 			BufferedImage img = ImageIO.read(in);
@@ -418,7 +422,7 @@ public class GameView {
 					column=0;
 					line++;
 				}
-				BufferedImage img = stringToImage(mob.picture());
+				BufferedImage img = mob.picture();
 				drawAMonster(coord.x(),coord.y(),img,column,line);
 				column ++;
 			}
@@ -459,7 +463,7 @@ public class GameView {
 		int cardWidth = Math.round((4*width/5)/13);
 		
 		for(Card card:gameData.cardInventory().cardList()) {
-			drawACard(x,y,stringToImage(card.img()));
+			drawACard(x,y,card.img());
 			x+=cardWidth;
 		}
 		
@@ -499,7 +503,7 @@ public class GameView {
 		 for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
 	        		if (!(gameData.board().boardMatrix()[y][x].picture()==null)) {
-	        			BufferedImage img=stringToImage(gameData.board().boardMatrix()[y][x].picture());
+	        			BufferedImage img=gameData.board().boardMatrix()[y][x].picture();
 	        			drawATile(x, y,img);
 	        		}
 	        	}
@@ -761,7 +765,7 @@ public class GameView {
 		int i=0;
 		int monsterNumber=1;
 		for(AbstractMonster mob:mobs) {
-			img= stringToImage(mob.pictureFight());
+			img= mob.pictureFight();
 			drawAnEntityInFight(x+(3*widthZone/5), y+i*heigthZone/5, img, heigthZone);
 			
 			drawAnHealthBar((int)(x+(4*widthZone/5)+10), y+(i*heigthZone/5)+heigthZone/15, (widthZone/5)-20, (heigthZone/5),  mob, fontSizeTitle);

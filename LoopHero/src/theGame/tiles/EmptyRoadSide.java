@@ -9,7 +9,7 @@ public class EmptyRoadSide extends AbstractTile implements Serializable{
 	 * This is a Tile next to a road without any card on it
 	 */
 	public EmptyRoadSide() {
-		super("RoadSide",null);
+		super("RoadSide","");
 	}
 
 	

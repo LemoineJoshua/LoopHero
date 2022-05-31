@@ -1,15 +1,21 @@
 package theGame.entities;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import theGame.GameView;
 
 public abstract class AbstractMonster extends AbstractEntities implements Serializable{
 	
     private final float chanceSpawn;
     private final float chanceCard;
     protected final ArrayList<String> drop;
-    private final String picture;
-    private final String pictureFight;
+    private final String pathPicture;
+    private final String pathPictureFight;
+    private transient BufferedImage picture;
+    private transient BufferedImage pictureFight;
+    
 
     /**
 	 * Abstract Entities Constructor
@@ -32,8 +38,10 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
         this.drop=drop;
-        this.picture=picture;
-        this.pictureFight=pictureFight;
+        this.pathPicture=picture;
+        this.pathPictureFight=pictureFight;
+        this.picture=GameView.stringToImage(pathPicture);
+        this.pictureFight=GameView.stringToImage(pathPictureFight);
     }
 
     /**
@@ -66,18 +74,24 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
     /**
      * Picture accessor
      * 
-	 * @return the picture path
+	 * @return the picture 
 	 */
-	public String picture() {
+	public BufferedImage picture() {
+		if(picture==null) {
+			this.picture=GameView.stringToImage(pathPicture);
+		}
 		return picture;
 	}
 	
 	/**
 	 * Picture Fight accessor
 	 * 
-	 * @return the picture in fight path
+	 * @return the picture in fight 
 	 */
-	public String pictureFight() {
+	public BufferedImage pictureFight() {
+		if(pictureFight==null) {
+			this.pictureFight=GameView.stringToImage(pathPictureFight);
+		}
 		return pictureFight;
 	}
 

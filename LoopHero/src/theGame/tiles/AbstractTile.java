@@ -1,11 +1,15 @@
 package theGame.tiles;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
+
+import theGame.GameView;
 import theGame.boardGame.Board;
 
 public abstract class AbstractTile implements Serializable {
 	private final  String type;
-	protected String picture;
+	protected String pathPicture;
+	protected transient BufferedImage picture;
 	
 	/**
 	 * AbstractTile constructor, which represent every tile on the gameboard
@@ -15,7 +19,8 @@ public abstract class AbstractTile implements Serializable {
 	 */
 	public AbstractTile(String type, String pathToPicture) {
 		this.type = type;
-		this.picture = pathToPicture;
+		this.pathPicture = pathToPicture;
+		this.picture=GameView.stringToImage(pathPicture);
 	}
 	
 	/**
@@ -23,7 +28,10 @@ public abstract class AbstractTile implements Serializable {
 	 * 
 	 * @return the picture of the tile
 	 */
-	public String picture() {
+	public BufferedImage picture() {
+		if(picture==null) {
+			this.picture=GameView.stringToImage(pathPicture);
+		}
 		return picture;
 	}
 	

@@ -1,11 +1,15 @@
 package theGame.Cards;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
+
+import theGame.GameView;
 
 public class Card implements Serializable {
 	private final String name;
 	private final String type;
-	private final String img;
+	private final String path;
+	private transient BufferedImage img;
 	
 	/**
 	 * Card Constructor
@@ -17,7 +21,8 @@ public class Card implements Serializable {
 	public Card(String name,String type,String path) {
 		this.name=name;
 		this.type=type;
-		this.img=path;
+		this.path=path;
+		this.img=GameView.stringToImage(path);
 	}
 	
 	/**
@@ -43,7 +48,10 @@ public class Card implements Serializable {
 	 * 
 	 * @return the buffered image of the card
 	 */
-	public String img(){
+	public BufferedImage img(){
+		if(img==null) {
+			this.img=GameView.stringToImage(path);
+		}
 		return img;
 	}
 }

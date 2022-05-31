@@ -78,8 +78,9 @@ public class Game {
 			
 		this.ctx=ctx;
 		this.gameView = new GameView(ctx);		
-		this.gameData = new GameData(); //getting();
 		this.timeData = new TimeData();
+		this.gameData =  getting(); //new GameData();
+		
 		
 		while(true) {
 			Update(); 
