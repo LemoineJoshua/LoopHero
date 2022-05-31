@@ -47,10 +47,10 @@ public class Grove extends AbstractRoad {
 			AbstractRoad upperTile=null;
 			AbstractRoad lowerTile=null;
 			if(position<33){
-				upperTile = (AbstractRoad) board.boardMatrix()[board.coordList()[position+1].y()][board.coordList()[position+1].x()];
+				upperTile = (AbstractRoad) board.boardMatrix()[board.coordList().get(position+1).y()][board.coordList().get(position+1).x()];
 			}
 			if(position>1) {
-				lowerTile = (AbstractRoad) board.boardMatrix()[board.coordList()[position-1].y()][board.coordList()[position-1].x()];
+				lowerTile = (AbstractRoad) board.boardMatrix()[board.coordList().get(position+1).y()][board.coordList().get(position+1).x()];
 			}
 			
 			if(test>0.6 && lowerTile!=null && lowerTile.aliveMonster().size()<4){ 

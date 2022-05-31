@@ -1,5 +1,9 @@
 package theGame.boardGame;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import theGame.entities.Hero;
@@ -16,7 +20,7 @@ import theGame.tiles.Wastelands;
 public class Board {
 	private int loop;
     private int position;
-    private final Coord[] coordList;
+    private final ArrayList<Coord> coordList;
 	private final AbstractTile[][] boardMatrix;
 	private final Hero hero = new Hero(250.0,1.0,0.0,0.0,0.0,0.0,0.0);
 	
@@ -53,7 +57,8 @@ public class Board {
      * 
      * @return the initialized path
      */
-    private Coord[] initPath(){
+    private ArrayList<Coord> initPath(){
+    	/*
         Coord[] coordList = 
         		{
         		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
@@ -62,6 +67,21 @@ public class Board {
         		new Coord(11,8),new Coord(10,8),new Coord(9,8),new Coord(9,7),new Coord(8,7),new Coord(7,7),new Coord(6,7),new Coord(6,6),
         		new Coord(6,5),new Coord(5,5),new Coord(5,4),new Coord(5,3)
         		};
+        */
+    	ArrayList<Coord> coordList = new ArrayList<>();
+    	
+    	try(BufferedReader reader = Files.newBufferedReader(Path.of("functional/way.txt"))){
+    		String line;
+			while((line=reader.readLine())!=null) {
+				String[] coords = line.split(",");
+				System.out.println(coords[0]+" "+coords[1]);
+				coordList.add(new Coord(Integer.valueOf(coords[0]),Integer.valueOf(coords[1])));
+			}
+    	} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	
         
         boolean sideIsRoadSide=true;
     	boolean topIsRoadSide=true;
@@ -104,7 +124,7 @@ public class Board {
         
         boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningMob));
         
-        boardMatrix[coordList[0].y()][coordList[0].x()] = new CampFire();        
+        boardMatrix[coordList.get(0).y()][coordList.get(0).x()] = new CampFire();        
         return coordList;
     }
 
@@ -139,8 +159,8 @@ public class Board {
      * @return the index of the path in the matrix, if it's in, else return -1
      */
     public int getIndexInLoop(int indexY, int indexX) {
-    	for (int i=0; i<coordList.length;i++) {
-    		if (coordList[i].x()==indexX && coordList[i].y()==indexY) {
+    	for (int i=0; i<coordList.size();i++) {
+    		if (coordList.get(i).x()==indexX && coordList.get(i).y()==indexY) {
     			return i;
     		}
     	}
@@ -180,7 +200,7 @@ public class Board {
 	 * @return the x coord of the Hero
 	 */
 	public int heroX(){
-		return coordList[position].x();
+		return coordList.get(position).x();
     }
 
 	/**
@@ -189,7 +209,7 @@ public class Board {
 	 * @return the y coord of the Hero
 	 */
 	public int heroY(){
-		return coordList[position].y();
+		return coordList.get(position).y();
     }
 	
 	/**
@@ -197,7 +217,7 @@ public class Board {
 	 * 
 	 * @return the list of path cell
 	 */
-	public Coord[] coordList() {
+	public ArrayList<Coord> coordList() {
 		return coordList;
 	}
 	
