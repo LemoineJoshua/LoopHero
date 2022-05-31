@@ -1,5 +1,6 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.GameData;
@@ -7,7 +8,7 @@ import theGame.boardGame.Board;
 import theGame.entities.AbstractMonster;
 import theGame.entities.ScorchWorm;
 
-public class Ruins extends AbstractRoad {
+public class Ruins extends AbstractRoad implements Serializable{
 	private final int position;
 	private int day = 0;
 	private ArrayList<String> enteringDrop;

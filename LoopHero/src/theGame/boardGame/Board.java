@@ -2,11 +2,13 @@ package theGame.boardGame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 import theGame.entities.Hero;
+import theGame.Game;
 import theGame.entities.AbstractMonster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
@@ -17,7 +19,7 @@ import theGame.tiles.EmptyField;
 import theGame.tiles.EmptyRoadSide;
 import theGame.tiles.Wastelands;
 
-public class Board {
+public class Board implements Serializable{
 	private int loop;
     private int position;
     private final ArrayList<Coord> coordList;
@@ -74,13 +76,11 @@ public class Board {
     		String line;
 			while((line=reader.readLine())!=null) {
 				String[] coords = line.split(",");
-				System.out.println(coords[0]+" "+coords[1]);
 				coordList.add(new Coord(Integer.valueOf(coords[0]),Integer.valueOf(coords[1])));
 			}
     	} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	
     	
         
         boolean sideIsRoadSide=true;

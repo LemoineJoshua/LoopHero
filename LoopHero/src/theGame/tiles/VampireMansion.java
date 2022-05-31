@@ -1,6 +1,8 @@
 package theGame.tiles;
 
-public class VampireMansion extends AbstractTile {
+import java.io.Serializable;
+
+public class VampireMansion extends AbstractTile implements Serializable{
 	
 	/**
 	 * Mansion constructor

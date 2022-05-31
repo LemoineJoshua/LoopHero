@@ -1,10 +1,20 @@
 package theGame;
 
 import java.awt.geom.Point2D;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 import fight.Fight;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
+import theGame.boardGame.Coord;
 import theGame.inventories.Item;
 
 public class Game {
@@ -25,6 +35,7 @@ public class Game {
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
 			if(gameData.moveHero()) {
 				gameData.loopEffect();
+				saving(gameData);
 			}
 			
 			gameView.drawFrame(context, gameData, timeData);
@@ -67,7 +78,7 @@ public class Game {
 			
 		this.ctx=ctx;
 		this.gameView = new GameView(ctx);		
-		this.gameData = new GameData();
+		this.gameData = new GameData(); //getting();
 		this.timeData = new TimeData();
 		
 		while(true) {
@@ -194,5 +205,40 @@ public class Game {
 		
 	}
 	
+	/**
+	 * save the game in a file
+	 * 
+	 * @param gameData the actual gameData
+	 */
+	private void saving(GameData gameData) {
+		try (OutputStream back = Files.newOutputStream(Path.of("functional/save"));
+				ObjectOutputStream out = new ObjectOutputStream(back)){
+					out.writeObject(gameData);
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Fonction used to get à save
+	 * 
+	 * @return a gamedata from the save file
+	 */
+	private GameData getting() {
+		GameData retour=null;
+		
+		try( InputStream back = Files.newInputStream(Path.of("functional/save"));
+			ObjectInputStream in = new ObjectInputStream(back)){
+			
+				retour = (GameData) in.readObject();
+				
+			}catch(IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		
+		return retour;
+	}
 	
 }

@@ -1,12 +1,13 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
 import theGame.entities.AbstractMonster;
 
-public class Village extends AbstractRoad{
+public class Village extends AbstractRoad implements Serializable{
 	private int wheatFieldAround=0;
 
 	/**

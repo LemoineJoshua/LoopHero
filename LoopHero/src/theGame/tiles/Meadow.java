@@ -1,8 +1,10 @@
 package theGame.tiles;
 
+import java.io.Serializable;
+
 import theGame.boardGame.Board;
 
-public class Meadow extends AbstractTile {
+public class Meadow extends AbstractTile implements Serializable{
 	private int heal = 2;
 	
 	
@@ -45,14 +47,12 @@ public class Meadow extends AbstractTile {
 	 * Turn the Meadow into a Blooming Meadow, change his appearance and his heal amount
 	 */
 	public void becomingBloom() {
-		pathToPicture="pictures/Tiles/bloomingmeadow.png";
-		picture = stringToImage(pathToPicture);
+		picture="pictures/Tiles/bloomingmeadow.png";
 		heal=3;
 	}
 	
 	public void becomingUnbloom() {
-		pathToPicture="pictures/Tiles/meadow.png";
-		picture = stringToImage(pathToPicture);
+		picture="pictures/Tiles/meadow.png";
 		heal=2;
 	}
 	

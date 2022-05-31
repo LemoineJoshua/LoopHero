@@ -280,7 +280,7 @@ public class GameView {
 		BufferedImage img;
 		AffineTransformOp scaling;
 		for (Item item: itemInventory.itemInventory()) {
-			img = item.getImage();
+			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -306,7 +306,7 @@ public class GameView {
 		BufferedImage img = stringToImage("pictures/Stuff/shield0.png");
 		AffineTransformOp scaling;
 		if (item!=null) {
-			img = item.getImage();
+			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -315,7 +315,7 @@ public class GameView {
 		}
 		item = stuff.get("shield");
 		if (item!=null) {			
-			img = item.getImage();
+			img = stringToImage(item.getImage());;
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -324,7 +324,7 @@ public class GameView {
 		}
 		item = stuff.get("armor");
 		if (item!=null) {
-			img = item.getImage();
+			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -333,7 +333,7 @@ public class GameView {
 		}
 		item = stuff.get("ring");
 		if (item!=null) {
-			img = item.getImage();
+			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
 					AffineTransformOp.TYPE_BILINEAR);
@@ -350,7 +350,7 @@ public class GameView {
 	 * @param pictureName : the picture path
 	 * @return a buffered image of the path
 	 */
-	public BufferedImage stringToImage(String pictureName) {
+	public static BufferedImage stringToImage(String pictureName) {
 		Path path = Path.of(pictureName);
 		try (InputStream in = Files.newInputStream(path)) {
 			BufferedImage img = ImageIO.read(in);
@@ -459,7 +459,7 @@ public class GameView {
 		int cardWidth = Math.round((4*width/5)/13);
 		
 		for(Card card:gameData.cardInventory().cardList()) {
-			drawACard(x,y,card.img());
+			drawACard(x,y,stringToImage(card.img()));
 			x+=cardWidth;
 		}
 		
@@ -499,7 +499,8 @@ public class GameView {
 		 for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
 	        		if (!(gameData.board().boardMatrix()[y][x].picture()==null)) {
-	        			drawATile(x, y, gameData.board().boardMatrix()[y][x].picture());
+	        			BufferedImage img=stringToImage(gameData.board().boardMatrix()[y][x].picture());
+	        			drawATile(x, y,img);
 	        		}
 	        	}
 	        }

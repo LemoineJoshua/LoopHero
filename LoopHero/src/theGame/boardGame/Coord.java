@@ -1,4 +1,6 @@
 package theGame.boardGame;
 
-public record Coord(int x,int y) {}
+import java.io.Serializable;
+
+public record Coord(int x,int y) implements Serializable {}
 //Simple coord stockage

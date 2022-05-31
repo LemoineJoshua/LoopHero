@@ -1,5 +1,7 @@
 package theGame;
 
+import java.io.Serializable;
+
 import theGame.Cards.Card;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
@@ -22,7 +24,7 @@ import theGame.tiles.Village;
 import theGame.tiles.Wastelands;
 import theGame.tiles.WheatFields;
 
-public class GameData {
+public class GameData implements Serializable{
 	private final Board board = new Board();
 	private final CardInventory cardInventory = new CardInventory();
 	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();

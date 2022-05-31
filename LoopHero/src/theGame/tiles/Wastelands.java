@@ -1,12 +1,13 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
 import theGame.entities.AbstractMonster;
 import theGame.entities.Slime;
 
-public class Wastelands extends AbstractRoad{
+public class Wastelands extends AbstractRoad implements Serializable{
 	
 	/**
 	 * WasteLands constructor

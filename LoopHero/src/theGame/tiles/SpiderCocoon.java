@@ -1,5 +1,6 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.GameData;
@@ -8,7 +9,7 @@ import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.Spider;
 
-public class SpiderCocoon extends AbstractTile {
+public class SpiderCocoon extends AbstractTile implements Serializable{
 	private final ArrayList<Coord> spawningTiles;
 	
 	/**

@@ -3,9 +3,10 @@ package theGame.inventories;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RessourcesInventory {
+public class RessourcesInventory implements Serializable{
     private final ArrayList<String> inventaireRessourceName;
 	private final ArrayList<Integer> inventaireRessourceQuantity;
 	

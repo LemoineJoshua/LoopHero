@@ -1,9 +1,10 @@
 package theGame.inventories;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import theGame.Cards.Card;
 
-public class CardInventory {
+public class CardInventory implements Serializable {
 	private final ArrayList<Card> deck;
     private final ArrayList<Card> cardList;
 

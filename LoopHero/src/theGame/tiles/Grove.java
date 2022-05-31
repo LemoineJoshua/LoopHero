@@ -1,5 +1,6 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.GameData;
@@ -7,7 +8,7 @@ import theGame.boardGame.Board;
 import theGame.entities.AbstractMonster;
 import theGame.entities.RatWolf;
 
-public class Grove extends AbstractRoad {
+public class Grove extends AbstractRoad implements Serializable{
 	private final int position;
 	private int day = 0;
 	

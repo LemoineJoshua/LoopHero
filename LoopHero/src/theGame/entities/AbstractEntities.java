@@ -1,8 +1,9 @@
 package theGame.entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public abstract class AbstractEntities {
+public abstract class AbstractEntities implements Serializable{
 	
 	protected final HashMap<String,Double> stats;
 	

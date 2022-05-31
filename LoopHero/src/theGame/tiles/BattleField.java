@@ -1,5 +1,6 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.GameData;
@@ -9,7 +10,7 @@ import theGame.entities.AbstractMonster;
 import theGame.entities.Chest;
 import theGame.entities.Spider;
 
-public class BattleField extends AbstractTile {
+public class BattleField extends AbstractTile implements Serializable{
 	private final ArrayList<Coord> spawningTiles;
 	
 	

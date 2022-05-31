@@ -1,5 +1,6 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import theGame.GameData;
 import theGame.entities.AbstractMonster;
@@ -8,7 +9,7 @@ import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 
-public class AbstractRoad extends AbstractTile {
+public class AbstractRoad extends AbstractTile implements Serializable{
 
 	private final ArrayList<AbstractMonster> aliveMonster;
 	

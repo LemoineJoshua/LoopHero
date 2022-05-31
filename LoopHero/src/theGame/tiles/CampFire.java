@@ -1,11 +1,12 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
 import theGame.entities.AbstractMonster;
 
-public class CampFire extends AbstractRoad{
+public class CampFire extends AbstractRoad implements Serializable{
 
 	/**
 	 * The CampFire constructor

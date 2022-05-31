@@ -1,8 +1,10 @@
 package theGame.tiles;
 
+import java.io.Serializable;
+
 import theGame.boardGame.Board;
 
-public class Rock extends AbstractTile {
+public class Rock extends AbstractTile implements Serializable{
 
 	int x;
 	int y;

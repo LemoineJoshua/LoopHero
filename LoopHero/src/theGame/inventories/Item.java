@@ -1,21 +1,16 @@
 package theGame.inventories;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 
-public class Item {
+public class Item implements Serializable {
 	
 	private final HashMap<String,Double> stats;
 	private final int rarity;
-	private final BufferedImage image;
+	private final String image;
 	private final String type;
 	private final int loop;
 	
@@ -45,26 +40,9 @@ public class Item {
 			put("vampirism",(double) vampirism);
 		}};
 		this.rarity=rarity;
-		this.image=stringToImage(image);
+		this.image=image;
 		this.type=type;
 		this.loop=loop;
-	}
-	
-	/**
-	 * Change to path to the image to a bufferedImage
-	 * 
-	 * @param picturePath : the path of the item picture
-	 * @return the picture at the indicated path
-	 */
-	public BufferedImage stringToImage(String picturePath) {
-		Path path = Path.of(picturePath);
-		if (picturePath.equals("")) {return null;}
-		try (InputStream in = Files.newInputStream(path)) {
-			BufferedImage img = ImageIO.read(in);
-			return img;
-		} catch (IOException e) {
-			throw new RuntimeException("probleme de dossier : " + path.getFileName());
-		}
 	}
 
 	/**
@@ -81,7 +59,7 @@ public class Item {
 	 * 
 	 * @return the picture of the item
 	 */
-	public BufferedImage getImage() {
+	public String getImage() {
 		return image;
 	}
 	

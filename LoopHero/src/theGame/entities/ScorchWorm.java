@@ -1,8 +1,9 @@
 package theGame.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ScorchWorm extends AbstractMonster{
+public class ScorchWorm extends AbstractMonster implements Serializable{
 
 	public ScorchWorm() {
 		super(10,2.7,0.0,0.10,0.0,0.10,0.0,(float)0.00,(float)0.15,new ArrayList<String>(),"pictures/Entities/worm.png", "pictures/Entities/wormFight.png");

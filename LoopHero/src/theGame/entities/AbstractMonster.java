@@ -1,8 +1,9 @@
 package theGame.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class AbstractMonster extends AbstractEntities{
+public abstract class AbstractMonster extends AbstractEntities implements Serializable{
 	
     private final float chanceSpawn;
     private final float chanceCard;

@@ -1,9 +1,10 @@
 package theGame.inventories;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HeroStuff {
+public class HeroStuff implements Serializable {
 	private final HashMap<String,Item> inventory;
 	
 	/**

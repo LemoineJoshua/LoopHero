@@ -1,17 +1,11 @@
 package theGame.Cards;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.Serializable;
 
-import javax.imageio.ImageIO;
-
-public class Card {
+public class Card implements Serializable {
 	private final String name;
 	private final String type;
-	private final BufferedImage img;
+	private final String img;
 	
 	/**
 	 * Card Constructor
@@ -23,24 +17,7 @@ public class Card {
 	public Card(String name,String type,String path) {
 		this.name=name;
 		this.type=type;
-		this.img=stringToImage(path);
-	}
-	
-	/**
-	 * Create a BufferedImage with a path to a picture
-	 * 
-	 * @param pictureName : The picture path
-	 * @return the buffered image created with the path
-	 */
-	public BufferedImage stringToImage(String pictureName) {
-		Path path = Path.of(pictureName);
-		if (pictureName.equals("")) {return null;}
-		try (InputStream in = Files.newInputStream(path)) {
-			BufferedImage img = ImageIO.read(in);
-			return img;
-		} catch (IOException e) {
-			throw new RuntimeException("probleme de dossier : " + path.getFileName());
-		}
+		this.img=path;
 	}
 	
 	/**
@@ -66,7 +43,7 @@ public class Card {
 	 * 
 	 * @return the buffered image of the card
 	 */
-	public BufferedImage img(){
+	public String img(){
 		return img;
 	}
 }

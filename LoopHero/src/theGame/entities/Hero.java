@@ -1,9 +1,11 @@
 package theGame.entities;
 
+import java.io.Serializable;
+
 import theGame.inventories.HeroStuff;
 import theGame.inventories.Item;
 
-public class Hero extends AbstractEntities{
+public class Hero extends AbstractEntities implements Serializable{
 	
 	private final HeroStuff stuff;
 	
