@@ -11,6 +11,7 @@ import theGame.entities.Hero;
 import theGame.entities.Skeleton;
 import theGame.entities.Vampire;
 import theGame.entities.AbstractMonster;
+import theGame.entities.FieldOfBlade;
 import theGame.entities.Ghost;
 import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
@@ -18,6 +19,7 @@ import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.AbstractTile;
 import theGame.tiles.BattleField;
+import theGame.tiles.OvergrownWheatField;
 import theGame.tiles.VampireMansion;
 
 public class Fight {
@@ -97,6 +99,12 @@ public class Fight {
 					battleFieldAround=true; 
 					break;
 				}
+			}
+		}
+		
+		if(board.boardMatrix()[board.heroY()][board.heroX()] instanceof OvergrownWheatField) {
+			for(int i=mobs.size();i<5;i++) {
+				mobs.add(new FieldOfBlade());
 			}
 		}
 	}
