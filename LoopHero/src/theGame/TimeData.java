@@ -122,7 +122,7 @@ public class TimeData {
 	 * Actualise the beaconModifier
 	 */
 	public void thereIsABeacon() {
-		beaconModifier=(float)4;
+		beaconModifier=(float)1.4;
 	}
 	
 	/**
