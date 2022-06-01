@@ -10,4 +10,9 @@ public class Beacon extends AbstractTile {
 	public boolean imABeacon() {
 		return true;
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
 }
