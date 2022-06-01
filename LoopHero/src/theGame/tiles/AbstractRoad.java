@@ -57,7 +57,7 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory,ItemInventory itemInventory, int loop){
 		int countBranches = 0;
 		for(AbstractMonster mob:aliveMonster) {
-			if(!mob.dropCard() || true) {
+			if(!mob.dropCard()) {
 				
 				Item item = Item.getAnItem(loop);
 				itemInventory.add(item);
@@ -102,13 +102,7 @@ public class AbstractRoad extends AbstractTile implements Serializable{
         }
     }
 	
-	/**
-	 * Deal with all effect that happened, when the hero come on a tile 
-	 * 
-	 * @param gameData : All the data used in the game
-	 */
-	public void enteringEffect(GameData gameData) {}
-	
+
 	
 	public void beaconNearby(TimeData timeData,Board board) {
 		Coord[] posibilities = {

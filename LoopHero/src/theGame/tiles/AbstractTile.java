@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import theGame.GameData;
 import theGame.GameView;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
@@ -103,6 +104,13 @@ public abstract class AbstractTile implements Serializable {
 	 */
 	public void removingEffect(Board board) {}
 	
+	
+	/**
+	 * Deal with all effect that happened, when the hero come on a tile 
+	 * 
+	 * @param gameData : All the data used in the game
+	 */
+	public void enteringEffect(GameData gameData) {}
 	
 	/**
 	 * Check if the cell is Empty, which mean we could place a card on it

@@ -55,12 +55,14 @@ public class GameData implements Serializable{
 	 */
 	public boolean moveHero(TimeData timeData) {
 		boolean heroHasMoved = board.moveHero();
+		 board.boardMatrix()[board.heroY()][board.heroX()].enteringEffect(this);
 		AbstractRoad actual = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 		actual.beaconNearby(timeData, board);
+		/*
 		if ( actual instanceof Grove) {
 			Grove tile = (Grove) board.boardMatrix()[board.heroY()][board.heroX()];
 			tile.enteringEffect(this);
-		}
+		}*/
 		
 		return heroHasMoved;
 	}
@@ -165,6 +167,7 @@ public class GameData implements Serializable{
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
 		if (cardCanBePlaced(myCard, indexX, indexY)) {
 			Coord position = new Coord(indexX,indexY);
+				
 			switch (myCard.name()) {
 				case "rock":
 					board.boardMatrix()[indexY][indexX]=new Rock(board,indexY, indexX);
@@ -177,18 +180,18 @@ public class GameData implements Serializable{
 					break;
 					
 				case "grove":
-					AbstractRoad tile= (AbstractRoad) board.boardMatrix()[indexY][indexX];
-					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), tile.aliveMonster(),position);
+					AbstractRoad road= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), road.aliveMonster(),position);
 					break;
 					
 				case "cemetery":
-					AbstractRoad tile2= (AbstractRoad) board.boardMatrix()[indexY][indexX];
-					board.boardMatrix()[indexY][indexX]=new Cemetery(tile2.aliveMonster(),position);
+					AbstractRoad road2= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Cemetery(road2.aliveMonster(),position);
 					break;
 					
 				case "ruins":
-					AbstractRoad tile3= (AbstractRoad) board.boardMatrix()[indexY][indexX];
-					board.boardMatrix()[indexY][indexX]=new Ruins(tile3.aliveMonster(),position);
+					AbstractRoad road3= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Ruins(road3.aliveMonster(),position);
 					break;
 					
 				case "oblivion":
@@ -217,10 +220,13 @@ public class GameData implements Serializable{
 					
 				case "village":
 					board.boardMatrix()[indexY][indexX]=new Village(position);
+					Village village = (Village) board.boardMatrix()[indexY][indexX];
+					village.searchOvergrown(board);
 					break;
 				
 				case "wheatFields":
-					board.boardMatrix()[indexY][indexX]=new WheatFields(position,board.boardMatrix());
+					AbstractRoad road4= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new WheatFields(position,board.boardMatrix(),road4.aliveMonster() );
 					break;
 				
 				case "beacon":

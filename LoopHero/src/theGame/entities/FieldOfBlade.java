@@ -16,4 +16,8 @@ public class FieldOfBlade extends AbstractMonster implements Serializable{
 		drop.add("Shapeless Mass");
 	}
 
+	@Override
+	public boolean hasASoul() {
+		return true;
+	}
 }
