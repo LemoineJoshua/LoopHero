@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.RatWolf;
 
@@ -19,8 +20,8 @@ public class Grove extends AbstractRoad implements Serializable{
 	 * @param position : his position on the board
 	 * @param aliveMonster : the monsters on the cell before the card is place
 	 */
-	public Grove(int position,ArrayList<AbstractMonster> aliveMonster) {
-		super("pictures/Tiles/grove.png", aliveMonster);
+	public Grove(int position,ArrayList<AbstractMonster> aliveMonster,Coord pos) {
+		super("pictures/Tiles/grove.png", aliveMonster,pos);
 		this.position = position;
 	} 
 	

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 
 public class CampFire extends AbstractRoad implements Serializable{
@@ -12,8 +13,8 @@ public class CampFire extends AbstractRoad implements Serializable{
 	 * The CampFire constructor
 	 * The Campfire heal the player at each loop beginning
 	 */
-	public CampFire() {
-		super("pictures/Tiles/campFire.png",new ArrayList<AbstractMonster>());
+	public CampFire(Coord position) {
+		super("pictures/Tiles/campFire.png",new ArrayList<AbstractMonster>(), position);
 	}
 	
 	/**

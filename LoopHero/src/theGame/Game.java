@@ -33,7 +33,7 @@ public class Game {
 	 */
 	private void moveHeroAndDraw(ApplicationContext context) {
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
-			if(gameData.moveHero()) {
+			if(gameData.moveHero(timeData)) {
 				gameData.loopEffect();
 				saving(gameData);
 			}
@@ -79,7 +79,7 @@ public class Game {
 		this.ctx=ctx;
 		this.gameView = new GameView(ctx);		
 		this.timeData = new TimeData();
-		this.gameData =  getting(); //new GameData();
+		this.gameData = new GameData(); //getting();
 		
 		
 		while(true) {

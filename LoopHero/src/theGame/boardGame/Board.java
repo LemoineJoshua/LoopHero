@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import theGame.entities.Hero;
 import theGame.Game;
+import theGame.TimeData;
 import theGame.entities.AbstractMonster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.RessourcesInventory;
@@ -87,7 +88,7 @@ public class Board implements Serializable{
     	boolean topIsRoadSide=true;
         
         for (Coord coord:coordList) {
-        	boardMatrix[coord.y()][coord.x()]= new Wastelands();
+        	boardMatrix[coord.y()][coord.x()]= new Wastelands(coord);
       	
         	for (int n = -1; n<2 ; n+=2) {
         		sideIsRoadSide=true;
@@ -122,9 +123,9 @@ public class Board implements Serializable{
         */
         //beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
         
-        boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningMob));
+        boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningMob),new Coord(11,4));
         
-        boardMatrix[coordList.get(0).y()][coordList.get(0).x()] = new CampFire();        
+        boardMatrix[coordList.get(0).y()][coordList.get(0).x()] = new CampFire(coordList.get(0));        
         return coordList;
     }
 
@@ -137,7 +138,7 @@ public class Board implements Serializable{
         	for(int y=0;y<12;y++) {
         		boardMatrix[y][x].dailyEffect(this);
         	}
-    	}
+    	} 	
     }
     
     /**
@@ -185,14 +186,6 @@ public class Board implements Serializable{
 	public void plusloop(){
 		loop+=1;
 	}
-	
-    /**
-     * Change the index of the hero in the path to move him
-     */
-    public void move(){
-        position+=1;
-        
-	}
 
 	/**
 	 * Get the x coord of the Hero
@@ -228,6 +221,7 @@ public class Board implements Serializable{
 	 */
 	public boolean moveHero() {
 		position +=1;
+		
 		if (position == 34) {
 			position =0;
 			plusloop();

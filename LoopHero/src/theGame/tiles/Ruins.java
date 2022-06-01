@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.ScorchWorm;
 
 public class Ruins extends AbstractRoad implements Serializable{
-	private final int position;
 	private int day = 0;
 	private ArrayList<String> enteringDrop;
 	
@@ -18,10 +18,9 @@ public class Ruins extends AbstractRoad implements Serializable{
 	 * @param position
 	 * @param aliveMonster
 	 */
-	public Ruins(int position,ArrayList<AbstractMonster> aliveMonster) {
-		super("pictures/Tiles/ruins.png", aliveMonster);
+	public Ruins(ArrayList<AbstractMonster> aliveMonster,Coord position) {
+		super("pictures/Tiles/ruins.png", aliveMonster,position);
 		
-		this.position = position;
 		ArrayList<String> enteringDrop = new ArrayList<String>();
 		enteringDrop.add("Pebbles");
 		enteringDrop.add("Branches");

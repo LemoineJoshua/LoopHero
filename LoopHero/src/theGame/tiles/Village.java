@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 
 public class Village extends AbstractRoad implements Serializable{
@@ -13,8 +14,8 @@ public class Village extends AbstractRoad implements Serializable{
 	/**
 	 * The Village constructor
 	 */
-	public Village() {
-		super("pictures/Tiles/village.png",new ArrayList<AbstractMonster>());
+	public Village(Coord position) {
+		super("pictures/Tiles/village.png",new ArrayList<AbstractMonster>(),position);
 	}
 	
 	/**

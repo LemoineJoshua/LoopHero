@@ -128,4 +128,11 @@ public abstract class AbstractTile implements Serializable {
 	public boolean isOblivionable() {
 		return true;
 	}
+	
+	/**
+	 * @return true if the tile is a beacon
+	 */
+	public boolean imABeacon() {
+		return false;
+	}
 }

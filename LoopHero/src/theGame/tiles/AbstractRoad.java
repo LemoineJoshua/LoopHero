@@ -3,6 +3,9 @@ package theGame.tiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import theGame.GameData;
+import theGame.TimeData;
+import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.inventories.CardInventory;
 import theGame.inventories.Item;
@@ -12,6 +15,7 @@ import theGame.inventories.RessourcesInventory;
 public class AbstractRoad extends AbstractTile implements Serializable{
 
 	private final ArrayList<AbstractMonster> aliveMonster;
+	private final Coord position;
 	
 	/**
 	 * Abstract Road constructor
@@ -20,13 +24,14 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	 * @param img The tile picture
 	 * @param aliveMonster The mob alive on the tile, before we place the card on it
 	 */
-	public AbstractRoad(String img, ArrayList<AbstractMonster> aliveMonster) {
+	public AbstractRoad(String img, ArrayList<AbstractMonster> aliveMonster,Coord position) {
 		super("Road",img);
 		if (aliveMonster.isEmpty()) {
 			this.aliveMonster = new ArrayList<AbstractMonster>();
 		}else {
 			this.aliveMonster = aliveMonster;
 		}
+		this.position=position;
 		
 	}
 	
@@ -103,5 +108,27 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	 * @param gameData : All the data used in the game
 	 */
 	public void enteringEffect(GameData gameData) {}
+	
+	
+	public void beaconNearby(TimeData timeData,Board board) {
+		Coord[] posibilities = {
+				new Coord(position.x()-1,position.y()-2),new Coord(position.x(),position.y()-2),new Coord(position.x()+1,position.y()-2),
+				new Coord(position.x()-2,position.y()-1),new Coord(position.x()-1,position.y()-1),new Coord(position.x(),position.y()-1),new Coord(position.x()+1,position.y()-1),new Coord(position.x()+2,position.y()-1),
+				new Coord(position.x()-2,position.y()),new Coord(position.x()-1,position.y()),new Coord(position.x()+1,position.y()),new Coord(position.x()+2,position.y()),
+				new Coord(position.x()-2,position.y()+1),new Coord(position.x()-1,position.y()+1),new Coord(position.x(),position.y()+1),new Coord(position.x()+1,position.y()+1),new Coord(position.x()+2,position.y()+1),
+				new Coord(position.x()-1,position.y()+2),new Coord(position.x(),position.y()+2),new Coord(position.x()+1,position.y()+2),
+		};
+		
+		for(Coord coord:posibilities) {		
+			if((coord.y()>=0 && coord.y()<12) && (coord.x()>=0 && coord.x()<21)) {
+				if(board.boardMatrix()[coord.y()][coord.x()].imABeacon()) {
+					timeData.thereIsABeacon();
+					return;
+				}
+			}	
+		}
+		
+		timeData.thereIsNoBeacon();
+	}
 	
 }

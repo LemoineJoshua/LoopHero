@@ -27,6 +27,7 @@ public class CardInventory implements Serializable {
         cardList.add(new Card("battleField","RoadSide","pictures/Card/battleFieldCard.png"));
         cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
         cardList.add(new Card("wheatFields","Road","pictures/Card/wheatFieldsCard.png"));
+        cardList.add(new Card("beacon","Field","pictures/Card/BeaconCard.png"));
        
         this.deck = initDeck();
     }

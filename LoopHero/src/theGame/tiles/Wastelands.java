@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.Slime;
 
@@ -13,16 +14,16 @@ public class Wastelands extends AbstractRoad implements Serializable{
 	 * WasteLands constructor
 	 * A empty path cell, which can spawn slime
 	 */
-	public Wastelands() {
-		super("pictures/Tiles/chemin.png",new ArrayList<AbstractMonster>());
+	public Wastelands(Coord position) {
+		super("pictures/Tiles/chemin.png",new ArrayList<AbstractMonster>(),position);
 	}
 	
 	/**
 	 * WasteLands constructor
 	 * A empty path cell, which can spawn slime
 	 */
-	public Wastelands(ArrayList<AbstractMonster> monsterList) {
-		super("pictures/Tiles/chemin.png",monsterList);
+	public Wastelands(ArrayList<AbstractMonster> monsterList,Coord position) {
+		super("pictures/Tiles/chemin.png",monsterList,position);
 	}
     
    /**

@@ -10,6 +10,7 @@ import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.BattleField;
+import theGame.tiles.Beacon;
 import theGame.tiles.CampFire;
 import theGame.tiles.Cemetery;
 import theGame.tiles.EmptyField;
@@ -52,9 +53,11 @@ public class GameData implements Serializable{
 	 * 
 	 * @return true if the hero pass on campfire, false else
 	 */
-	public boolean moveHero() {
+	public boolean moveHero(TimeData timeData) {
 		boolean heroHasMoved = board.moveHero();
-		if (board.boardMatrix()[board.heroY()][board.heroX()] instanceof Grove) {
+		AbstractRoad actual = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
+		actual.beaconNearby(timeData, board);
+		if ( actual instanceof Grove) {
 			Grove tile = (Grove) board.boardMatrix()[board.heroY()][board.heroX()];
 			tile.enteringEffect(this);
 		}
@@ -149,7 +152,7 @@ public class GameData implements Serializable{
 	public boolean placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
 		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty())||(myCard.type()=="Oblivion" && board.boardMatrix()[indexY][indexX].isOblivionable())) {
-			
+			Coord position = new Coord(indexX,indexY);
 			switch (myCard.name()) {
 				case "rock":
 					board.boardMatrix()[indexY][indexX]=new Rock(board,indexY, indexX);
@@ -163,23 +166,23 @@ public class GameData implements Serializable{
 					
 				case "grove":
 					AbstractRoad tile= (AbstractRoad) board.boardMatrix()[indexY][indexX];
-					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), tile.aliveMonster());
+					board.boardMatrix()[indexY][indexX]=new Grove(board.getIndexInLoop(indexY, indexX), tile.aliveMonster(),position);
 					break;
 					
 				case "cemetery":
 					AbstractRoad tile2= (AbstractRoad) board.boardMatrix()[indexY][indexX];
-					board.boardMatrix()[indexY][indexX]=new Cemetery(board.getIndexInLoop(indexY, indexX), tile2.aliveMonster());
+					board.boardMatrix()[indexY][indexX]=new Cemetery(tile2.aliveMonster(),position);
 					break;
 					
 				case "ruins":
 					AbstractRoad tile3= (AbstractRoad) board.boardMatrix()[indexY][indexX];
-					board.boardMatrix()[indexY][indexX]=new Ruins(board.getIndexInLoop(indexY, indexX), tile3.aliveMonster());
+					board.boardMatrix()[indexY][indexX]=new Ruins(tile3.aliveMonster(),position);
 					break;
 					
 				case "oblivion":
 					board.boardMatrix()[indexY][indexX].removingEffect(board);
 					if (board.boardMatrix()[indexY][indexX].type()=="Road") {
-						board.boardMatrix()[indexY][indexX]=new Wastelands();
+						board.boardMatrix()[indexY][indexX]=new Wastelands(position);
 					}else if(board.boardMatrix()[indexY][indexX].type()=="RoadSide") {
 						board.boardMatrix()[indexY][indexX]=new EmptyRoadSide();
 					}else if(board.boardMatrix()[indexY][indexX].type()=="Field") {
@@ -201,11 +204,15 @@ public class GameData implements Serializable{
 					break;
 					
 				case "village":
-					board.boardMatrix()[indexY][indexX]=new Village();
+					board.boardMatrix()[indexY][indexX]=new Village(position);
 					break;
 				
 				case "wheatFields":
-					board.boardMatrix()[indexY][indexX]=new WheatFields();
+					board.boardMatrix()[indexY][indexX]=new WheatFields(position);
+					break;
+				
+				case "beacon":
+					board.boardMatrix()[indexY][indexX]=new Beacon();
 					break;
 				
 				}

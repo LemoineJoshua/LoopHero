@@ -7,7 +7,8 @@ public class TimeData {
 	private boolean stopped;
 	static double DAY_MILLISECONDS = 24_000; 
 	static int HERO_DELAY = 1500; 
-	private float timeModifier =10;
+	private float timeModifier =1;
+	private float beaconModifier = 1;
 	
 
 	/**
@@ -15,7 +16,7 @@ public class TimeData {
 	 */
 	private void tickTock() {
 		long tock = System.currentTimeMillis();
-		elapsedHero += (tock - tick) * timeModifier;
+		elapsedHero += (tock - tick) * timeModifier * beaconModifier;
 		elapsedDay += (tock - tick) * timeModifier;
 		tick = tock;
 	}
@@ -115,5 +116,19 @@ public class TimeData {
 	 */
 	public boolean isStopped() {
 		return stopped;
+	}
+	
+	/**
+	 * Actualise the beaconModifier
+	 */
+	public void thereIsABeacon() {
+		beaconModifier=(float)4;
+	}
+	
+	/**
+	 * Actualise the beaconModifier
+	 */
+	public void thereIsNoBeacon() {
+		beaconModifier=1;
 	}
 }

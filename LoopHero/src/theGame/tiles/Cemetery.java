@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.Skeleton;
 
 public class Cemetery extends AbstractRoad implements Serializable{
-	private final int position;
+
 	private int day = 0;
 	
 
@@ -17,9 +18,9 @@ public class Cemetery extends AbstractRoad implements Serializable{
 	 * @param position
 	 * @param aliveMonster
 	 */
-	public Cemetery(int position,ArrayList<AbstractMonster> aliveMonster) {
-		super("pictures/Tiles/cemetery.png", aliveMonster);
-		this.position = position;
+	public Cemetery(ArrayList<AbstractMonster> aliveMonster,Coord position) {
+		super("pictures/Tiles/cemetery.png", aliveMonster,position);
+
 	} 
 	
 

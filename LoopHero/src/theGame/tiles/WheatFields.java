@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.ScareCrow;
 import theGame.entities.ScorchWorm;
@@ -14,8 +15,8 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	/**
 	 * The Wheat Fields constructor
 	 */
-	public WheatFields() {
-		super("pictures/Tiles/wheatFields.png",new ArrayList<AbstractMonster>());
+	public WheatFields(Coord position) {
+		super("pictures/Tiles/wheatFields.png",new ArrayList<AbstractMonster>(),position);
 	}
 	
 	/**
