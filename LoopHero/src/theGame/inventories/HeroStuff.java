@@ -48,7 +48,7 @@ public class HeroStuff implements Serializable {
 				if(statToModify.equals("hp")) {
 					continue;
 				}
-				stats.put(statToModify, stats.get(statToModify)-(int) Math.round(statToRemove));
+				stats.put(statToModify, stats.get(statToModify)-statToRemove);
 				//System.out.println("la stat " + statToModify +" après modification : "+stats.get(statToModify));
 			}
 		}
