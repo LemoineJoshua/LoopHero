@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import fight.Fight;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
+import fr.umlv.zen5.KeyboardKey;
 import theGame.boardGame.Coord;
 import theGame.inventories.Item;
 
@@ -23,6 +24,73 @@ public class Game {
 	private GameView gameView;
 	private GameData gameData;
 	private TimeData timeData;
+	private boolean doIntro = true;
+	private boolean newGame;
+	
+	/**
+	 * Main function of the Game : 
+	 * Create objects which manage the display, the data and the time
+	 * Then start the Game, with the funtion update (which update the screen)
+	 * 
+	 * @param ctx : Global context of the game
+	 */
+	public void Run(ApplicationContext ctx) { 
+			
+		this.ctx=ctx;
+		this.gameView = new GameView(ctx);		
+		this.timeData = new TimeData();
+		
+		
+		while(doIntro) {
+			gameView.drawIntro(ctx);
+			doIntroAction();
+		}
+		
+		if(newGame) {
+			this.gameData = new GameData();
+		}else {
+			this.gameData = getting();
+		}
+		
+		
+		
+		while(true) {
+			Update(); 
+		}
+		
+	}
+	
+	/**
+	 * Update the screen display, and the differents data
+	 */
+	private void Update() {
+		
+		moveHeroAndDraw(ctx);
+		dayAction(ctx);
+		
+		Event e = ctx.pollOrWaitEvent(200);
+		
+		if(e == null) return; 
+		
+		
+		switch (e.getAction()) {
+			case KEY_PRESSED:
+				doKeyAction(e);
+				break;
+			case POINTER_DOWN:
+				if (timeData.isStopped()) {
+					doMouseAction(e);
+				}
+				break;
+			default:
+				break;
+		}
+		
+		gameView.drawFrame(ctx, gameData, timeData);
+		
+	}
+	
+	
 	
 	/**
 	 * Move the Hero on the board, 
@@ -67,25 +135,7 @@ public class Game {
 	}
 	
 
-	/**
-	 * Main function of the Game : 
-	 * Create objects which manage the display, the data and the time
-	 * Then start the Game, with the funtion update (which update the screen)
-	 * 
-	 * @param ctx : Global context of the game
-	 */
-	public void Run(ApplicationContext ctx) { 
-			
-		this.ctx=ctx;
-		this.gameView = new GameView(ctx);		
-		this.timeData = new TimeData();
-		this.gameData = new GameData(); //getting();
-		
-		
-		while(true) {
-			Update(); 
-		}
-	}
+	
 	
 	/**
 	 * Function which trigger an action based on the key pressed
@@ -176,35 +226,7 @@ public class Game {
 		gameData.unselectCard();
 	}
 	
-	/**
-	 * Update the screen display, and the differents data
-	 */
-	private void Update() {
-		
-		moveHeroAndDraw(ctx);
-		dayAction(ctx);
-		
-		Event e = ctx.pollOrWaitEvent(200);
-		
-		if(e == null) return; 
-		
-		
-		switch (e.getAction()) {
-			case KEY_PRESSED:
-				doKeyAction(e);
-				break;
-			case POINTER_DOWN:
-				if (timeData.isStopped()) {
-					doMouseAction(e);
-				}
-				break;
-			default:
-				break;
-		}
-		
-		gameView.drawFrame(ctx, gameData, timeData);
-		
-	}
+	
 	
 	/**
 	 * save the game in a file
@@ -241,5 +263,39 @@ public class Game {
 		
 		return retour;
 	}
+	
+	public void doIntroAction() {
+		Event e = ctx.pollOrWaitEvent(200);
+		
+		if(e == null) return; 
+		
+		switch (e.getAction()) {
+			case POINTER_DOWN:
+				Point2D.Float location = e.getLocation();
+				if(gameView.onContinueButton(location)) {
+					if(Files.exists(Path.of("functional/save"))) {
+						System.out.println("askip j'existe");
+						doIntro=false;
+						newGame=false;
+					}else {
+						gameView.noSave();
+					}
+				}else if(gameView.onNewButton(location)) {
+						doIntro=false;
+						newGame=true;
+				}
+				break;
+			case KEY_PRESSED:
+				if(e.getKey().equals(KeyboardKey.SPACE)) {
+					ctx.exit(0);
+				}
+				break;
+			default:
+				break;
+		}
+		
+		
+	}
+	
 	
 }

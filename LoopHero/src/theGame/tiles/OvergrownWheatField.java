@@ -1,5 +1,6 @@
 package theGame.tiles;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import theGame.boardGame.Board;
@@ -7,7 +8,7 @@ import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.ScareCrow;
 
-public class OvergrownWheatField extends AbstractRoad {
+public class OvergrownWheatField extends AbstractRoad implements Serializable{
 
 	private int day = 0;
 	

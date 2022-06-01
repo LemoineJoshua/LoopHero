@@ -39,6 +39,7 @@ public class GameView {
 	private final int xPlayingZone;
 	private final int yPlayingZone;
 	private Graphics2D graphics;
+	private boolean saveExist=true; 
 	
 	/**
 	 * GameView constructor : 
@@ -546,9 +547,66 @@ public class GameView {
 		ctx.renderFrame(graphics -> drawFrame(graphics, gameData, timeData)); 
 	}
 	
+	public void drawIntro(ApplicationContext ctx) {
+		ctx.renderFrame(graphics -> drawIntro(graphics));
+	}
 	
+	/**
+	 * Draw the first screen of the game
+	 * 
+	 * @param graphics
+	 */
+	public void drawIntro(Graphics2D graphics) {
+		this.graphics=graphics;
+		
+		BufferedImage background = stringToImage("pictures/HUD/BackgroundIntro.png");
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance( width / ((double) background.getWidth()), heigth / ((double) background.getHeight())),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(background, scaling, 0, 0);
+		
+		BufferedImage menu = stringToImage("pictures/HUD/Menu.png");
+		AffineTransformOp scaling2 = new AffineTransformOp(AffineTransform
+				.getScaleInstance( (width/3) / ((double) menu.getWidth()), (heigth/3.5) / ((double) menu.getHeight())),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(menu, scaling2 ,Math.round(width/3),Math.round(heigth/3));
+		
+		BufferedImage button = stringToImage("pictures/HUD/button.png");
+		AffineTransformOp scaling3 = new AffineTransformOp(AffineTransform
+				.getScaleInstance( (width/2) / ((double) menu.getWidth()), (heigth/4) / ((double) menu.getHeight())),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(button, scaling3 ,(int)Math.round(width/2.6),(int)Math.round(heigth/2.1));
+		graphics.drawImage(button, scaling3 ,(int)Math.round(width/2.6),(int)Math.round(heigth/1.9));
+		
+		
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		graphics.setColor(Color.white);
+		graphics.drawString("New Game", (int)Math.round(width/2.15),(int)Math.round(heigth/2));
+		graphics.drawString("Continue", (int)Math.round(width/2.13),(int)Math.round(heigth/1.81));
+		
+		if(!saveExist) {
+			graphics.drawString("There is no save file", (int)Math.round(width/2.3),(int)Math.round(heigth/1.68));
+		}
+	}
 	
+	/**
+	 * inform that there is no save file
+	 */
+	public void noSave() {
+		saveExist=false;
+	}
 	
+	/**
+	 * @param location
+	 * @return true if the player cliked on the Continue button, false otherwise
+	 */
+	public boolean onContinueButton(Point2D.Float location) {
+		return (location.x>(width/2.6) && location.x<(width/2.6 + width/4.5) && (location.y>(heigth/1.9) && location.y<(heigth/1.9 + heigth/25)) );
+	}
+	
+	public boolean onNewButton(Point2D.Float location) {
+		return (location.x>(width/2.6) && location.x<(width/2.6 + width/4.5) && (location.y>(heigth/2.1) && location.y<(heigth/2.1 + heigth/25)) );
+	}
 	
 	// Placing cards functions :
 	
