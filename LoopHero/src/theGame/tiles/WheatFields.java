@@ -15,8 +15,9 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	/**
 	 * The Wheat Fields constructor
 	 */
-	public WheatFields(Coord position) {
+	public WheatFields(Coord position,AbstractTile[][] matrix) {
 		super("pictures/Tiles/wheatFields.png",new ArrayList<AbstractMonster>(),position);
+		searchVillage(matrix);
 	}
 	
 	/**
@@ -50,7 +51,22 @@ public class WheatFields extends AbstractRoad implements Serializable{
 		}
 	}
 	
-	private void searchVillage() {
+	private void searchVillage(AbstractTile[][] matrix) {
 		
+		ArrayList<Coord> posibilities = new ArrayList<>();
+		posibilities.add(new Coord(0,1));
+		posibilities.add(new Coord(0,-1));
+		posibilities.add(new Coord(1,0));
+		posibilities.add(new Coord(-1,0));
+		
+		
+		for(Coord coord : posibilities) {
+			if((position.y()+coord.y()<12 && position.y()+coord.y()>=0) && (position.x()+coord.x()<21 && position.x()+coord.x()>=0)) {
+				if(matrix[position.y()+coord.y()][position.x()+coord.x()] instanceof Village) {
+					Village villageAround = (Village) matrix[position.y()+coord.y()][position.x()+coord.x()];
+					villageAround.wheatFieldNearby();
+				}
+			}
+		}	
 	}
 }

@@ -208,7 +208,7 @@ public class GameData implements Serializable{
 					break;
 				
 				case "wheatFields":
-					board.boardMatrix()[indexY][indexX]=new WheatFields(position);
+					board.boardMatrix()[indexY][indexX]=new WheatFields(position,board.boardMatrix());
 					break;
 				
 				case "beacon":

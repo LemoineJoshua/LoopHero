@@ -50,5 +50,8 @@ public class Village extends AbstractRoad implements Serializable{
 		// MAKE OVERGROWN WHEAT FIELD
 	}
 	
+	public void wheatFieldNearby() {
+		wheatFieldAround++;
+	}
 	
 }

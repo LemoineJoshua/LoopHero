@@ -221,7 +221,7 @@ public class Board implements Serializable{
 	 */
 	public boolean moveHero() {
 		position +=1;
-		
+		hero.regenTurn();
 		if (position == 34) {
 			position =0;
 			plusloop();
