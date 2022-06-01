@@ -142,6 +142,18 @@ public class GameData implements Serializable{
 		return selectedCardIndex;
 	}
 	
+	public boolean cardCanBePlaced(Card myCard, int indexX, int indexY) {
+		if (myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty()){
+			return true;
+		}else if (myCard.type()=="Oblivion" && board.boardMatrix()[indexY][indexX].isOblivionable()){
+			return true;			
+		}else if (myCard.type()=="WheatField" && board.boardMatrix()[indexY][indexX].wheatFieldCanBePlaced(board.boardMatrix(),indexX,indexY)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Place the selected card, on the board, if the card can be placed at the cell, the player choose.
 	 * 
@@ -151,7 +163,7 @@ public class GameData implements Serializable{
 	 */
 	public boolean placeACard(int indexY, int indexX) {
 		Card myCard = cardInventory.cardList().get(selectedCardIndex);
-		if ((myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty())||(myCard.type()=="Oblivion" && board.boardMatrix()[indexY][indexX].isOblivionable())) {
+		if (cardCanBePlaced(myCard, indexX, indexY)) {
 			Coord position = new Coord(indexX,indexY);
 			switch (myCard.name()) {
 				case "rock":

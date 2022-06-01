@@ -2,9 +2,11 @@ package theGame.tiles;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import theGame.GameView;
 import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
 
 public abstract class AbstractTile implements Serializable {
 	private final  String type;
@@ -133,6 +135,34 @@ public abstract class AbstractTile implements Serializable {
 	 * @return true if the tile is a beacon
 	 */
 	public boolean imABeacon() {
+		return false;
+	}
+	
+	/**
+	 * Search for a village nearby in order to place a WheatField
+	 * 
+	 * @param matrix
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean wheatFieldCanBePlaced(AbstractTile[][] matrix, int x, int y) {
+		ArrayList<Coord> posibilities = new ArrayList<>();
+		posibilities.add(new Coord(0,1));
+		posibilities.add(new Coord(0,-1));
+		posibilities.add(new Coord(1,0));
+		posibilities.add(new Coord(-1,0));
+		
+		if (!(matrix[y][x] instanceof AbstractRoad && matrix[y][x].isEmpty())) {
+			return false;
+		}
+		for(Coord coord : posibilities) {
+			if((y+coord.y()<12 && y+coord.y()>=0) && (x+coord.x()<21 && x+coord.x()>=0)) {
+				if(matrix[y+coord.y()][x+coord.x()] instanceof Village) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 }

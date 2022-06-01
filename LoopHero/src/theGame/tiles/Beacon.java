@@ -15,4 +15,9 @@ public class Beacon extends AbstractTile {
 	public boolean isEmpty() {
 		return false;
 	}
+	
+	@Override 
+	public boolean isOblivionable() {
+		return true;
+	}
 }

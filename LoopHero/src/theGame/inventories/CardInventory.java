@@ -26,7 +26,11 @@ public class CardInventory implements Serializable {
         cardList.add(new Card("vampireMansion","RoadSide","pictures/Card/VampireMansionCard.png"));
         cardList.add(new Card("battleField","RoadSide","pictures/Card/battleFieldCard.png"));
         cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
-        cardList.add(new Card("wheatFields","Road","pictures/Card/wheatFieldsCard.png"));
+        cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
+        cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
+        cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
+        cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
+        cardList.add(new Card("wheatFields","WheatField","pictures/Card/wheatFieldsCard.png"));
         cardList.add(new Card("beacon","Field","pictures/Card/BeaconCard.png"));
        
         this.deck = initDeck();
@@ -79,7 +83,7 @@ public class CardInventory implements Serializable {
     	}
     	
     	for (int i =0;i<5; i++) {
-    		deck.add(new Card("wheatFields","Road","pictures/Card/wheatFieldsCard.png"));
+    		deck.add(new Card("wheatFields","WheatField","pictures/Card/wheatFieldsCard.png"));
     	}
     	return deck;
     }

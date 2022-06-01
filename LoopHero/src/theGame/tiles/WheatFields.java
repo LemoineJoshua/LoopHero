@@ -52,13 +52,11 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	}
 	
 	private void searchVillage(AbstractTile[][] matrix) {
-		
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
 		posibilities.add(new Coord(0,-1));
 		posibilities.add(new Coord(1,0));
 		posibilities.add(new Coord(-1,0));
-		
 		
 		for(Coord coord : posibilities) {
 			if((position.y()+coord.y()<12 && position.y()+coord.y()>=0) && (position.x()+coord.x()<21 && position.x()+coord.x()>=0)) {
