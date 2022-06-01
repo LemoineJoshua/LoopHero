@@ -111,7 +111,7 @@ public abstract class AbstractEntities implements Serializable{
      * Regen the hp, using the regen stat of the entity
      */
     public void regenTurn() {
-    	stats.put("hp", (double) Math.round(stats.get("hp") + stats.get("hp")*(stats.get("regen"))));
+    	stats.put("hp", (double) Math.round(stats.get("hp") + (stats.get("regen"))));
     	if(stats.get("hp")>stats.get("maxHp")) {
     		stats.put("hp", stats.get("maxHp"));
     	}

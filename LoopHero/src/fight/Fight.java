@@ -139,7 +139,10 @@ public class Fight {
 					}else {
 						lossHp = hero.lossHp(damage); 		// Else hero loss Hp, calculated with his defense and mob damage.
 						fightProgress.add("-Le héros a subi "+lossHp+" dégâts.");
-						
+						// Possible end of fight if the hero is dead
+						if(hero.isDead()) {
+							return false;
+						}
 						vampirismRegen = mob.vampirismRegen(damage);	// Regen the monster if he got vampirism
 						//System.out.println("les pv du hero après : "+hero.hp());
 
@@ -160,10 +163,7 @@ public class Fight {
 				
 			}
 			
-			// Possible end of fight if the hero is dead
-			if(hero.isDead()) {
-				return false;
-			}
+			
 			
 			// Hero's turn
 			AbstractMonster mob=mobs.get(indexAttack);
