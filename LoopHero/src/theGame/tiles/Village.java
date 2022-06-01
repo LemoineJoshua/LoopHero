@@ -47,8 +47,24 @@ public class Village extends AbstractRoad implements Serializable{
 	
 	
 	public void removingEffect(Board board) {
-		// MAKE OVERGROWN WHEAT FIELD
+		ArrayList<Coord> posibilities = new ArrayList<>();
+		posibilities.add(new Coord(0,1));
+		posibilities.add(new Coord(0,-1));
+		posibilities.add(new Coord(1,0));
+		posibilities.add(new Coord(-1,0));
+		
+		AbstractTile[][] matrix = board.boardMatrix();
+		
+		
+		for(Coord coord : posibilities) {
+			if((position.y()+coord.y()<12 && position.y()+coord.y()>=0) && (position.x()+coord.x()<21 && position.x()+coord.x()>=0)) {
+				if(matrix[position.y()+coord.y()][position.x()+coord.x()] instanceof WheatFields) {
+					matrix[position.y()+coord.y()][position.x()+coord.x()]=new OvergrownWheatField(aliveMonster,position);
+				}
+			}
+		}	
 	}
+	
 	
 	public void wheatFieldNearby() {
 		wheatFieldAround++;
