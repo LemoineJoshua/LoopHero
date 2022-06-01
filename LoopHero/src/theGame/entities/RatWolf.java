@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class RatWolf extends AbstractMonster implements Serializable {
 
 	public RatWolf() {
-		super(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,new ArrayList<String>(),"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png");
+		super(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,new ArrayList<String>(),"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png", null);
 		generateLootList();
 		
 	}

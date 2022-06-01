@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Vampire extends AbstractMonster implements Serializable{
 
 	public Vampire() {
-		super(18,5.8,0.0,0.0,0.0,0.10,0.0,1,(float)0.55,new ArrayList<String>(),"", "pictures/Entities/VampireFight.png");
+		super(18,5.8,0.0,0.0,0.0,0.10,0.0,1,(float)0.55,new ArrayList<String>(),"", "pictures/Entities/VampireFight.png", null);
 		generateLootList();
 		
 	}

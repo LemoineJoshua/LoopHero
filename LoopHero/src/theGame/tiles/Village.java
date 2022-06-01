@@ -45,6 +45,16 @@ public class Village extends AbstractRoad implements Serializable{
 		// GIVE A QUEST
 	}
 	
+	
+	private void giveAQuest(GameData gameData) {
+		Integer indexInLoop = gameData.board().getIndexInLoop(position.x(), position.y());
+		ArrayList<AbstractTile> tileWithMonster = new ArrayList<>();
+		for (Coord coord:gameData.board().coordList()) {
+			//if(gameData.board().boardMatrix()[coord.x()][coord.y()])
+		}
+		
+	}
+	
 	public void searchOvergrown(Board board) {
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
@@ -78,7 +88,9 @@ public class Village extends AbstractRoad implements Serializable{
 		for(Coord coord : posibilities) {
 			if((position.y()+coord.y()<12 && position.y()+coord.y()>=0) && (position.x()+coord.x()<21 && position.x()+coord.x()>=0)) {
 				if(matrix[position.y()+coord.y()][position.x()+coord.x()] instanceof WheatFields) {
-					matrix[position.y()+coord.y()][position.x()+coord.x()]=new OvergrownWheatField(aliveMonster,position);
+					AbstractRoad tile = (AbstractRoad) matrix[position.y()+coord.y()][position.x()+coord.x()];
+					ArrayList<AbstractMonster> wheatFieldAliveMonster= tile.aliveMonster();
+					matrix[position.y()+coord.y()][position.x()+coord.x()]=new OvergrownWheatField(wheatFieldAliveMonster,position);
 				}
 			}
 		}	

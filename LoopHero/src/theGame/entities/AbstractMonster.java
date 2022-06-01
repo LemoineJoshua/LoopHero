@@ -15,6 +15,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
     private final String pathPictureFight;
     private transient BufferedImage picture;
     private transient BufferedImage pictureFight;
+    private Integer questVillagePosition;
     
 
     /**
@@ -33,7 +34,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
      * @param picture : The path to the picture of the monster, when he is on the board
      * @param pictureFight : The path to the picture of the monster, when he is in fight
      */
-    public AbstractMonster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight){
+    public AbstractMonster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight, Integer questVillagePosition ){
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
@@ -42,6 +43,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
         this.pathPictureFight=pictureFight;
         this.picture=GameView.stringToImage(pathPicture);
         this.pictureFight=GameView.stringToImage(pathPictureFight);
+        this.questVillagePosition = null;
     }
 
     /**

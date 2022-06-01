@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class FieldOfBlade extends AbstractMonster implements Serializable{
 
 	public FieldOfBlade() {
-		super(15, 5, 0, 0, 0, 0.05, 0, 1, 36, new ArrayList<String>(), "","pictures/Entities/fieldOfBlade.png");
+		super(15, 5, 0, 0, 0, 0.05, 0, 1, 36, new ArrayList<String>(), "","pictures/Entities/fieldOfBlade.png", null);
 		generateLootList();
 	}
 	
