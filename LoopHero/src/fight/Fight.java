@@ -64,12 +64,12 @@ public class Fight {
 		//System.out.println("---------------------------------");
 		
 		
-		checkAround();
+		checkAround((AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()]);
 		
 		
 	}
 	
-	private void checkAround() {
+	private void checkAround(AbstractRoad tile) {
 		AbstractTile[][] matrix = board.boardMatrix();
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
@@ -83,6 +83,7 @@ public class Fight {
 			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
 				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof VampireMansion) {
 					mobs.add(new Vampire());
+					tile.aliveMonster().add(new Vampire());
 					
 					for(AbstractMonster mob : mobs) {
 						mob.vampireNearby();
@@ -105,6 +106,7 @@ public class Fight {
 		if(board.boardMatrix()[board.heroY()][board.heroX()] instanceof OvergrownWheatField) {
 			for(int i=mobs.size();i<5;i++) {
 				mobs.add(new FieldOfBlade());
+				tile.aliveMonster().add(new FieldOfBlade());
 			}
 		}
 	}
@@ -169,9 +171,13 @@ public class Fight {
 				drawFight(fightProgress);
 				fightProgress.clear();
 				
+				indexAttack = checkMobDeath(indexAttack, tile);	
+				if (indexAttack>(mobs.size()-1)) {
+					//System.out.println("les pv du hero à la fin du combat : "+hero.hp());
+					tile.clearMob(ressources, cardInventory, items, board.loop());
+					return true;
+				}
 			}
-			
-			
 			
 			// Hero's turn
 			AbstractMonster mob=mobs.get(indexAttack);
@@ -202,17 +208,8 @@ public class Fight {
 				fightProgress.add("-Le Monstre "+(indexAttack+1)+" a esquivé.");
 				//System.out.println("il a esquive");
 			}
-			if(mobs.get(indexAttack).isDead()) {
-				if (battleFieldAround && Math.random()>0.5 && !(mobs.get(indexAttack) instanceof Ghost ) && mobs.get(indexAttack).hasASoul()){
-					mobs.remove(indexAttack);
-					mobs.add(indexAttack, new Ghost());
-					mobs.get(indexAttack).fightStats(board.loop());
-					tile.aliveMonster().add(new Ghost());					
-				}else {
-					indexAttack++;	
-				}
-				
-			}
+			
+			indexAttack = checkMobDeath(indexAttack, tile);
 			
 			//Draw everything that happened during the hero turn
 			drawFight(fightProgress);
@@ -229,6 +226,20 @@ public class Fight {
 				return true;
 			}
 		}	
+	}
+	
+	private int checkMobDeath(int indexAttack,AbstractRoad tile) {
+		if(mobs.get(indexAttack).isDead()) {
+			if (battleFieldAround && Math.random()>0.5 && !(mobs.get(indexAttack) instanceof Ghost ) && mobs.get(indexAttack).hasASoul()){
+				mobs.remove(indexAttack);
+				mobs.add(indexAttack, new Ghost());
+				mobs.get(indexAttack).fightStats(board.loop());
+				tile.aliveMonster().add(new Ghost());					
+			}else {
+				indexAttack++;	
+			}
+		}
+		return indexAttack;
 	}
 	
 	/**

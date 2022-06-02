@@ -145,11 +145,12 @@ public class GameData implements Serializable{
 	}
 	
 	public boolean cardCanBePlaced(Card myCard, int indexX, int indexY) {
-		if (myCard.type()==board.boardMatrix()[indexY][indexX].type()&& board.boardMatrix()[indexY][indexX].isEmpty()){
+		if (myCard.type()==board.boardMatrix()[indexY][indexX].type()&& (board.boardMatrix()[indexY][indexX].isEmpty())){
 			return true;
-		}else if (myCard.type()=="Oblivion" && board.boardMatrix()[indexY][indexX].isOblivionable()){
+		}else if (myCard.type().equals("Oblivion") && (board.boardMatrix()[indexY][indexX].isOblivionable())){
+			System.out.println("je peux être oblionné");
 			return true;			
-		}else if (myCard.type()=="WheatField" && board.boardMatrix()[indexY][indexX].wheatFieldCanBePlaced(board.boardMatrix(),indexX,indexY)) {
+		}else if (myCard.type().equals("WheatField") && (board.boardMatrix()[indexY][indexX].wheatFieldCanBePlaced(board.boardMatrix(),indexX,indexY))) {
 			return true;
 		}else {
 			return false;
@@ -195,6 +196,7 @@ public class GameData implements Serializable{
 					break;
 					
 				case "oblivion":
+					System.out.println("oblivion");
 					board.boardMatrix()[indexY][indexX].removingEffect(board);
 					if (board.boardMatrix()[indexY][indexX].type()=="Road") {
 						board.boardMatrix()[indexY][indexX]=new Wastelands(position);
