@@ -14,8 +14,8 @@ public class Village extends AbstractRoad implements Serializable{
 	/**
 	 * The Village constructor
 	 */
-	public Village(Coord position) {
-		super("pictures/Tiles/village.png",new ArrayList<AbstractMonster>(),position);
+	public Village(Coord position, ArrayList<AbstractMonster> aliveMonster) {
+		super("pictures/Tiles/village.png",aliveMonster,position);
 	}
 	
 	/**

@@ -7,8 +7,9 @@ public class TimeData {
 	private boolean stopped;
 	static double DAY_MILLISECONDS = 24_000; 
 	static int HERO_DELAY = 1500; 
-	private float timeModifier =10;
+	private float timeModifier =1;
 	private float beaconModifier = 1;
+	private int fightModifier = 1;
 	
 
 	/**
@@ -54,6 +55,16 @@ public class TimeData {
 	}
 	
 	/**
+	 * Update the pass time at the end of a Fight
+	 */
+	public void elapsedFight() {
+		long tock = System.currentTimeMillis();
+		//elapsedHero += (tock - tick) * beaconModifier;
+		elapsedDay += (tock - tick) /(2*fightModifier);
+		tick = tock;
+	}
+	
+	/**
 	 * Get the elapsed time since the hero last action
 	 * 
 	 * @return the elapsed time since the hero last action
@@ -95,16 +106,27 @@ public class TimeData {
 	 * Divide the time pass speed by half
 	 */
 	public void slower() {
-		if (timeModifier > 0.25) {
+		if (timeModifier > 1) {
 			timeModifier /=2;
 		}
 	}
+	
+	/*
+	 *@param newModifier = The new time the text stay printed
+	 * 
+	 * Change the time the message stays in the fight
+	 */
+	public void setFightPrintSpeed(int newModifier) {
+		fightModifier = newModifier;
+	}
+	
+
 	
 	/**
 	 * Multiply the time pass speed by two
 	 */
 	public void faster() {
-		if (timeModifier < 4) {
+		if (timeModifier <16) {
 			timeModifier *=2;
 		}
 	}
@@ -130,5 +152,13 @@ public class TimeData {
 	 */
 	public void thereIsNoBeacon() {
 		beaconModifier=1;
+	}
+	
+	public float timeModifier() {
+		return timeModifier;
+	}
+	
+	public float fightModifier() {
+		return fightModifier;
 	}
 }

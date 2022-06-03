@@ -21,7 +21,7 @@ public class Hero extends AbstractEntities implements Serializable{
 	 * @param vampirism : The hero vampirism percentage
 	 */
     public Hero(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism){
-    	super(hp,strength,defense,1,regen,evade,vampirism);
+    	super(hp,strength,defense,counterAttack,regen,evade,vampirism);
     	this.stuff= new HeroStuff();
     }
 

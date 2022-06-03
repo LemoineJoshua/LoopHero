@@ -8,6 +8,7 @@ import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.Chest;
+import theGame.entities.Mimic;
 import theGame.entities.Spider;
 
 public class BattleField extends AbstractTile implements Serializable{
@@ -55,10 +56,16 @@ public class BattleField extends AbstractTile implements Serializable{
 				trueSpawningTiles.add(tile);
 			}
 		}
-		Chest chest= new Chest();	
+		
+		
+		
 		if (trueSpawningTiles.size()>0) {
 			AbstractRoad spawningTile = trueSpawningTiles.get(Math.round((float) Math.random()*(trueSpawningTiles.size()-1)));
-			spawningTile.addMob(chest);
+			if (Math.random()>0.5) {
+				spawningTile.addMob(new Chest());
+			}else {
+				spawningTile.addMob(new Mimic());
+			}
 		}
 		
 	}

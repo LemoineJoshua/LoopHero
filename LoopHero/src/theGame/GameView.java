@@ -73,11 +73,13 @@ public class GameView {
 		graphics.setColor(Color.DARK_GRAY);
 		graphics.fill(new Rectangle2D.Float(0, 0, width, heigth/10));
 		
-		drawTimeBar(timeData.timeFraction(), gameData);
+		drawTimeBar(timeData, gameData);
 		
 		drawLogo();
 		
 		if (timeData.isStopped()) {
+			BufferedImage img = stringToImage("pictures/HUD/stop.png"); 
+			drawHero(6, -1, img);
 			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
 		}		
 		int fontSize = Math.round(((5*width/6) - (xPlayingZone+widthPlayingZone))/13);
@@ -436,11 +438,11 @@ public class GameView {
 	 * @param timeFraction : A time fraction showing the day time passed
 	 * @param gameData : All the data used in the game
 	 */
-	public void drawTimeBar(double timeFraction, GameData gameData) {
+	public void drawTimeBar(TimeData timeData, GameData gameData) {
 		graphics.setColor(Color.LIGHT_GRAY);
 		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
 		graphics.setColor(Color.WHITE);
-		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone * timeFraction, 30));
+		graphics.fill(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone * timeData.timeFraction(), 30));
 		graphics.setColor(Color.BLACK);
 		graphics.draw(new Rectangle2D.Double(xPlayingZone, yPlayingZone/2 - 30, widthPlayingZone, 30));
 		
@@ -450,7 +452,19 @@ public class GameView {
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString("Boucle : "+ gameData.board().loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );		
+		graphics.drawString("Boucle : "+ gameData.board().loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );	
+		
+		img = stringToImage("pictures/HUD/Speed1.png"); 
+		drawHero(12, -1, img);
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
+		graphics.drawString("x"+Math.round(timeData.timeModifier()), xPlayingZone + 13*squareSize , yPlayingZone/2 + 30 );	
+		
+		img = stringToImage("pictures/HUD/Speed2.png"); 
+		drawHero(16, -1, img);
+		graphics.setColor(Color.BLACK);
+		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
+		graphics.drawString(+Math.round(timeData.fightModifier())+" sec", xPlayingZone + 17*squareSize , yPlayingZone/2 + 30 );	
 	}
 	
 	/**

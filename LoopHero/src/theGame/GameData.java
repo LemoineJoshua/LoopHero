@@ -221,7 +221,8 @@ public class GameData implements Serializable{
 					break;
 					
 				case "village":
-					board.boardMatrix()[indexY][indexX]=new Village(position);
+					AbstractRoad road5= (AbstractRoad) board.boardMatrix()[indexY][indexX];
+					board.boardMatrix()[indexY][indexX]=new Village(position,road5.aliveMonster());
 					Village village = (Village) board.boardMatrix()[indexY][indexX];
 					village.searchOvergrown(board);
 					break;

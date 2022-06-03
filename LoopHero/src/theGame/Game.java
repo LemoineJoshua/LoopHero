@@ -112,10 +112,11 @@ public class Game {
 			if(gameData.isFight()) {
 				
 				Fight fight = new Fight(gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory(),gameData.itemInventory(),ctx);
-				if(!fight.doFight()) {
+				if(!fight.doFight((int) timeData.fightModifier())) {
 					System.out.println("Oh non le hero est mort, dommage");
 					ctx.exit(0);
 				}
+				timeData.elapsedFight();
 			}
 		}
 	}
@@ -156,6 +157,12 @@ public class Game {
 		case S -> timeData.stop();
 		
 		case D -> startTime();
+		
+		case A -> timeData.setFightPrintSpeed(1);
+		
+		case Z -> timeData.setFightPrintSpeed(2);
+		
+		case E -> timeData.setFightPrintSpeed(3);
 		
 		default -> System.out.println("touche inactive "+e.getKey()); 
 
@@ -224,6 +231,7 @@ public class Game {
 	private void startTime() {
 		timeData.start();
 		gameData.unselectCard();
+		gameData.unselectItem();
 	}
 	
 	

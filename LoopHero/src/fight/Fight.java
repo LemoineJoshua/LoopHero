@@ -117,7 +117,7 @@ public class Fight {
 	 * 
 	 * @return true if the hero win, and false if he loosed.
 	 */
-	public boolean doFight() {
+	public boolean doFight(int fightModifier) {
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 		for(AbstractMonster mob:mobs) {
 			mob.fightStats(board.loop());
@@ -168,7 +168,7 @@ public class Fight {
 				}
 				
 				//Draw everything that happened during the monster turn
-				drawFight(fightProgress);
+				drawFight(fightProgress, fightModifier);
 				fightProgress.clear();
 				
 				indexAttack = checkMobDeath(indexAttack, tile);	
@@ -212,7 +212,7 @@ public class Fight {
 			indexAttack = checkMobDeath(indexAttack, tile);
 			
 			//Draw everything that happened during the hero turn
-			drawFight(fightProgress);
+			drawFight(fightProgress, fightModifier);
 			fightProgress.clear();
 			
 			// Everyone regen time
@@ -248,11 +248,11 @@ public class Fight {
 	 * 
 	 * @param fightProgress : A list of sentences which explain the fight progression
 	 */
-	private void drawFight(ArrayList<String> fightProgress) {
+	private void drawFight(ArrayList<String> fightProgress, int fightModifier) {
 		
 		gameView.drawFight(ctx, hero, mobs, fightProgress);
 		try {
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(fightModifier);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
