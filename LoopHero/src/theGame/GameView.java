@@ -26,8 +26,6 @@ import theGame.inventories.HeroStuff;
 import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
 import theGame.tiles.AbstractRoad;
-import theGame.tiles.CampFire;
-import theGame.tiles.Meadow;
 import theGame.Cards.Card;
 
 public class GameView {
@@ -79,8 +77,8 @@ public class GameView {
 		
 		if (timeData.isStopped()) {
 			BufferedImage img = stringToImage("pictures/HUD/stop.png"); 
-			drawHero(6, -1, img);
-			graphics.drawString("Mode Plannification", xPlayingZone + 7*squareSize , yPlayingZone/2 + 30 );
+			drawHero(5, -1, img);
+			graphics.drawString("Mode Plannification", xPlayingZone + 6*squareSize , yPlayingZone/2 + 30 );
 		}		
 		int fontSize = Math.round(((5*width/6) - (xPlayingZone+widthPlayingZone))/13);
 		gameData.ressourcesInventory().drawRessources(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize, fontSize);	
@@ -455,16 +453,16 @@ public class GameView {
 		graphics.drawString("Boucle : "+ gameData.board().loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );	
 		
 		img = stringToImage("pictures/HUD/Speed1.png"); 
-		drawHero(12, -1, img);
+		drawHero(14, -1, img);
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString("x"+Math.round(timeData.timeModifier()), xPlayingZone + 13*squareSize , yPlayingZone/2 + 30 );	
+		graphics.drawString("x"+Math.round(timeData.timeModifier()), xPlayingZone + 15*squareSize , yPlayingZone/2 + 30 );	
 		
 		img = stringToImage("pictures/HUD/Speed2.png"); 
-		drawHero(16, -1, img);
+		drawHero(18, -1, img);
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString(+Math.round(timeData.fightModifier())+" sec", xPlayingZone + 17*squareSize , yPlayingZone/2 + 30 );	
+		graphics.drawString(+Math.round(timeData.fightModifier())+" sec", xPlayingZone + 19*squareSize , yPlayingZone/2 + 30 );	
 	}
 	
 	/**
