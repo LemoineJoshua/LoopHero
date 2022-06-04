@@ -147,10 +147,7 @@ public class Fight {
 				fightProgress.add("=> Monstre "+monsterNumber+" attaque.");		// Every line with "fightProgress.add()" are used to stock what will be written in the little terminal on the screen
 				
 				if(!hero.doEvade()) {		// Condition to know if the hero has evade the mob attack
-					int damage=mob.damage();
-					//System.out.println("les pv du hero avant : "+hero.hp());
-					//System.out.println("les damages du mob : "+damage);
-					
+					int damage=mob.damage();					
 					if(hero.doCounter()) {					// If the hero counter, then the monster take their own damage
 						lossHp = mob.lossHp(damage);
 						fightProgress.add("-Le héros a contré, ");
@@ -163,8 +160,6 @@ public class Fight {
 							return false;
 						}
 						vampirismRegen = mob.vampirismRegen(damage);	// Regen the monster if he got vampirism
-						//System.out.println("les pv du hero après : "+hero.hp());
-
 						if (vampirismRegen>0) {
 							fightProgress.add("-Le Monstre "+monsterNumber+" a récupéré "+vampirismRegen+" points");
 							fightProgress.add("de vie grâce à son vampirisme.");
@@ -193,10 +188,7 @@ public class Fight {
 
 			fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
 			if(!mob.doEvade()) {			// Condition to know if the monster has evade the mob attack
-				int damage=hero.damage();
-				//System.out.println("les du mob pv avant : " + mob.hp());
-				//System.out.println("damage du hero : "+damage);
-				
+				int damage=hero.damage();				
 				if(mob.doCounter()) {			// If the monster counter, then the hero take his own attack
 					lossHp = hero.lossHp(damage);
 					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a contré,");
@@ -210,12 +202,8 @@ public class Fight {
 						fightProgress.add("de vie grâce à son vampirisme.");
 					}
 				}
-				
-				//System.out.println("les pv du mob après: " + mob.hp());				
-				
 			}else {				// If the hero has evade
 				fightProgress.add("-Le Monstre "+(indexAttack+1)+" a esquivé.");
-				//System.out.println("il a esquive");
 			}
 			
 			//Draw everything that happened during the hero turn
@@ -236,14 +224,12 @@ public class Fight {
 					monster.regenTurn();
 				}
 				monsterNumber ++;
-					
 			}
 			//Draw the regen of everyone
 			if (fightProgress.size()>0) {
 				drawFight(fightProgress, fightModifier, -1, -2);
 				fightProgress.clear();
 			}
-						
 			// Fight end condition
 			if (allMobDead()) {
 				//System.out.println("les pv du hero à la fin du combat : "+hero.hp());

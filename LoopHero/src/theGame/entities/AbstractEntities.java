@@ -73,7 +73,7 @@ public abstract class AbstractEntities implements Serializable{
     /**
      * Check if the entity has evade
      * 
-     * @return true if the enity evade, else false
+     * @return true if the entity evade, else false
      */
     public boolean doEvade() {
     	return stats.get("evade")>Math.random();

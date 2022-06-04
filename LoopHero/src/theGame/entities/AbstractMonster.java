@@ -37,6 +37,9 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
      * @param drop : The list of ressources, the monster can drop
      * @param picture : The path to the picture of the monster, when he is on the board
      * @param pictureFight : The path to the picture of the monster, when he is in fight
+     * @param pictureFightAtt : The path to the picture of the monster, when he attack in fight
+     * @param pictureFightDeath : The path to the picture of the monster, when he is dead in fight
+     * @param questVillagePosition : The index of the village, of which the monster is the quest
      */
     public AbstractMonster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight, String pictureFightAtt, String pictureFightDeath, Integer questVillagePosition ){
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
@@ -146,20 +149,43 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 		stats.put("hp", stats.get("maxHp"));
 	}
 	
+	/**
+	 * Check if the monster got a soul
+	 * 
+	 * @return true if the monster got a soul, else false
+	 */
 	public boolean hasASoul() {
 		return false;
 	}
 		
+	/**
+	 * Deal the effect if the monster is near a vampire mansion
+	 */
 	public void vampireNearby() {}
 	
+	/**
+	 * Give the monster a quest
+	 * 
+	 * @param position : The index of the village tile in the loop
+	 */
 	public void giveAQuest(int position) {
 		questVillagePosition = position;
 	}
 	
+	/**
+	 * Check if the monster is in a quest
+	 * 
+	 * @return true if the monster got a quest, else false
+	 */
 	public boolean gotAQuest() {
 		return (questVillagePosition!=null);
 	}
 	
+	/**
+	 * questVillagePosition accessor
+	 * 
+	 * @return the questVillagePosiion
+	 */
 	public Integer questVillagePosition() {
 		return questVillagePosition;
 	}

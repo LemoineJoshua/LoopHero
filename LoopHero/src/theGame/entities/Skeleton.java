@@ -10,15 +10,26 @@ public class Skeleton extends AbstractMonster implements Serializable{
 		generateLootList();
 	}
 	
+	/**
+	 * Generate the lootList of the chest
+	 */
 	private void generateLootList(){
 		drop.add("PitifulRemains");
 	}
 	
+	/**
+	 * Deal the effect if the monster is near a vampire mansion
+	 */
 	@Override
 	public void vampireNearby() {
 		stats.put("vampirism",stats.get("vampirism")+0.1);
 	}
 	
+	/**
+	 * Check if the monster got a soul
+	 * 
+	 * @return true if the monster got a soul, else false
+	 */
 	@Override
 	public boolean hasASoul() {
 		return true;
