@@ -130,6 +130,19 @@ public class Item implements Serializable {
 		return item;
 	}
 	
+	public static Item getAQuestItem(int loop) {
+		Item item = null;
+		if (loop <3 ) {
+			item = generalItem(loop,2);
+		}else {
+			if (Math.random()>0.5) {
+				item = generalItem(loop,2);
+			}else {
+				item = generalItem(loop,3);
+			}
+		}
+		return item;
+	}
 	static private String rollAStat(ArrayList<String> statsSup){
 		
 		ArrayList<String> statList = new ArrayList<>();

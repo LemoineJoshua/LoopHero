@@ -42,7 +42,7 @@ public class Village extends AbstractRoad implements Serializable{
 		int totalHealing = (15*gameData.board().loop()) + (5*gameData.board().loop()*wheatFieldAround);
 		gameData.board().hero().regenHPdaily(totalHealing);
 		
-		// GIVE A QUEST
+		giveAQuest(gameData);
 	}
 	
 	
@@ -50,8 +50,18 @@ public class Village extends AbstractRoad implements Serializable{
 		Integer indexInLoop = gameData.board().getIndexInLoop(position.x(), position.y());
 		ArrayList<AbstractTile> tileWithMonster = new ArrayList<>();
 		for (Coord coord:gameData.board().coordList()) {
-			//if(gameData.board().boardMatrix()[coord.x()][coord.y()])
+			AbstractRoad road = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
+			if(!road.aliveMonster().isEmpty()) {
+				tileWithMonster.add(road);
+			}
 		}
+		if (tileWithMonster.size()>0) {
+			AbstractRoad selectedTile = (AbstractRoad) tileWithMonster.get((int)( Math.random()*(tileWithMonster.size()-1)));
+			AbstractMonster selectedMonster = (AbstractMonster) selectedTile.aliveMonster().get((int) (Math.random()*(selectedTile.aliveMonster().size())-1));
+			
+			selectedMonster.giveAQuest(indexInLoop);
+		}
+		
 		
 	}
 	

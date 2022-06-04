@@ -32,7 +32,7 @@ public class Wastelands extends AbstractRoad implements Serializable{
     */
 	@Override
    public void dailyEffect(Board board) {
-	   Slime slime = new Slime();
+	   Slime slime = new Slime(); 
 	   if (slime.doSpawn()){
            addMob(slime);
 	   }

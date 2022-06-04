@@ -35,7 +35,6 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 		
 	}
 	
-	
 	/**
 	 * Check if there is a monster on the tile to start fight
 	 * 

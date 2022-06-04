@@ -20,6 +20,10 @@ public class BattleField extends AbstractTile implements Serializable{
 		
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
+		posibilities.add(new Coord(1,1));
+		posibilities.add(new Coord(-1,-1));
+		posibilities.add(new Coord(1,-1));
+		posibilities.add(new Coord(-1,1));
 		posibilities.add(new Coord(0,-1));
 		posibilities.add(new Coord(1,0));
 		posibilities.add(new Coord(-1,0));

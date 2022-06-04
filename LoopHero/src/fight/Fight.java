@@ -76,8 +76,10 @@ public class Fight {
 		posibilities.add(new Coord(0,-1));
 		posibilities.add(new Coord(1,0));
 		posibilities.add(new Coord(-1,0));
-		
-		
+		posibilities.add(new Coord(1,1));
+		posibilities.add(new Coord(-1,-1));
+		posibilities.add(new Coord(1,-1));
+		posibilities.add(new Coord(-1,1));
 		
 		for(Coord coord : posibilities) {
 			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
@@ -120,7 +122,11 @@ public class Fight {
 	public boolean doFight(int fightModifier) {
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
 		for(AbstractMonster mob:mobs) {
-			mob.fightStats(board.loop());
+			if (mob.gotAQuest()) {
+				mob.fightStatsQuest(board.loop());
+			}else {
+				mob.fightStats(board.loop());
+			}
 			
 		}
 		ArrayList<String> fightProgress = new ArrayList<>();

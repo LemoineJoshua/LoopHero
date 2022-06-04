@@ -61,16 +61,6 @@ public class Board implements Serializable{
      * @return the initialized path
      */
     private ArrayList<Coord> initPath(){
-    	/*
-        Coord[] coordList = 
-        		{
-        		new Coord(5,2),new Coord(6,2),new Coord(7,2),new Coord(7,3),new Coord(8,3),new Coord(8,4),new Coord(9,4),new Coord(10,4),
-        		new Coord(11,4),new Coord(11,3),new Coord(11,2),new Coord(12,2),new Coord(13,2),new Coord(13,3),new Coord(14,3),
-        		new Coord(14,4), new Coord(14,5),new Coord(14,6),new Coord(13,6),new Coord(13,7),new Coord(12,7),new Coord(11,7),
-        		new Coord(11,8),new Coord(10,8),new Coord(9,8),new Coord(9,7),new Coord(8,7),new Coord(7,7),new Coord(6,7),new Coord(6,6),
-        		new Coord(6,5),new Coord(5,5),new Coord(5,4),new Coord(5,3)
-        		};
-        */
     	ArrayList<Coord> coordList = new ArrayList<>();
     	
     	try(BufferedReader reader = Files.newBufferedReader(Path.of("functional/way.txt"))){

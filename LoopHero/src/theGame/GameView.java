@@ -26,6 +26,7 @@ import theGame.inventories.HeroStuff;
 import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
 import theGame.tiles.AbstractRoad;
+import theGame.tiles.AbstractTile;
 import theGame.Cards.Card;
 
 public class GameView {
@@ -516,8 +517,14 @@ public class GameView {
 		 for(int x=0;x<21;x++){
 	        	for(int y=0;y<12;y++) {
 	        		if (!(gameData.board().boardMatrix()[y][x].picture()==null)) {
-	        			BufferedImage img=gameData.board().boardMatrix()[y][x].picture();
+	        			AbstractTile tile = gameData.board().boardMatrix()[y][x];
+	        			BufferedImage img=tile.picture();
 	        			drawATile(x, y,img);
+	        			if (tile.gotAMobWithAQuest()) {
+	        				img=stringToImage("pictures/Tiles/quest.png");
+		        			drawATile(x, y,img);
+	        			}
+	        			
 	        		}
 	        	}
 	        }
@@ -876,11 +883,21 @@ public class GameView {
 		int heigthBar = heigth/5;
 		int yBar = y+heigthBar;
 
+		
+		if (entity instanceof AbstractMonster) {
+			AbstractMonster monster= (AbstractMonster) entity;
+			if (monster.gotAQuest()) {
+				graphics.setColor(new Color(226, 238, 51));
+				graphics.fill(new Rectangle2D.Double(x-5, yBar-5, width+10, heigthBar+10));
+			}
+		}
+		
 		graphics.setColor(new Color(222, 239, 217));
 		graphics.fill(new Rectangle2D.Double(x, yBar, width, heigthBar));
 		
 		graphics.setColor(new Color(75, 188, 36));
 		graphics.fill(new Rectangle2D.Double(x, yBar, width*entity.hpPercentage(), heigthBar));
+		
 		
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
 		graphics.drawString(entity.hp()+"/"+entity.maxHp()+"HP", x, (y+3*heigth/5));

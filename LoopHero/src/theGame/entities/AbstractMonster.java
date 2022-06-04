@@ -108,11 +108,27 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 		stats.put("hp", stats.get("maxHp"));
 	}
 	
+	public void fightStatsQuest(int loopNumber) {
+		stats.put("strength",(double) Math.round(stats.get("strength")* loopNumber * 0.95 * 2 * (1+(loopNumber-1)*0.02)));
+		stats.put("maxHp", (double) Math.round(stats.get("maxHp")* loopNumber * 0.95 * 1.8 *(1+(loopNumber-1)*0.02)));
+		stats.put("counterAttack",(double) stats.get("counterAttack") +0.15);
+		stats.put("evade",(double) stats.get("evade") +0.15);
+		stats.put("hp", stats.get("maxHp"));
+	}
+	
 	public boolean hasASoul() {
 		return false;
 	}
 		
 	public void vampireNearby() {}
+	
+	public void giveAQuest(int position) {
+		questVillagePosition = position;
+	}
+	
+	public boolean gotAQuest() {
+		return (questVillagePosition!=null);
+	}
 	
     
 	

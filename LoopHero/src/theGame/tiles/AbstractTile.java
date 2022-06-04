@@ -8,6 +8,7 @@ import theGame.GameData;
 import theGame.GameView;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
+import theGame.entities.AbstractMonster;
 
 public abstract class AbstractTile implements Serializable {
 	private final  String type;
@@ -167,6 +168,20 @@ public abstract class AbstractTile implements Serializable {
 		for(Coord coord : posibilities) {
 			if((y+coord.y()<12 && y+coord.y()>=0) && (x+coord.x()<21 && x+coord.x()>=0)) {
 				if(matrix[y+coord.y()][x+coord.x()] instanceof Village) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean gotAMobWithAQuest() {
+		if (!(this instanceof AbstractRoad)) {
+			return false;
+		}else {
+			AbstractRoad tile = (AbstractRoad) this;
+			for (AbstractMonster monster : tile.aliveMonster) {
+				if (monster.gotAQuest()) {
 					return true;
 				}
 			}
