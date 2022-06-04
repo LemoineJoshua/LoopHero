@@ -1,6 +1,8 @@
 package theGame.inventories;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +36,10 @@ public class Item implements Serializable {
 			put("maxHp",(double) Math.round(hp));
 			put("strength",(double) Math.round(strength));
 			put("defense",(double) Math.round(defense));
-			put("counterAttack",counterAttack);
-			put("regen",(double) regen);
-			put("evade",(double) evade);
-			put("vampirism",(double) vampirism);
+			put("counterAttack", (double) round(counterAttack,2));
+			put("regen",(double) round(regen,2));
+			put("evade",(double) round(evade,2));
+			put("vampirism",(double) round(vampirism,2));
 		}};
 		this.rarity=rarity;
 		this.image=image;
@@ -312,5 +314,14 @@ public class Item implements Serializable {
 			return ringItem(loop, rarity);
 		}		
 	}
+	
+	public static double round(double value, int places) {
+        if (places < 0)
+            throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.FLOOR);
+        return bd.doubleValue();
+    }
 	
 }

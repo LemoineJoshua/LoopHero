@@ -8,11 +8,13 @@ import theGame.GameView;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.Hero;
+import theGame.entities.PrimalMatter;
 import theGame.entities.Skeleton;
 import theGame.entities.Vampire;
 import theGame.entities.AbstractMonster;
 import theGame.entities.FieldOfBlade;
 import theGame.entities.Ghost;
+import theGame.entities.GhostOfGhost;
 import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;
@@ -227,7 +229,6 @@ public class Fight {
 				fightProgress.add("-Le Héros a récupéré "+ hero.regen()+" hp.");
 				hero.regenTurn();
 			}
-			hero.regenTurn();
 			monsterNumber = 1;
 			for(AbstractMonster monster:mobs) {
 				if (monster.regen()>=1) {
@@ -261,11 +262,23 @@ public class Fight {
 					((Village) questTile).questMobDefeated();
 				}
 			}
-			if (battleFieldAround && Math.random()>0.5 && !(mobs.get(indexAttack) instanceof Ghost ) && mobs.get(indexAttack).hasASoul()){
-				mobs.remove(indexAttack);
-				mobs.add(indexAttack, new Ghost());
-				mobs.get(indexAttack).fightStats(board.loop());
-				tile.aliveMonster().add(new Ghost());					
+			if (battleFieldAround && Math.random()>00 && mobs.get(indexAttack).hasASoul()){
+				AbstractMonster mob =mobs.remove(indexAttack);
+				if (mob instanceof Ghost) {
+					mobs.add(indexAttack, new GhostOfGhost());
+					mobs.get(indexAttack).fightStats(board.loop());
+					tile.aliveMonster().add(new GhostOfGhost());
+					
+				}else if (mob instanceof GhostOfGhost) {
+					mobs.add(indexAttack, new PrimalMatter());
+					mobs.get(indexAttack).fightStats(board.loop());
+					tile.aliveMonster().add(new PrimalMatter());	
+				}else {
+					mobs.add(indexAttack, new Ghost());
+					mobs.get(indexAttack).fightStats(board.loop());
+					tile.aliveMonster().add(new Ghost());	
+				}
+								
 			}else {
 				indexAttack++;	
 			}
