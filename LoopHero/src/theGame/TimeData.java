@@ -141,23 +141,33 @@ public class TimeData {
 	}
 	
 	/**
-	 * Actualise the beaconModifier
+	 * Actualize the beaconModifier
 	 */
 	public void thereIsABeacon() {
 		beaconModifier=(float)1.4;
 	}
 	
 	/**
-	 * Actualise the beaconModifier
+	 * Actualize the beaconModifier
 	 */
 	public void thereIsNoBeacon() {
 		beaconModifier=1;
 	}
 	
+	/**
+	 * timeModifier accesor
+	 * 
+	 * @return the time modifier
+	 */
 	public float timeModifier() {
 		return timeModifier;
 	}
 	
+	/**
+	 * fightModifier accessor
+	 * 
+	 * @return the fightModifier
+	 */
 	public float fightModifier() {
 		return fightModifier;
 	}

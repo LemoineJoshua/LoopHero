@@ -38,7 +38,7 @@ public class Fight {
 	
 	
 	/**
-	 * Constrtuctor of the class Fight
+	 * Constructor of the class Fight
 	 * which use data such as Hero, gameView to draw, or the board
 	 * 
 	 * @param gameView : Set of functions related to graphics
@@ -62,16 +62,16 @@ public class Fight {
 		this.mobs = new ArrayList<AbstractMonster>();
 		for (AbstractMonster monster:tile.aliveMonster()) {
 			mobs.add(monster);
-		}
-		
-		//System.out.println("---------------------------------");
-		
+		}		
 		
 		checkAround((AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()]);
-		
-		
 	}
 	
+	/**
+	 * Check the type of the tile and the tile around to deal with special tile effect, like vampire mansion or overgrown Wheatfield
+	 * 
+	 * @param tile The tile on which the fight take place
+	 */
 	private void checkAround(AbstractRoad tile) {
 		AbstractTile[][] matrix = board.boardMatrix();
 		ArrayList<Coord> posibilities = new ArrayList<>();
@@ -84,7 +84,7 @@ public class Fight {
 		posibilities.add(new Coord(1,-1));
 		posibilities.add(new Coord(-1,1));
 		
-		for(Coord coord : posibilities) {
+		for(Coord coord : posibilities) {					// Spawn a Vampire, if there is a vampire mansion around the tile of the fight
 			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
 				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof VampireMansion) {
 					mobs.add(new Vampire());
@@ -98,8 +98,7 @@ public class Fight {
 				}
 			}
 		}
-		
-		for(Coord coord : posibilities) {
+		for(Coord coord : posibilities) {					// Check if there is a battlefield around
 			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
 				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof BattleField) {
 					battleFieldAround=true; 
@@ -107,8 +106,7 @@ public class Fight {
 				}
 			}
 		}
-		
-		if(board.boardMatrix()[board.heroY()][board.heroX()] instanceof OvergrownWheatField) {
+		if(board.boardMatrix()[board.heroY()][board.heroX()] instanceof OvergrownWheatField) {  // Spawn field of blades, if we are on an overgrown wheat field
 			for(int i=mobs.size();i<5;i++) {
 				mobs.add(new FieldOfBlade());
 				tile.aliveMonster().add(new FieldOfBlade());
@@ -119,6 +117,8 @@ public class Fight {
 	 * Main function of the class Fight, which is a loop that ends 
 	 * when either the hero is dead or all ennemies are dead.
 	 * In this loop all monsters hit the hero first and the it's time for the hero to play.
+	 * 
+	 * @param fightModifier : the time, the text on the screen stay each time we print it 
 	 * 
 	 * @return true if the hero win, and false if he loosed.
 	 */
@@ -253,6 +253,14 @@ public class Fight {
 		}	
 	}
 	
+	/**
+	 * Check if a mob is a dead, if he is the index of the mob, the hero attack increased
+	 * Also deal with possible ghost and quest
+	 * 
+	 * @param indexAttack : The index of the mob, the hero is targeting
+	 * @param tile : the tile on which the fight take place
+	 * @return the index of the mob, the hero need to focus
+	 */
 	private int checkMobDeath(int indexAttack,AbstractRoad tile) {
 		if(mobs.get(indexAttack).isDead()) {
 			if (mobs.get(indexAttack).gotAQuest()) {
@@ -291,6 +299,9 @@ public class Fight {
 	 * Then wait a little bit, to let the time to the player to read
 	 * 
 	 * @param fightProgress : A list of sentences which explain the fight progression
+	 * @param fightModifier : The time, the current screen stay displayed
+	 * @param int indexAttack : the index of the mob, the hero is attacking
+	 * @param attackerIndex : The index of the entity currently attacking
 	 */
 	private void drawFight(ArrayList<String> fightProgress, int fightModifier, int indexAttack, int attackerIndex) {
 		

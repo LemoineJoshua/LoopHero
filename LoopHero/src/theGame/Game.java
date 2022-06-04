@@ -226,7 +226,7 @@ public class Game {
 	}
 	
 	/**
-	 * Function that ralaunch the passage of time 
+	 * Function that relaunch the passage of time 
 	 */
 	private void startTime() {
 		timeData.start();
@@ -251,7 +251,7 @@ public class Game {
 	}
 	
 	/**
-	 * Fonction used to get à save
+	 * Fonction used to get a save
 	 * 
 	 * @return a gamedata from the save file
 	 */
@@ -282,7 +282,6 @@ public class Game {
 				Point2D.Float location = e.getLocation();
 				if(gameView.onContinueButton(location)) {
 					if(Files.exists(Path.of("functional/save"))) {
-						System.out.println("askip j'existe");
 						doIntro=false;
 						newGame=false;
 					}else {
@@ -300,10 +299,6 @@ public class Game {
 				break;
 			default:
 				break;
-		}
-		
-		
+		}		
 	}
-	
-	
 }

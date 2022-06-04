@@ -105,14 +105,6 @@ public class Board implements Serializable{
         
  	   
         ArrayList<AbstractMonster> beginningMob = new ArrayList<AbstractMonster>();
-        /*
-        beginningMob.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.00,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
-        beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
-        beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
-        beginningMob.add(new Monster(16,3.6,0.0,0.0,0.05,0.10,0.0,(float)0.05,(float)0.6,drop,"pictures/Entities/ratWolf.png", "pictures/Entities/ratWolfFight.png"));
-        */
-        //beginningMob.add(new Monster(13,3.3,0.0,0.0,0.0,0.0,0.0,(float)0.05, (float) 0.65,drop,"pictures/Entities/slimeS.png", "pictures/Entities/slimeFight.png"));
-        
         boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningMob),new Coord(11,4));
         
         boardMatrix[coordList.get(0).y()][coordList.get(0).x()] = new CampFire(coordList.get(0));        

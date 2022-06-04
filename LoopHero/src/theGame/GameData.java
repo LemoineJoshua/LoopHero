@@ -51,6 +51,8 @@ public class GameData implements Serializable{
 	/**
 	 * Move the Hero on the board d=foolowing the Path
 	 * 
+	 * @param timeData : Data related to the course of time in the game
+	 * 
 	 * @return true if the hero pass on campfire, false else
 	 */
 	public boolean moveHero(TimeData timeData) {

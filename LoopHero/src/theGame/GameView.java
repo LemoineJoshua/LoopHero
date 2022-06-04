@@ -102,7 +102,7 @@ public class GameView {
 	/**
 	 * Draw the HUD on the right of the screen, with all the items and the hero's stats
 	 * 
-	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 * @param gameData :  All the data used in the game
 	 */
 	public void drawHud(GameData gameData) {
 		// Draw the cell, where the items will be placed 
@@ -248,6 +248,7 @@ public class GameView {
 	 * 
 	 * @param hero : The hero, his inventories and his stats
 	 * @param y : the coord y of the beginning of the stats zone
+	 * @param fontSize : the fontiSize we use
 	 */
 	private void drawStats(Hero hero, double y, int fontSize) {
 		graphics.setColor(Color.WHITE);
@@ -298,6 +299,11 @@ public class GameView {
 		}
 	}
 	
+	/**
+	 * A switch to get the fine color about the item rarity
+	 * 
+	 * @param item : the item we need to choose the color
+	 */
 	private void getColorForItem(Item item) {
 		switch (item.rarity()) {
 		case 0 : 
@@ -458,7 +464,7 @@ public class GameView {
 	/**
 	 * Draw the time bar on the top of the board, and write the informations below
 	 *  
-	 * @param timeFraction : A time fraction showing the day time passed
+	 * @param timeData : Data related to the course of time in the game
 	 * @param gameData : All the data used in the game
 	 */
 	public void drawTimeBar(TimeData timeData, GameData gameData) {
@@ -548,6 +554,10 @@ public class GameView {
 	        				img=stringToImage("pictures/Tiles/quest.png");
 		        			drawATile(x, y,img);
 	        			}
+	        			if (tile instanceof AbstractRoad && ((AbstractRoad) tile).isBeaconNearby(gameData.board())) {
+	        				img=stringToImage("pictures/Tiles/beaconField.png");
+		        			drawATile(x, y,img);
+	        			}
 	        			
 	        		}
 	        	}
@@ -586,10 +596,22 @@ public class GameView {
 		drawBoard(gameData);
 	}
 	
+	/**
+	 * Draw the whole screen
+	 * 
+	 * @param ctx : Global context of the game
+	 * @param gameData : All the data used in the game
+	 * @param timeData : Data related to the course of time in the game
+	 */
 	public void drawFrame(ApplicationContext ctx, GameData gameData, TimeData timeData) {
 		ctx.renderFrame(graphics -> drawFrame(graphics, gameData, timeData)); 
 	}
 	
+	/**
+	 * Draw the whole intro screen
+	 * 
+	 * @param ctx : Global context of the game
+	 */
 	public void drawIntro(ApplicationContext ctx) {
 		ctx.renderFrame(graphics -> drawIntro(graphics));
 	}
@@ -640,13 +662,17 @@ public class GameView {
 	}
 	
 	/**
-	 * @param location
-	 * @return true if the player cliked on the Continue button, false otherwise
+	 * @param location : the location of the user click
+	 * @return true if the player clicked on the Continue button, false otherwise
 	 */
 	public boolean onContinueButton(Point2D.Float location) {
 		return (location.x>(width/2.6) && location.x<(width/2.6 + width/4.5) && (location.y>(heigth/1.9) && location.y<(heigth/1.9 + heigth/25)) );
 	}
 	
+	/**
+	 * @param location : the location of the user click
+	 * @return true if the player clicked on the new game button, false otherwise
+	 */
 	public boolean onNewButton(Point2D.Float location) {
 		return (location.x>(width/2.6) && location.x<(width/2.6 + width/4.5) && (location.y>(heigth/2.1) && location.y<(heigth/2.1 + heigth/25)) );
 	}
@@ -816,6 +842,8 @@ public class GameView {
 	 * @param hero : The hero, his inventories and his stats
 	 * @param mobs : The list of all monsters who are in the Fight
 	 * @param fightProgress : A list of sentence which explained the fight
+	 * @param monsterIndexAttack : The index of the monster, the ennemy target
+	 * @param attackerIndex : the index of the entity attacking
 	 */
 	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress, int monsterIndexAttack, int attackerIndex) {
 		this.graphics = graphics;		
@@ -853,6 +881,8 @@ public class GameView {
 	 * @param fontSizeText : font size used for the classic text
 	 * @param hero : The hero, his inventories and his stats
 	 * @param mobs : The list of all monsters who are in the Fight
+	 * @param monsterIndexAttack : The index of the monster, the ennemy target
+	 * @param attackerIndex : the index of the entity attacking
 	 */
 	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<AbstractMonster> mobs, int monsterIndexAttack, int attackerIndex) {
 		graphics.setColor(Color.BLACK);

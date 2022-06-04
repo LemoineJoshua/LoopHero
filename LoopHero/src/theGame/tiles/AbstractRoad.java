@@ -101,9 +101,7 @@ public class AbstractRoad extends AbstractTile implements Serializable{
         }
     }
 	
-
-	
-	public void beaconNearby(TimeData timeData,Board board) {
+	public boolean isBeaconNearby(Board board) {
 		Coord[] posibilities = {
 				new Coord(position.x()-1,position.y()-2),new Coord(position.x(),position.y()-2),new Coord(position.x()+1,position.y()-2),
 				new Coord(position.x()-2,position.y()-1),new Coord(position.x()-1,position.y()-1),new Coord(position.x(),position.y()-1),new Coord(position.x()+1,position.y()-1),new Coord(position.x()+2,position.y()-1),
@@ -115,13 +113,20 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 		for(Coord coord:posibilities) {		
 			if((coord.y()>=0 && coord.y()<12) && (coord.x()>=0 && coord.x()<21)) {
 				if(board.boardMatrix()[coord.y()][coord.x()].imABeacon()) {
-					timeData.thereIsABeacon();
-					return;
+					return true;
 				}
 			}	
 		}
 		
-		timeData.thereIsNoBeacon();
+		return false;
+	}
+	
+	public void beaconNearby(TimeData timeData,Board board) {
+		if (isBeaconNearby(board)) {
+			timeData.thereIsABeacon();
+		}else {
+			timeData.thereIsNoBeacon();
+		}
 	}
 	
 }
