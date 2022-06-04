@@ -63,7 +63,7 @@ public class Board implements Serializable{
     private ArrayList<Coord> initPath(){
     	ArrayList<Coord> coordList = new ArrayList<>();
     	
-    	try(BufferedReader reader = Files.newBufferedReader(Path.of("functional/way.txt"))){
+    	try(BufferedReader reader = Files.newBufferedReader(Path.of("functional/way3.txt"))){
     		String line;
 			while((line=reader.readLine())!=null) {
 				String[] coords = line.split(",");
