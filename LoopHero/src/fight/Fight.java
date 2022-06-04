@@ -21,6 +21,7 @@ import theGame.tiles.AbstractTile;
 import theGame.tiles.BattleField;
 import theGame.tiles.OvergrownWheatField;
 import theGame.tiles.VampireMansion;
+import theGame.tiles.Village;
 
 public class Fight {
 	private final ApplicationContext ctx;
@@ -174,7 +175,7 @@ public class Fight {
 				}
 				
 				//Draw everything that happened during the monster turn
-				drawFight(fightProgress, fightModifier);
+				drawFight(fightProgress, fightModifier,-1, monsterNumber-1);
 				fightProgress.clear();
 				
 				indexAttack = checkMobDeath(indexAttack, tile);	
@@ -215,18 +216,35 @@ public class Fight {
 				//System.out.println("il a esquive");
 			}
 			
-			indexAttack = checkMobDeath(indexAttack, tile);
-			
 			//Draw everything that happened during the hero turn
-			drawFight(fightProgress, fightModifier);
+			drawFight(fightProgress, fightModifier, indexAttack, -1);
 			fightProgress.clear();
 			
+			indexAttack = checkMobDeath(indexAttack, tile);
+		
 			// Everyone regen time
+			if (hero.regen()>=1) {
+				fightProgress.add("-Le Héros a récupéré "+ hero.regen()+" hp.");
+				hero.regenTurn();
+			}
 			hero.regenTurn();
-			mob.regenTurn();
+			monsterNumber = 1;
+			for(AbstractMonster monster:mobs) {
+				if (monster.regen()>=1) {
+					fightProgress.add("-Le Monstre "+(monsterNumber)+" a récupéré "+ monster.regen()+" hp.");
+					monster.regenTurn();
+				}
+				monsterNumber ++;
+					
+			}
+			//Draw the regen of everyone
+			if (fightProgress.size()>0) {
+				drawFight(fightProgress, fightModifier, -1, -2);
+				fightProgress.clear();
+			}
 						
 			// Fight end condition
-			if (indexAttack>(mobs.size()-1)) {
+			if (allMobDead()) {
 				//System.out.println("les pv du hero à la fin du combat : "+hero.hp());
 				tile.clearMob(ressources, cardInventory, items, board.loop());
 				return true;
@@ -236,6 +254,13 @@ public class Fight {
 	
 	private int checkMobDeath(int indexAttack,AbstractRoad tile) {
 		if(mobs.get(indexAttack).isDead()) {
+			if (mobs.get(indexAttack).gotAQuest()) {
+				Integer tileIndex = mobs.get(indexAttack).questVillagePosition();
+				AbstractTile questTile = board.boardMatrix()[board.coordList().get(tileIndex).y()][board.coordList().get(tileIndex).x()];
+				if (questTile instanceof Village) {
+					((Village) questTile).questMobDefeated();
+				}
+			}
 			if (battleFieldAround && Math.random()>0.5 && !(mobs.get(indexAttack) instanceof Ghost ) && mobs.get(indexAttack).hasASoul()){
 				mobs.remove(indexAttack);
 				mobs.add(indexAttack, new Ghost());
@@ -254,9 +279,9 @@ public class Fight {
 	 * 
 	 * @param fightProgress : A list of sentences which explain the fight progression
 	 */
-	private void drawFight(ArrayList<String> fightProgress, int fightModifier) {
+	private void drawFight(ArrayList<String> fightProgress, int fightModifier, int indexAttack, int attackerIndex) {
 		
-		gameView.drawFight(ctx, hero, mobs, fightProgress);
+		gameView.drawFight(ctx, hero, mobs, fightProgress, indexAttack, attackerIndex);
 		try {
 			TimeUnit.SECONDS.sleep(fightModifier);
 		} catch (InterruptedException e) {

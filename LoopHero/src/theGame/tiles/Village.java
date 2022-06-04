@@ -7,9 +7,13 @@ import theGame.GameData;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
+import theGame.inventories.Item;
 
 public class Village extends AbstractRoad implements Serializable{
 	private int wheatFieldAround=0;
+	private boolean questDelivered = false;
+	private boolean questAchieved = false;
+	
 
 	/**
 	 * The Village constructor
@@ -42,12 +46,23 @@ public class Village extends AbstractRoad implements Serializable{
 		int totalHealing = (15*gameData.board().loop()) + (5*gameData.board().loop()*wheatFieldAround);
 		gameData.board().hero().regenHPdaily(totalHealing);
 		
-		giveAQuest(gameData);
+		if (!questDelivered) {
+			giveAQuest(gameData);
+		}else {
+			if (questAchieved) {
+				Item item = Item.getAQuestItem(gameData.board().loop());
+				gameData.itemInventory().add(item);
+			}
+			questAchieved = false;
+			questDelivered= false;
+			
+		}
+		
 	}
 	
 	
 	private void giveAQuest(GameData gameData) {
-		Integer indexInLoop = gameData.board().getIndexInLoop(position.x(), position.y());
+		Integer indexInLoop = gameData.board().getIndexInLoop(position.y(), position.x());
 		ArrayList<AbstractTile> tileWithMonster = new ArrayList<>();
 		for (Coord coord:gameData.board().coordList()) {
 			AbstractRoad road = (AbstractRoad) gameData.board().boardMatrix()[coord.y()][coord.x()];
@@ -60,9 +75,12 @@ public class Village extends AbstractRoad implements Serializable{
 			AbstractMonster selectedMonster = (AbstractMonster) selectedTile.aliveMonster().get((int) (Math.random()*(selectedTile.aliveMonster().size())-1));
 			
 			selectedMonster.giveAQuest(indexInLoop);
+			questDelivered = true;
 		}
-		
-		
+	}
+	
+	public void questMobDefeated() {
+		questAchieved=true;
 	}
 	
 	public void searchOvergrown(Board board) {
@@ -114,5 +132,7 @@ public class Village extends AbstractRoad implements Serializable{
 	public void wheatFieldOblivionned() {
 		wheatFieldAround--;
 	}
+	
+
 	
 }

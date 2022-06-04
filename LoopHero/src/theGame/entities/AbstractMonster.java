@@ -13,8 +13,12 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
     protected final ArrayList<String> drop;
     private final String pathPicture;
     private final String pathPictureFight;
+    private final String pathPictureFightAtt;
+    private final String pathPictureFightDeath;
     private transient BufferedImage picture;
     private transient BufferedImage pictureFight;
+    private transient BufferedImage pictureFightAtt;
+    private transient BufferedImage pictureFightDeath;
     private Integer questVillagePosition;
     
 
@@ -34,13 +38,15 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
      * @param picture : The path to the picture of the monster, when he is on the board
      * @param pictureFight : The path to the picture of the monster, when he is in fight
      */
-    public AbstractMonster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight, Integer questVillagePosition ){
+    public AbstractMonster(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,float chanceSpawn,float chanceCard,ArrayList<String> drop,String picture, String pictureFight, String pictureFightAtt, String pictureFightDeath, Integer questVillagePosition ){
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
         this.drop=drop;
         this.pathPicture=picture;
         this.pathPictureFight=pictureFight;
+        this.pathPictureFightAtt=pictureFightAtt;
+        this.pathPictureFightDeath=pictureFightDeath;
         this.picture=GameView.stringToImage(pathPicture);
         this.pictureFight=GameView.stringToImage(pathPictureFight);
         this.questVillagePosition = null;
@@ -96,6 +102,30 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 		}
 		return pictureFight;
 	}
+	
+	/**
+	 * Picture Fight Of the Attack accessor
+	 * 
+	 * @return the picture in fight when entity attacks 
+	 */
+	public BufferedImage pictureFightAtt() {
+		if(pictureFightAtt==null) {
+			this.pictureFightAtt=GameView.stringToImage(pathPictureFightAtt);
+		}
+		return pictureFightAtt;
+	}
+	
+	/**
+	 * Picture Fight Of the Death accessor
+	 * 
+	 * @return the picture in fight  when entity is dead
+	 */
+	public BufferedImage pictureFightDeath() {
+		if(pictureFightDeath==null) {
+			this.pictureFightDeath=GameView.stringToImage(pathPictureFightDeath);
+		}
+		return pictureFightDeath;
+	}
 
 	/**
 	 * Refresh the stats of the monster at the current loop.
@@ -110,7 +140,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 	
 	public void fightStatsQuest(int loopNumber) {
 		stats.put("strength",(double) Math.round(stats.get("strength")* loopNumber * 0.95 * 2 * (1+(loopNumber-1)*0.02)));
-		stats.put("maxHp", (double) Math.round(stats.get("maxHp")* loopNumber * 0.95 * 1.8 *(1+(loopNumber-1)*0.02)));
+		stats.put("maxHp", (double) Math.round(stats.get("maxHp")* loopNumber * 0.95 * 1.75 *(1+(loopNumber-1)*0.02)));
 		stats.put("counterAttack",(double) stats.get("counterAttack") +0.15);
 		stats.put("evade",(double) stats.get("evade") +0.15);
 		stats.put("hp", stats.get("maxHp"));
@@ -129,6 +159,12 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 	public boolean gotAQuest() {
 		return (questVillagePosition!=null);
 	}
+	
+	public Integer questVillagePosition() {
+		return questVillagePosition;
+	}
+	
+
 	
     
 	

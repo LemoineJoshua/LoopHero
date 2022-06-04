@@ -148,7 +148,6 @@ public class GameData implements Serializable{
 		if (myCard.type()==board.boardMatrix()[indexY][indexX].type()&& (board.boardMatrix()[indexY][indexX].isEmpty())){
 			return true;
 		}else if (myCard.type().equals("Oblivion") && (board.boardMatrix()[indexY][indexX].isOblivionable())){
-			System.out.println("je peux être oblionné");
 			return true;			
 		}else if (myCard.type().equals("WheatField") && (board.boardMatrix()[indexY][indexX].wheatFieldCanBePlaced(board.boardMatrix(),indexX,indexY))) {
 			return true;
@@ -196,13 +195,12 @@ public class GameData implements Serializable{
 					break;
 					
 				case "oblivion":
-					System.out.println("oblivion");
 					board.boardMatrix()[indexY][indexX].removingEffect(board);
-					if (board.boardMatrix()[indexY][indexX].type()=="Road") {
+					if (board.boardMatrix()[indexY][indexX].type().equals("Road")) {
 						board.boardMatrix()[indexY][indexX]=new Wastelands(position);
-					}else if(board.boardMatrix()[indexY][indexX].type()=="RoadSide") {
+					}else if(board.boardMatrix()[indexY][indexX].type().equals("RoadSide")) {
 						board.boardMatrix()[indexY][indexX]=new EmptyRoadSide();
-					}else if(board.boardMatrix()[indexY][indexX].type()=="Field") {
+					}else if(board.boardMatrix()[indexY][indexX].type().equals("Field")) {
 						board.boardMatrix()[indexY][indexX]=new EmptyField();
 					}
 					board.boardMatrix()[indexY][indexX].searchMeadowtoUnbloom(board, indexX, indexY);

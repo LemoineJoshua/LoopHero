@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class ScorchWorm extends AbstractMonster implements Serializable{
 
 	public ScorchWorm() {
-		super(10,2.7,0.0,0.10,0.0,0.10,0.0,(float)0.00,(float)0.15,new ArrayList<String>(),"pictures/Entities/worm.png", "pictures/Entities/wormFight.png", null);
+		super(10,2.7,0.0,0.10,0.0,0.10,0.0,(float)0.00,(float)0.15,new ArrayList<String>(),"pictures/Entities/worm.png", "pictures/Entities/wormFight.png", "pictures/Entities/wormFight2.png", "pictures/Entities/wormFight3.png", null);
 		generateLootList();
 		
 	}

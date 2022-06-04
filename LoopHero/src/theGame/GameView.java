@@ -250,6 +250,7 @@ public class GameView {
 	 * @param y : the coord y of the beginning of the stats zone
 	 */
 	private void drawStats(Hero hero, double y, int fontSize) {
+		graphics.setColor(Color.WHITE);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
 		BufferedImage img = stringToImage("pictures/HUD/Hud3.png");
 		graphics.drawString("Mes Statistiques",(float) (5*width/6 +10),(float) y-10);
@@ -282,6 +283,7 @@ public class GameView {
 		BufferedImage img;
 		AffineTransformOp scaling;
 		for (Item item: itemInventory.itemInventory()) {
+			getColorForItem(item);
 			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
@@ -293,6 +295,23 @@ public class GameView {
 				y++;
 				x=0;
 			}
+		}
+	}
+	
+	private void getColorForItem(Item item) {
+		switch (item.rarity()) {
+		case 0 : 
+			graphics.setColor(new Color(202, 202, 202));
+			break;
+		case 1 : 
+			graphics.setColor(new Color(27, 175, 210));
+			break;
+		case 2 : 
+			graphics.setColor(new Color(244, 214, 33));
+			break;
+		case 3 : 
+			graphics.setColor(new Color(244, 167, 24));
+			break;
 		}
 	}
 	
@@ -308,6 +327,7 @@ public class GameView {
 		BufferedImage img = stringToImage("pictures/Stuff/shield0.png");
 		AffineTransformOp scaling;
 		if (item!=null) {
+			getColorForItem(item);
 			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
@@ -316,7 +336,8 @@ public class GameView {
 			graphics.drawString(""+item.rarity(),(float) (5*width/6 + 0*cellSize),(float) (yPlayingZone+cellSize/4));
 		}
 		item = stuff.get("shield");
-		if (item!=null) {			
+		if (item!=null) {	
+			getColorForItem(item);
 			img = stringToImage(item.getImage());;
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
@@ -326,6 +347,7 @@ public class GameView {
 		}
 		item = stuff.get("armor");
 		if (item!=null) {
+			getColorForItem(item);
 			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
@@ -335,6 +357,7 @@ public class GameView {
 		}
 		item = stuff.get("ring");
 		if (item!=null) {
+			getColorForItem(item);
 			img = stringToImage(item.getImage());
 			scaling = new AffineTransformOp(AffineTransform
 					.getScaleInstance(cellSize / (double) img.getWidth(), cellSize / (double) img.getHeight()),
@@ -342,6 +365,7 @@ public class GameView {
 			graphics.drawImage(img, scaling, (int)Math.round(5*width/6 + 3*cellSize), (int) Math.round(yPlayingZone));
 			graphics.drawString(""+item.rarity(),(float) (5*width/6 + 3*cellSize),(float) (yPlayingZone+cellSize/4));
 		}
+
 		
 	}
 	
@@ -781,8 +805,8 @@ public class GameView {
 	 * @param mobs : The list of all monsters who are in the Fight
 	 * @param fightProgress : A list of sentence which explained the fight
 	 */
-	public void drawFight(ApplicationContext ctx, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress) {
-		ctx.renderFrame(graphics -> drawFight(graphics, hero, mobs, fightProgress));
+	public void drawFight(ApplicationContext ctx, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress, int monsterIndexAttack, int attackerIndex) {
+		ctx.renderFrame(graphics -> drawFight(graphics, hero, mobs, fightProgress, monsterIndexAttack, attackerIndex));
 	}
 	
 	/**
@@ -793,7 +817,7 @@ public class GameView {
 	 * @param mobs : The list of all monsters who are in the Fight
 	 * @param fightProgress : A list of sentence which explained the fight
 	 */
-	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress) {
+	public void drawFight(Graphics2D graphics, Hero hero, ArrayList<AbstractMonster> mobs, ArrayList<String> fightProgress, int monsterIndexAttack, int attackerIndex) {
 		this.graphics = graphics;		
 		int xFightZone = xPlayingZone+15;
 		int yFightZone = yPlayingZone +15;
@@ -809,7 +833,7 @@ public class GameView {
 		graphics.fill(new Rectangle2D.Double(xFightZone-3, yFightZone-3, widthFightZone+6, heigthFightZone+6));
 		
 		
-		drawFightZone(xFightZone, yFightZone, 2*widthFightZone/3, heigthFightZone, fontSizeTitle, fontSizeText, hero, mobs);
+		drawFightZone(xFightZone, yFightZone, 2*widthFightZone/3, heigthFightZone, fontSizeTitle, fontSizeText, hero, mobs, monsterIndexAttack, attackerIndex);
 		drawStatsMob(xStatFightZone, yFightZone, (widthFightZone/3), heigthFightZone, fontSizeTitle, fontSizeText, mobs);
 		drawFightProgress(xStatFightZone, yTerminalZone, (widthFightZone/3), (heigthFightZone/3), fontSizeTitle, fontSizeText, fightProgress);
 		graphics.setColor(Color.WHITE);
@@ -830,11 +854,18 @@ public class GameView {
 	 * @param hero : The hero, his inventories and his stats
 	 * @param mobs : The list of all monsters who are in the Fight
 	 */
-	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<AbstractMonster> mobs) {
+	private void drawFightZone(int x,int y,int widthZone,int heigthZone, int fontSizeTitle, int fontSizeText, Hero hero, ArrayList<AbstractMonster> mobs, int monsterIndexAttack, int attackerIndex) {
 		graphics.setColor(Color.BLACK);
 		graphics.fill(new Rectangle2D.Double(x, y, widthZone, heigthZone));
 		
-		BufferedImage img = stringToImage("pictures/Entities/hero.png");
+		BufferedImage img = null;
+		if (hero.isDead()) {
+			img = stringToImage("pictures/Entities/hero3.png");		
+		}else if(attackerIndex == -1) {
+			img = stringToImage("pictures/Entities/hero2.png");		
+		}else {
+			img = stringToImage("pictures/Entities/hero.png");				
+		}
 		
 		drawAnEntityInFight(x+(widthZone/5), y+2*heigthZone/5, img, heigthZone);
 		drawAnHealthBar(x+10,y+(2*heigthZone/5),(widthZone/5)-20, (heigthZone/5),hero, fontSizeTitle);
@@ -842,9 +873,21 @@ public class GameView {
 		int i=0;
 		int monsterNumber=1;
 		for(AbstractMonster mob:mobs) {
-			img= mob.pictureFight();
+			if (mob.isDead()) {
+				img = mob.pictureFightDeath();
+			}else if(attackerIndex == monsterNumber) {
+				img = mob.pictureFightAtt();
+			}else {
+				img= mob.pictureFight();				
+			}
 			drawAnEntityInFight(x+(3*widthZone/5), y+i*heigthZone/5, img, heigthZone);
-			
+			if (i == monsterIndexAttack) {
+				img = stringToImage("pictures/HUD/arrow.png");
+				AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+						.getScaleInstance(heigthZone / ((double) img.getWidth()*15), heigthZone / ((double) img.getHeight()*15)),
+						AffineTransformOp.TYPE_BILINEAR);
+				graphics.drawImage(img, scaling,(int) (x+(2.33*widthZone/5)), (int)(y+i*heigthZone/5+0.33*heigthZone/5));
+			}
 			drawAnHealthBar((int)(x+(4*widthZone/5)+10), y+(i*heigthZone/5)+heigthZone/15, (widthZone/5)-20, (heigthZone/5),  mob, fontSizeTitle);
 			graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSizeTitle*2));
 			graphics.setColor(Color.WHITE);

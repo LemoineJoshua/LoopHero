@@ -64,7 +64,7 @@ public class Hero extends AbstractEntities implements Serializable{
 	@Override
     public int damage() {
     	int strength = stats.get("strength").intValue();
-		return (int) ((strength+4)+(Math.random()*(strength+6 - strength+4)));
+		return (int) ((strength-1+4)+(Math.random()*(strength+6 - (strength+4))));
 	}
     
 	
