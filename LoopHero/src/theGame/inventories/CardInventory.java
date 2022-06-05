@@ -2,6 +2,8 @@ package theGame.inventories;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import theGame.Cards.Card;
 
 public class CardInventory implements Serializable {
@@ -15,7 +17,18 @@ public class CardInventory implements Serializable {
      * And also the deck and the cards inside
      */
     public CardInventory(){
-        this.cardList=new ArrayList<Card>();
+        this.cardList= Objects.requireNonNull(initClassList()) ;
+       
+        this.deck = Objects.requireNonNull(initDeck());
+    }
+    
+    /**
+     * Initialize hand of the player
+     * 
+     * @return the initialized hand
+     */
+    private ArrayList<Card> initClassList(){
+    	 ArrayList<Card> cardList = new ArrayList<Card>();
         cardList.add(new Card("meadow","Field","pictures/Card/MeadowCard.png"));
         cardList.add(new Card("rock","Field","pictures/Card/RockCard.png"));
         cardList.add(new Card("grove","Road","pictures/Card/GroveCard.png"));
@@ -28,8 +41,7 @@ public class CardInventory implements Serializable {
         cardList.add(new Card("village","Road","pictures/Card/villageCard.png"));
         cardList.add(new Card("wheatFields","WheatField","pictures/Card/wheatFieldsCard.png"));
         cardList.add(new Card("beacon","Field","pictures/Card/BeaconCard.png"));
-       
-        this.deck = initDeck();
+    	return cardList;
     }
 
     /**
@@ -90,6 +102,7 @@ public class CardInventory implements Serializable {
      * @param card : the card to had in the player's hand
      */
     public void add(Card card){
+    	Objects.requireNonNull(card);
         cardList.add(card);
         overflowForbidden();
     }
@@ -109,6 +122,7 @@ public class CardInventory implements Serializable {
      * @param myCard : the card to put back in the deck
      */
     public void addCardInDeck(Card myCard) {
+    	Objects.requireNonNull(myCard);
     	deck.add(myCard);
     }
     

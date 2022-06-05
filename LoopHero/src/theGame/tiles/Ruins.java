@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
@@ -54,6 +55,7 @@ public class Ruins extends AbstractRoad implements Serializable{
 	 */
 	@Override
 	public void dailyEffect(Board board) {	
+		Objects.requireNonNull(board);
 		day+=1;
 		if(day%2==0) {
 			ScorchWorm worm= new ScorchWorm();
@@ -66,7 +68,7 @@ public class Ruins extends AbstractRoad implements Serializable{
 	 */
 	@Override
 	public void enteringEffect(GameData gameData) {
-
+		Objects.requireNonNull(gameData);
 		int index = (int) (Math.random()*enteringDrop.size());
 		gameData.ressourcesInventory().addRessources(enteringDrop.get(index),1 );
 	}

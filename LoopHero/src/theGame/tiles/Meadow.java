@@ -1,6 +1,7 @@
 package theGame.tiles;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import theGame.GameView;
 import theGame.boardGame.Board;
@@ -68,6 +69,7 @@ public class Meadow extends AbstractTile implements Serializable{
 	 */
 	@Override
 	public void dailyEffect(Board board) {
+		Objects.requireNonNull(board);
 		board.hero().regenHPdaily(heal);
 	}
 	

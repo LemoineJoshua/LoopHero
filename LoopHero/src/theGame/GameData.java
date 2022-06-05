@@ -1,6 +1,7 @@
 package theGame;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import theGame.Cards.Card;
 import theGame.boardGame.Board;
@@ -11,7 +12,6 @@ import theGame.inventories.RessourcesInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.BattleField;
 import theGame.tiles.Beacon;
-import theGame.tiles.CampFire;
 import theGame.tiles.Cemetery;
 import theGame.tiles.EmptyField;
 import theGame.tiles.EmptyRoadSide;
@@ -26,12 +26,20 @@ import theGame.tiles.Wastelands;
 import theGame.tiles.WheatFields;
 
 public class GameData implements Serializable{
-	private final Board board = new Board();
+	private final Board board;
 	private final CardInventory cardInventory = new CardInventory();
 	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();
 	private Integer selectedCardIndex;
 	private final ItemInventory itemInventory = new ItemInventory();
 	private Integer selectedItemIndex;
+	
+	
+	/**
+	 * @param path The path to the file which contains the loop
+	 */
+	public GameData(String path) {
+		this.board = Objects.requireNonNull(new Board(path)) ;
+	}
 
 	/**
 	 * Call the function dailyEffect of all board case

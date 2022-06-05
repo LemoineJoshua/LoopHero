@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
@@ -44,6 +45,7 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	 */
 	@Override
 	public void dailyEffect(Board board) {	
+		Objects.requireNonNull(board);
 		day+=1;
 		if(day%4==0) {
 			ScareCrow scareCrow= new ScareCrow();
@@ -52,6 +54,7 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	}
 	
 	private void searchVillage(AbstractTile[][] matrix) {
+		Objects.requireNonNull(matrix);
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
 		posibilities.add(new Coord(0,-1));
@@ -70,6 +73,7 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	
 	@Override
 	public void removingEffect(Board board) {
+		Objects.requireNonNull(board);
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
 		posibilities.add(new Coord(0,-1));

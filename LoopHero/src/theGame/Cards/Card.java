@@ -2,6 +2,7 @@ package theGame.Cards;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Objects;
 
 import theGame.GameView;
 
@@ -19,9 +20,9 @@ public class Card implements Serializable {
 	 * @param path : the path to the card picture
 	 */
 	public Card(String name,String type,String path) {
-		this.name=name;
-		this.type=type;
-		this.path=path;
+		this.name=Objects.requireNonNull(name);
+		this.type=Objects.requireNonNull(type);
+		this.path=Objects.requireNonNull(path);
 		this.img=GameView.stringToImage(path);
 	}
 	

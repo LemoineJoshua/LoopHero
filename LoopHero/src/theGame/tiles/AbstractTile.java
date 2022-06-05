@@ -3,6 +3,7 @@ package theGame.tiles;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.GameData;
 import theGame.GameView;
@@ -22,8 +23,8 @@ public abstract class AbstractTile implements Serializable {
 	 * @param pathToPicture : The path to the picture of the tile
 	 */
 	public AbstractTile(String type, String pathToPicture) {
-		this.type = type;
-		this.pathPicture = pathToPicture;
+		this.type = Objects.requireNonNull(type);
+		this.pathPicture = Objects.requireNonNull(pathToPicture);
 		this.picture=GameView.stringToImage(pathPicture);
 	}
 	
@@ -48,6 +49,7 @@ public abstract class AbstractTile implements Serializable {
 	 * @param y : the line of the cell
 	 */
 	public void searchMeadowtoBloom(Board board, int x, int y) {
+		Objects.requireNonNull(board);
 		for (int i= x-1;i<x+2; i+=2) {
 			if(i<0 || i>20) {continue;}
 				if(board.boardMatrix()[y][i] instanceof Meadow){
@@ -65,6 +67,7 @@ public abstract class AbstractTile implements Serializable {
 	}
 	
 	public void searchMeadowtoUnbloom(Board board, int x, int y) {
+		Objects.requireNonNull(board);
 		for (int i= x-1;i<x+2; i+=2) {
 			if(i<0 || i>20) {continue;}
 				if(board.boardMatrix()[y][i] instanceof Meadow){
@@ -156,6 +159,7 @@ public abstract class AbstractTile implements Serializable {
 	 * @return
 	 */
 	public boolean wheatFieldCanBePlaced(AbstractTile[][] matrix, int x, int y) {
+		Objects.requireNonNull(matrix);
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
 		posibilities.add(new Coord(0,-1));

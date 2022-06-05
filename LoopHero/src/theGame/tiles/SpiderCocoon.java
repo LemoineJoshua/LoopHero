@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
@@ -58,6 +59,7 @@ public class SpiderCocoon extends AbstractTile implements Serializable{
 	 */
 	@Override
 	public void dailyEffect(Board board) {
+		Objects.requireNonNull(board);
 		ArrayList<AbstractRoad>trueSpawningTiles= new ArrayList<AbstractRoad>();
 		for (Coord tileCoord: spawningTiles) {
 			AbstractRoad tile = (AbstractRoad) board.boardMatrix()[tileCoord.y()][tileCoord.x()];

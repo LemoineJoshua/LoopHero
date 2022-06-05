@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
@@ -21,6 +22,7 @@ public class OvergrownWheatField extends AbstractRoad implements Serializable{
 	 */
 	@Override
 	public void dailyEffect(Board board) {	
+		Objects.requireNonNull(board);
 		day+=1;
 		if(day%4==0) {
 			ScareCrow scareCrow= new ScareCrow();

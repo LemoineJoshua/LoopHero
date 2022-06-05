@@ -1,6 +1,7 @@
 package fight;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import fr.umlv.zen5.ApplicationContext;
@@ -49,12 +50,12 @@ public class Fight {
 	 * @param ctx : Global context of the game
 	 */
 	public Fight(GameView gameView,Board board,CardInventory cardInventory,RessourcesInventory ressources,ItemInventory itemInventory,ApplicationContext ctx) {
-		this.gameView=gameView;
-		this.board=board;
-		this.cardInventory=cardInventory;
-		this.ressources=ressources;
-		this.items = itemInventory;
-		this.hero=board.hero();
+		this.gameView= Objects.requireNonNull(gameView) ;
+		this.board=Objects.requireNonNull(board);
+		this.cardInventory=Objects.requireNonNull(cardInventory);
+		this.ressources=Objects.requireNonNull(ressources);
+		this.items = Objects.requireNonNull(itemInventory);
+		this.hero=Objects.requireNonNull(board.hero());
 		this.ctx = ctx;
 		
 		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
@@ -256,7 +257,7 @@ public class Fight {
 					((Village) questTile).questMobDefeated();
 				}
 			}
-			if (battleFieldAround && Math.random()>00 && mobs.get(indexAttack).hasASoul()){
+			if (battleFieldAround && Math.random()>0.5 && mobs.get(indexAttack).hasASoul()){
 				AbstractMonster mob =mobs.remove(indexAttack);
 				if (mob instanceof Ghost) {
 					mobs.add(indexAttack, new GhostOfGhost());

@@ -2,6 +2,7 @@ package theGame.inventories;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ItemInventory implements Serializable{
 	private final ArrayList<Item> inventory;
@@ -10,7 +11,7 @@ public class ItemInventory implements Serializable{
 	 * ItemInventory constructor 
 	 */
 	public ItemInventory() {
-		this.inventory=new ArrayList<>();
+		this.inventory=Objects.requireNonNull(new ArrayList<Item>());
 	}
 	
 	/**
@@ -28,7 +29,7 @@ public class ItemInventory implements Serializable{
 	 * @param item : the item to add
 	 */
 	public void add(Item item) {
-		System.out.println("le hero a gagné : "+item.type());
+		Objects.requireNonNull(item);
 		inventory.add(item);
 		overflowForbidden();
 	}

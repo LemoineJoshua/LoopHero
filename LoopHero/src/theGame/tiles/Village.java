@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
@@ -43,6 +44,7 @@ public class Village extends AbstractRoad implements Serializable{
 
 	@Override
 	public void enteringEffect(GameData gameData) {
+		Objects.requireNonNull(gameData);
 		int totalHealing = (15*gameData.board().loop()) + (5*gameData.board().loop()*wheatFieldAround);
 		gameData.board().hero().regenHPdaily(totalHealing);
 		

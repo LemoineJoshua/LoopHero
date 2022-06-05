@@ -3,6 +3,7 @@ package theGame.entities;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.GameView;
 
@@ -45,11 +46,11 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
         super(hp,strength,defense,counterAttack,regen,evade,vampirism);
         this.chanceSpawn=chanceSpawn;
         this.chanceCard=chanceCard;
-        this.drop=drop;
-        this.pathPicture=picture;
-        this.pathPictureFight=pictureFight;
-        this.pathPictureFightAtt=pictureFightAtt;
-        this.pathPictureFightDeath=pictureFightDeath;
+        this.drop=Objects.requireNonNull(drop); 
+        this.pathPicture=Objects.requireNonNull(picture);
+        this.pathPictureFight=Objects.requireNonNull(pictureFight);
+        this.pathPictureFightAtt=Objects.requireNonNull(pictureFightAtt);
+        this.pathPictureFightDeath=Objects.requireNonNull(pictureFightDeath);
         this.picture=GameView.stringToImage(pathPicture);
         this.pictureFight=GameView.stringToImage(pathPictureFight);
         this.questVillagePosition = null;
@@ -111,6 +112,7 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 	 * 
 	 * @return the picture in fight when entity attacks 
 	 */
+	
 	public BufferedImage pictureFightAtt() {
 		if(pictureFightAtt==null) {
 			this.pictureFightAtt=GameView.stringToImage(pathPictureFightAtt);
@@ -189,10 +191,4 @@ public abstract class AbstractMonster extends AbstractEntities implements Serial
 	public Integer questVillagePosition() {
 		return questVillagePosition;
 	}
-	
-
-	
-    
-	
-	
 }

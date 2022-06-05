@@ -15,6 +15,7 @@ import fight.Fight;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.KeyboardKey;
+import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.inventories.Item;
 
@@ -30,26 +31,29 @@ public class Game {
 	/**
 	 * Main function of the Game : 
 	 * Create objects which manage the display, the data and the time
-	 * Then start the Game, with the funtion update (which update the screen)
+	 * Then start the Game, with the function update (which update the screen)
 	 * 
 	 * @param ctx : Global context of the game
 	 */
 	public void Run(ApplicationContext ctx) { 
 			
 		this.ctx=ctx;
-		this.gameView = new GameView(ctx);		
-		this.timeData = new TimeData();
+		this.gameView = new GameView(ctx);	
 		
 		
 		while(doIntro) {
-			gameView.drawIntro(ctx);
+			gameView.drawIntro(ctx, false);
 			doIntroAction();
 		}
 		
 		if(newGame) {
-			this.gameData = new GameData();
+			gameView.drawIntro(ctx, true);
+			String fileName = Board.chooseALoop();
+			this.gameData = new GameData(fileName);
+			this.timeData = new TimeData();
 		}else {
-			this.gameData = getting();
+			this.gameData = gettingGameData();
+			this.timeData = gettingTimeData();
 		}
 		
 		
@@ -103,7 +107,7 @@ public class Game {
 		if (timeData.elapsedHero() >= TimeData.HERO_DELAY) {
 			if(gameData.moveHero(timeData)) {
 				gameData.loopEffect();
-				saving(gameData);
+				saving(gameData, timeData);
 			}
 			
 			gameView.drawFrame(context, gameData, timeData);
@@ -240,28 +244,57 @@ public class Game {
 	 * save the game in a file
 	 * 
 	 * @param gameData the actual gameData
+	 * @param timeData the actual timeData
 	 */
-	private void saving(GameData gameData) {
+	private void saving(GameData gameData, TimeData timeData) {
 		try (OutputStream back = Files.newOutputStream(Path.of("functional/save"));
 				ObjectOutputStream out = new ObjectOutputStream(back)){
 					out.writeObject(gameData);
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
+		try (OutputStream back = Files.newOutputStream(Path.of("functional/timeSave"));
+				ObjectOutputStream out = new ObjectOutputStream(back)){
+					out.writeObject(timeData);
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
 	}
 	
 	/**
-	 * Fonction used to get a save
+	 * Fonction used to get a save of GameData
 	 * 
 	 * @return a gamedata from the save file
 	 */
-	private GameData getting() {
+	private GameData gettingGameData() {
 		GameData retour=null;
 		
 		try( InputStream back = Files.newInputStream(Path.of("functional/save"));
 			ObjectInputStream in = new ObjectInputStream(back)){
 			
 				retour = (GameData) in.readObject();
+				
+			}catch(IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		
+		return retour;
+	}
+	
+	/**
+	 * Fonction used to get a save of TimeData
+	 * 
+	 * @return a timeData from the save file
+	 */
+	private TimeData gettingTimeData() {
+		TimeData retour=null;
+		
+		try( InputStream back = Files.newInputStream(Path.of("functional/timeSave"));
+			ObjectInputStream in = new ObjectInputStream(back)){
+			
+				retour = (TimeData) in.readObject();
 				
 			}catch(IOException e) {
 				e.printStackTrace();

@@ -611,17 +611,19 @@ public class GameView {
 	 * Draw the whole intro screen
 	 * 
 	 * @param ctx : Global context of the game
+	 * @param newGame : check if player has selectionned to play a newGame
 	 */
-	public void drawIntro(ApplicationContext ctx) {
-		ctx.renderFrame(graphics -> drawIntro(graphics));
+	public void drawIntro(ApplicationContext ctx, boolean newGame) {
+		ctx.renderFrame(graphics -> drawIntro(graphics, newGame));
 	}
 	
 	/**
 	 * Draw the first screen of the game
 	 * 
 	 * @param graphics
+	 * @param newGame : check if player has selectionned to play a newGame
 	 */
-	public void drawIntro(Graphics2D graphics) {
+	public void drawIntro(Graphics2D graphics, Boolean newGame) {
 		this.graphics=graphics;
 		
 		BufferedImage background = stringToImage("pictures/HUD/BackgroundIntro.png");
@@ -652,6 +654,13 @@ public class GameView {
 		if(!saveExist) {
 			graphics.drawString("There is no save file", (int)Math.round(width/2.3),(int)Math.round(heigth/1.68));
 		}
+		
+		if(newGame) {
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, 15));
+			graphics.setColor(Color.white);
+			graphics.drawString("Choisissez une carte depuis le terminal", (int)Math.round(width/2.35),(int)Math.round(heigth/1.68) );
+		}
+		
 	}
 	
 	/**
@@ -1050,6 +1059,8 @@ public class GameView {
 			line++;
 		}
 	}
+	
+
 	
 	
 	

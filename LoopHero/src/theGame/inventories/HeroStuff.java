@@ -44,19 +44,15 @@ public class HeroStuff implements Serializable {
 				
 				String statToModify=entree.getKey().toString();
 				Double statToRemove=inventory.get(oldItem.type()).stats().get(statToModify);
-				//System.out.println("la stats à modif est : "+statToModify+" | statToRemove : "+statToRemove);
 				if(statToModify.equals("hp")) {
 					continue;
 				}
 				stats.put(statToModify, stats.get(statToModify)-statToRemove);
-				//System.out.println("la stat " + statToModify +" après modification : "+stats.get(statToModify));
 			}
 		}
 		
 		inventory.put(toModify, newItem);
 		for(Map.Entry<String,Double> entree : stats.entrySet()){
-			//System.out.println(aAjouter);
-			//System.out.println("la clef : " + entree.getKey() + "| la stat : "+entree.getValue());
 			String statAModif=entree.getKey().toString();
 			if(statAModif.equals("hp")) {
 				continue;

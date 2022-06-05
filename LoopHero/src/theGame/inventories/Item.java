@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class Item implements Serializable {
@@ -42,8 +43,8 @@ public class Item implements Serializable {
 			put("vampirism",(double) round(vampirism,2));
 		}};
 		this.rarity=rarity;
-		this.image=image;
-		this.type=type;
+		this.image=Objects.requireNonNull(image); 
+		this.type=Objects.requireNonNull(type);
 		this.loop=loop;
 	}
 

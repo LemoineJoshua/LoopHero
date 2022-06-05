@@ -2,6 +2,8 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import theGame.GameData;
 import theGame.TimeData;
 import theGame.boardGame.Board;
@@ -27,11 +29,11 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	public AbstractRoad(String img, ArrayList<AbstractMonster> aliveMonster,Coord position) {
 		super("Road",img);
 		if (aliveMonster.isEmpty()) {
-			this.aliveMonster = new ArrayList<AbstractMonster>();
+			this.aliveMonster = Objects.requireNonNull(new ArrayList<AbstractMonster>());
 		}else {
-			this.aliveMonster = aliveMonster;
+			this.aliveMonster = Objects.requireNonNull(aliveMonster);
 		}
-		this.position=position;
+		this.position = Objects.requireNonNull(position);
 		
 	}
 	
@@ -54,6 +56,9 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	 * @param loop : The current loop number
 	 */
 	public void clearMob(RessourcesInventory lootList,CardInventory cardInventory,ItemInventory itemInventory, int loop){
+		Objects.requireNonNull(lootList);
+		Objects.requireNonNull(cardInventory);
+		Objects.requireNonNull(itemInventory);
 		int countBranches = 0;
 		for(AbstractMonster mob:aliveMonster) {
 			if(!mob.dropCard()) {
@@ -96,12 +101,14 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	 * @param newMonster : the mob we want to add
 	 */
 	public void addMob(AbstractMonster newMonster){
+		Objects.requireNonNull(newMonster);
         if(aliveMonster.size()<4) {
         	aliveMonster.add(newMonster);
         }
     }
 	
 	public boolean isBeaconNearby(Board board) {
+		Objects.requireNonNull(board);
 		Coord[] posibilities = {
 				new Coord(position.x()-1,position.y()-2),new Coord(position.x(),position.y()-2),new Coord(position.x()+1,position.y()-2),
 				new Coord(position.x()-2,position.y()-1),new Coord(position.x()-1,position.y()-1),new Coord(position.x(),position.y()-1),new Coord(position.x()+1,position.y()-1),new Coord(position.x()+2,position.y()-1),
@@ -122,6 +129,8 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 	}
 	
 	public void beaconNearby(TimeData timeData,Board board) {
+		Objects.requireNonNull(timeData);
+		Objects.requireNonNull(board);
 		if (isBeaconNearby(board)) {
 			timeData.thereIsABeacon();
 		}else {

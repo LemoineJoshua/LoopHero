@@ -1,11 +1,14 @@
 package theGame.boardGame;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
 
 import theGame.entities.Hero;
 import theGame.Game;
@@ -32,11 +35,11 @@ public class Board implements Serializable{
 	 * Board Constructor,
 	 * Set the loop number to one and create the path and the board
 	 */
-	public Board() {
+	public Board(String path) {
 		this.loop=1;
         this.position=0;
-		this.boardMatrix=initCases();
-		this.coordList =initPath();
+		this.boardMatrix= Objects.requireNonNull(initCases()) ;
+		this.coordList =Objects.requireNonNull(initPath(path));
 	}
 	
 	/**
@@ -60,10 +63,10 @@ public class Board implements Serializable{
      * 
      * @return the initialized path
      */
-    private ArrayList<Coord> initPath(){
+    private ArrayList<Coord> initPath(String path){
     	ArrayList<Coord> coordList = new ArrayList<>();
     	
-    	try(BufferedReader reader = Files.newBufferedReader(Path.of("functional/way3.txt"))){
+    	try(BufferedReader reader = Files.newBufferedReader(Path.of(path))){
     		String line;
 			while((line=reader.readLine())!=null) {
 				String[] coords = line.split(",");
@@ -238,5 +241,23 @@ public class Board implements Serializable{
 	 */
 	public Hero hero() {
 		return hero;
+	}
+	
+	public static String chooseALoop() {
+		Scanner scanner = new Scanner(System.in);
+		String fileName = "";
+		String file ="";
+		do {
+	        System.out.print("Indiquer le nom de la boucle que vous souhaitez utiliser :");
+
+	        fileName = scanner.next();
+	        file = "functional/"+fileName;
+	        File f = new File(file);
+			if(f.isFile())
+			{ 
+				break;
+			}
+		}while(true);
+		return file;
 	}
 }

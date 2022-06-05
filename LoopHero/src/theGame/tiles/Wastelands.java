@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
@@ -32,6 +33,7 @@ public class Wastelands extends AbstractRoad implements Serializable{
     */
 	@Override
    public void dailyEffect(Board board) {
+		Objects.requireNonNull(board);
 	   Slime slime = new Slime(); 
 	   if (slime.doSpawn()){
            addMob(slime);

@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.GameData;
 import theGame.boardGame.Board;
@@ -41,6 +42,7 @@ public class Grove extends AbstractRoad implements Serializable{
 	 */
 	@Override
 	public void dailyEffect(Board board) {
+		Objects.requireNonNull(board);
 		day+=1;
 		if(day%2==0) {
 			RatWolf ratWolf= new RatWolf();
@@ -71,6 +73,7 @@ public class Grove extends AbstractRoad implements Serializable{
 	 */
 	@Override
 	public void enteringEffect(GameData gameData) {
+		Objects.requireNonNull(gameData);
 		gameData.ressourcesInventory().addRessources("Branches",1 );
 	}
 

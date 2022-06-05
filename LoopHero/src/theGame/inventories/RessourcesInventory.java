@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RessourcesInventory implements Serializable{
     private final ArrayList<String> inventaireRessourceName;
@@ -61,6 +62,7 @@ public class RessourcesInventory implements Serializable{
      * @param quantity : the quantity to add
      */
     public void addRessources(String name, int quantity){
+    	Objects.requireNonNull(name);
         int indexRessource=inventaireRessourceName.indexOf(name);
         inventaireRessourceQuantity.set(indexRessource,inventaireRessourceQuantity.get(indexRessource)+quantity);   
     }
@@ -70,8 +72,8 @@ public class RessourcesInventory implements Serializable{
      * 
      * @param x : the beginning x coord
      * @param y : the beginning y coord
-     * @param graphics Objet de dessin
-     * @param squareSize Taille d'un carré de du plateau (taille de référence)
+     * @param graphics Drawing Objects
+     * @param squareSize The reference size of a square of the board 
      */
     public void drawRessources(int x, int y, Graphics graphics, int squareSize, int fontSize) {
     	graphics.setColor(Color.WHITE);

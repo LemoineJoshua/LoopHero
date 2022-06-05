@@ -1,6 +1,8 @@
 package theGame;
 
-public class TimeData {
+import java.io.Serializable;
+
+public class TimeData implements Serializable{
 	private long tick = System.currentTimeMillis();
 	private long elapsedHero = 0; 	
 	private long elapsedDay = 0;
