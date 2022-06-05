@@ -106,10 +106,6 @@ public class Board implements Serializable{
         	}
         } 
         
- 	   
-        ArrayList<AbstractMonster> beginningMob = new ArrayList<AbstractMonster>();
-        boardMatrix[4][11] = new Wastelands(new ArrayList<>(beginningMob),new Coord(11,4));
-        
         boardMatrix[coordList.get(0).y()][coordList.get(0).x()] = new CampFire(coordList.get(0));        
         return coordList;
     }

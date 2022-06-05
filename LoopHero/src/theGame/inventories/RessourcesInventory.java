@@ -10,6 +10,7 @@ import java.util.Objects;
 public class RessourcesInventory implements Serializable{
     private final ArrayList<String> inventaireRessourceName;
 	private final ArrayList<Integer> inventaireRessourceQuantity;
+	private int score;
 	
 	
 	/**
@@ -21,6 +22,7 @@ public class RessourcesInventory implements Serializable{
         initName();
 		this.inventaireRessourceQuantity = new ArrayList<Integer>();
 		initQuantity();
+		this.score = 0;
         }
 	
 
@@ -65,8 +67,61 @@ public class RessourcesInventory implements Serializable{
     	Objects.requireNonNull(name);
         int indexRessource=inventaireRessourceName.indexOf(name);
         inventaireRessourceQuantity.set(indexRessource,inventaireRessourceQuantity.get(indexRessource)+quantity);   
-    }
-    
+        int point = 0;
+        switch (name) {
+	        case "Branches" : 
+	    		point = 3;
+	    		break;
+	    	case "Wood" :
+	    		point = 25;
+	    		break;
+	    	case "Pebbles":
+	    		point = 3;
+	    		break;
+	    	case "Rock":
+	    		point = 25;
+	    		break;
+	    	case "ScrapMetal":
+	    		point = 3;
+	    		break;
+	    	case "Metal":
+	    		point = 3;
+	    		break;
+	    	case "Ration":
+	    		point = 3;
+	    		break;
+	    	case "FoodSupply":
+	    		point = 25;
+	    		break;
+	    	case "MemoryFragment":
+	    		point = 3;
+	    		break;
+	    	case "MemoryBook":
+	    		point = 25;
+	    		break;
+        	case "NoticeableChange":
+        		point = 5;
+        		break;
+        	case "Metamorphosis":
+        		point = 50;
+        		break;
+        	case "Shapeless Mass":
+        		point = 15;
+        		break;
+        	case "Craft Fragment":
+        		point = 10;
+        		break;
+        	case "Living Fabric":
+        		point = 15;
+        		break;
+        	case "PitifulRemains":
+        		point = 10;
+        		break;
+        }
+        score += (point*quantity);
+       }
+
+	
     /**
      * Draw the ressource list 
      * 
@@ -81,5 +136,15 @@ public class RessourcesInventory implements Serializable{
     	for(int i = 0;i<16;i++) {
     		graphics.drawString(inventaireRessourceName.get(i)+" : "+ inventaireRessourceQuantity.get(i), x , y+i*squareSize/2 );
     	}
+    	graphics.drawString("Score Total : "+ score, x , y+18*squareSize/2 );
+    }
+    
+    /**
+     * score Accessor
+     * 
+     * @return the current score
+     */
+    public int score() {
+    	return score;
     }
 }

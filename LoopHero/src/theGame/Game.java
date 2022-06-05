@@ -27,7 +27,8 @@ public class Game {
 	private TimeData timeData;
 	private boolean doIntro = true;
 	private boolean newGame;
-	
+	private boolean loose = false;
+	private boolean win = false;
 	/**
 	 * Main function of the Game : 
 	 * Create objects which manage the display, the data and the time
@@ -60,6 +61,14 @@ public class Game {
 		
 		while(true) {
 			Update(); 
+			if (win || loose) {
+				break;
+			}
+		}
+		
+		while(true) {
+			gameView.drawEnd(ctx, win, loose, gameData);
+			doEndAction();
 		}
 		
 	}
@@ -108,6 +117,9 @@ public class Game {
 			if(gameData.moveHero(timeData)) {
 				gameData.loopEffect();
 				saving(gameData, timeData);
+				if (gameData.win()) {
+					win =true;
+				}
 			}
 			
 			gameView.drawFrame(context, gameData, timeData);
@@ -118,7 +130,7 @@ public class Game {
 				Fight fight = new Fight(gameView,gameData.board(),gameData.cardInventory(),gameData.ressourcesInventory(),gameData.itemInventory(),ctx);
 				if(!fight.doFight((int) timeData.fightModifier())) {
 					System.out.println("Oh non le hero est mort, dommage");
-					ctx.exit(0);
+					loose = true;
 				}
 				timeData.elapsedFight();
 			}
@@ -160,13 +172,19 @@ public class Game {
 		
 		case S -> timeData.stop();
 		
-		case D -> startTime();
+		case D -> {
+			if (!(win || loose)) {
+				startTime();
+			}
+		}
 		
 		case A -> timeData.setFightPrintSpeed(1);
 		
 		case Z -> timeData.setFightPrintSpeed(2);
 		
 		case E -> timeData.setFightPrintSpeed(3);
+		
+		case F -> saving(gameData, timeData);
 		
 		default -> System.out.println("touche inactive "+e.getKey()); 
 
@@ -325,6 +343,21 @@ public class Game {
 						newGame=true;
 				}
 				break;
+			case KEY_PRESSED:
+				if(e.getKey().equals(KeyboardKey.SPACE)) {
+					ctx.exit(0);
+				}
+				break;
+			default:
+				break;
+		}		
+	}
+	
+	public void doEndAction() {
+		Event e = ctx.pollOrWaitEvent(200);
+		
+		if(e == null) return; 
+		switch (e.getAction()) {
 			case KEY_PRESSED:
 				if(e.getKey().equals(KeyboardKey.SPACE)) {
 					ctx.exit(0);

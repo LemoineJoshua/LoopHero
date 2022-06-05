@@ -608,6 +608,53 @@ public class GameView {
 	}
 	
 	/**
+	 * Draw the whole screen
+	 * 
+	 * @param ctx : Global context of the game
+	 * @param win : true if win, elsa false
+	 * @param loose : true if loose, else false
+	 */
+	public void drawEnd(ApplicationContext ctx, boolean win, boolean loose, GameData gameData) {
+		ctx.renderFrame(graphics -> drawEnd(graphics, win, loose, gameData));
+	}
+	
+	public void drawEnd(Graphics2D graphics, Boolean win, Boolean loose, GameData gameData) {
+		this.graphics=graphics;
+		
+		BufferedImage background = stringToImage("pictures/HUD/BackgroundIntro.png");
+		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
+				.getScaleInstance( width / ((double) background.getWidth()), heigth / ((double) background.getHeight())),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(background, scaling, 0, 0);
+		
+		BufferedImage menu = stringToImage("pictures/HUD/Menu.png");
+		AffineTransformOp scaling2 = new AffineTransformOp(AffineTransform
+				.getScaleInstance( (width/3) / ((double) menu.getWidth()), (heigth/3.5) / ((double) menu.getHeight())),
+				AffineTransformOp.TYPE_BILINEAR);
+		graphics.drawImage(menu, scaling2 ,Math.round(width/3),Math.round(heigth/3));		
+		
+		
+		if (win) {
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, 40));
+			graphics.setColor(Color.white);
+			graphics.drawString("Victory!", (int)Math.round(width/2.15),(int)Math.round(heigth/2.1));
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, 25));
+			graphics.drawString("Congratulations, well played !", (int)Math.round(width/2.6),(int)Math.round(heigth/1.85));			
+			graphics.drawString("Your score was : "+gameData.ressourcesInventory().score(), (int)Math.round(width/2.4),(int)Math.round(heigth/1.65));
+		}else if(loose) {
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, 40));
+			graphics.setColor(Color.white);
+			graphics.drawString("Loose ...", (int)Math.round(width/2.15),(int)Math.round(heigth/2.10));
+			graphics.setFont(new Font("Arial Black", Font.PLAIN, 25));
+			graphics.drawString("Good luck for the next one", (int)Math.round(width/2.45),(int)Math.round(heigth/1.85));
+			graphics.drawString("Your score was : "+gameData.ressourcesInventory().score(), (int)Math.round(width/2.25),(int)Math.round(heigth/1.65));
+		}
+		
+		
+		
+	}
+	
+	/**
 	 * Draw the whole intro screen
 	 * 
 	 * @param ctx : Global context of the game

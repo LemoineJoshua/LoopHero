@@ -34,6 +34,7 @@ public class GameData implements Serializable{
 	private Integer selectedItemIndex;
 	
 	
+	
 	/**
 	 * @param path The path to the file which contains the loop
 	 */
@@ -291,6 +292,18 @@ public class GameData implements Serializable{
 	 */
 	public ItemInventory itemInventory() {
 		return itemInventory;
+	}
+	
+	/**
+	 * Check if the game is win
+	 * 
+	 * @return true if win, else false
+	 */
+	public boolean win() {
+		if (board.loop()>=10) {
+			return true;
+		}
+		return false;
 	}
 
 }
