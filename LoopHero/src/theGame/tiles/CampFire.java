@@ -2,6 +2,7 @@ package theGame.tiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
@@ -12,6 +13,8 @@ public class CampFire extends AbstractRoad implements Serializable{
 	/**
 	 * The CampFire constructor
 	 * The Campfire heal the player at each loop beginning
+	 * 
+	 * @param position : the coord of the tile
 	 */
 	public CampFire(Coord position) {
 		super("pictures/Tiles/campFire.png",new ArrayList<AbstractMonster>(), position);
@@ -31,6 +34,7 @@ public class CampFire extends AbstractRoad implements Serializable{
 	 * Heal the Hero at each beginning of a loop
 	 */
 	public void loopEffect(Board board){
+		Objects.requireNonNull(board);
 		board.hero().regenHPloop();		
 	}
 	

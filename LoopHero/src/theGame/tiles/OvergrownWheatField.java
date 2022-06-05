@@ -13,6 +13,13 @@ public class OvergrownWheatField extends AbstractRoad implements Serializable{
 
 	private int day = 0;
 	
+	
+	/**
+	 * the OvergrowWheatField constructor
+	 * 
+	 * @param aliveMonster : the monster living on the tile
+	 * @param position : the coord of the tile
+	 */
 	public OvergrownWheatField(ArrayList<AbstractMonster> aliveMonster, Coord position) {
 		super("pictures/Tiles/overgrownWheatField.png", aliveMonster, position);	
 	}

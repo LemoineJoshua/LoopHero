@@ -66,6 +66,13 @@ public abstract class AbstractTile implements Serializable {
 		}
 	}
 	
+	/**
+	 * Check every cell around, to know there is a Meadow tile to unbloom (synergy)
+	 * 
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 * @param x : the column of the cell
+	 * @param y : the line of the cell
+	 */
 	public void searchMeadowtoUnbloom(Board board, int x, int y) {
 		Objects.requireNonNull(board);
 		for (int i= x-1;i<x+2; i+=2) {
@@ -153,9 +160,9 @@ public abstract class AbstractTile implements Serializable {
 	/**
 	 * Search for a village nearby in order to place a WheatField
 	 * 
-	 * @param matrix
-	 * @param x
-	 * @param y
+	 * @param matrix : the matrix of tile of the game
+	 * @param x : the x index of the wheatfield
+	 * @param y : the y index of the wheatfield
 	 * @return
 	 */
 	public boolean wheatFieldCanBePlaced(AbstractTile[][] matrix, int x, int y) {
@@ -179,6 +186,11 @@ public abstract class AbstractTile implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * Check if the tile got a mob with a quest
+	 * 
+	 * @return true if the tile contains a mob with a quest, else false
+	 */
 	public boolean gotAMobWithAQuest() {
 		if (!(this instanceof AbstractRoad)) {
 			return false;

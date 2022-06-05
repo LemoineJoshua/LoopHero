@@ -10,8 +10,6 @@ public class Rock extends AbstractTile implements Serializable{
 	int y;
 	/**
 	 * rock constructor
-	 * Check all tiles around to apply the synergy with the others Rock
-	 * and bloom the Meadow around 
 	 * 
 	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
 	 * @param y : the cell line
@@ -30,8 +28,6 @@ public class Rock extends AbstractTile implements Serializable{
 				}
 			}
 		}
-		
-		super.searchMeadowtoBloom(board, x, y);
 		this.x = x;
 		this.y = y;
 		
@@ -47,6 +43,9 @@ public class Rock extends AbstractTile implements Serializable{
 		return false;
 	}
 	
+	/**
+	 *Apply the olbivion effect when used on a rock
+	 */
 	@Override
 	public void removingEffect(Board board) {
 		for(int i=(y-1); i<=(y+1) ;i++) {

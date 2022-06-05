@@ -18,6 +18,9 @@ public class Village extends AbstractRoad implements Serializable{
 
 	/**
 	 * The Village constructor
+	 * 
+	 * @param position : The coords of the tile
+	 * @param aliveMonster : The monsters living on the tile 
 	 */
 	public Village(Coord position, ArrayList<AbstractMonster> aliveMonster) {
 		super("pictures/Tiles/village.png",aliveMonster,position);
@@ -42,6 +45,12 @@ public class Village extends AbstractRoad implements Serializable{
 	}
 	
 
+	/**
+	 *Deal with the entering effect
+	 *Give a quest to the hero, or give him reward if needed
+	 *
+	 *@param gameData : All the data used in the game
+	 */
 	@Override
 	public void enteringEffect(GameData gameData) {
 		Objects.requireNonNull(gameData);
@@ -57,12 +66,15 @@ public class Village extends AbstractRoad implements Serializable{
 			}
 			questAchieved = false;
 			questDelivered= false;
-			
 		}
-		
 	}
 	
 	
+	/**
+	 * Select a random map on the map
+	 * 
+	 * @param gameData : All the data used in the game
+	 */
 	private void giveAQuest(GameData gameData) {
 		Integer indexInLoop = gameData.board().getIndexInLoop(position.y(), position.x());
 		ArrayList<AbstractTile> tileWithMonster = new ArrayList<>();
@@ -81,19 +93,25 @@ public class Village extends AbstractRoad implements Serializable{
 		}
 	}
 	
+	/**
+	 * Set the quest status to achieved
+	 */
 	public void questMobDefeated() {
 		questAchieved=true;
 	}
 	
+	/**
+	 * Search OvergrownWheatFieldd to make normal again around the village.
+	 * 
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 */
 	public void searchOvergrown(Board board) {
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
 		posibilities.add(new Coord(0,-1));
 		posibilities.add(new Coord(1,0));
 		posibilities.add(new Coord(-1,0));
-		
 		AbstractTile[][] matrix = board.boardMatrix();
-		
 		
 		for(Coord coord : posibilities) {
 			if((position.y()+coord.y()<12 && position.y()+coord.y()>=0) && (position.x()+coord.x()<21 && position.x()+coord.x()>=0)) {
@@ -105,6 +123,9 @@ public class Village extends AbstractRoad implements Serializable{
 		}
 	}
 	
+	/**
+	 *Search WheatField to overgrown around the village
+	 */
 	public void removingEffect(Board board) {
 		ArrayList<Coord> posibilities = new ArrayList<>();
 		posibilities.add(new Coord(0,1));
@@ -127,10 +148,16 @@ public class Village extends AbstractRoad implements Serializable{
 	}
 	
 	
+	/**
+	 * Increment the number of wheat field nearby
+	 */
 	public void wheatFieldNearby() {
 		wheatFieldAround++;
 	}
 	
+	/**
+	 * Decrement the number of wheat field nearby
+	 */
 	public void wheatFieldOblivionned() {
 		wheatFieldAround--;
 	}

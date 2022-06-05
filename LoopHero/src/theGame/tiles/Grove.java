@@ -20,6 +20,7 @@ public class Grove extends AbstractRoad implements Serializable{
 	 * 
 	 * @param position : his position on the board
 	 * @param aliveMonster : the monsters on the cell before the card is place
+	 * @param pos : the coord of the tile
 	 */
 	public Grove(int position,ArrayList<AbstractMonster> aliveMonster,Coord pos) {
 		super("pictures/Tiles/grove.png", aliveMonster,pos);

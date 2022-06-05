@@ -107,6 +107,12 @@ public class AbstractRoad extends AbstractTile implements Serializable{
         }
     }
 	
+	/**
+	 * Check if there is a beacon nearby 
+	 * 
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 * @return true if there is a beacon nearby
+	 */
 	public boolean isBeaconNearby(Board board) {
 		Objects.requireNonNull(board);
 		Coord[] posibilities = {
@@ -128,6 +134,12 @@ public class AbstractRoad extends AbstractTile implements Serializable{
 		return false;
 	}
 	
+	/**
+	 * Apply beacon effect if there is one nearby
+	 * 
+	 * @param timeData: Data related to the course of time in the game
+	 * @param board: The board of the game, with data such as the hero, the board matrix, or the hero position
+	 */
 	public void beaconNearby(TimeData timeData,Board board) {
 		Objects.requireNonNull(timeData);
 		Objects.requireNonNull(board);

@@ -181,6 +181,7 @@ public class GameData implements Serializable{
 			switch (myCard.name()) {
 				case "rock":
 					board.boardMatrix()[indexY][indexX]=new Rock(board,indexY, indexX);
+					board.boardMatrix()[indexY][indexX].searchMeadowtoBloom(board, indexX, indexY);
 					ressourcesInventory.addRessources("Pebbles", 1);
 					break;
 							
@@ -210,22 +211,27 @@ public class GameData implements Serializable{
 						board.boardMatrix()[indexY][indexX]=new Wastelands(position);
 					}else if(board.boardMatrix()[indexY][indexX].type().equals("RoadSide")) {
 						board.boardMatrix()[indexY][indexX]=new EmptyRoadSide();
+						board.boardMatrix()[indexY][indexX].searchMeadowtoUnbloom(board, indexX, indexY);
 					}else if(board.boardMatrix()[indexY][indexX].type().equals("Field")) {
 						board.boardMatrix()[indexY][indexX]=new EmptyField();
+						board.boardMatrix()[indexY][indexX].searchMeadowtoUnbloom(board, indexX, indexY);
 					}
 					board.boardMatrix()[indexY][indexX].searchMeadowtoUnbloom(board, indexX, indexY);
 					break;
 					
 				case "spiderCocoon":
 					board.boardMatrix()[indexY][indexX]=new SpiderCocoon(new Coord(indexX,indexY),board.boardMatrix());
+					board.boardMatrix()[indexY][indexX].searchMeadowtoBloom(board, indexX, indexY);
 					break;
 					
 				case "vampireMansion":
 					board.boardMatrix()[indexY][indexX]=new VampireMansion();
+					board.boardMatrix()[indexY][indexX].searchMeadowtoBloom(board, indexX, indexY);
 					break;
 				
 				case "battleField":
 					board.boardMatrix()[indexY][indexX]=new BattleField(new Coord(indexX,indexY),board.boardMatrix());
+					board.boardMatrix()[indexY][indexX].searchMeadowtoBloom(board, indexX, indexY);
 					break;
 					
 				case "village":
@@ -242,6 +248,7 @@ public class GameData implements Serializable{
 				
 				case "beacon":
 					board.boardMatrix()[indexY][indexX]=new Beacon();
+					board.boardMatrix()[indexY][indexX].searchMeadowtoBloom(board, indexX, indexY);
 					break;
 				
 				}

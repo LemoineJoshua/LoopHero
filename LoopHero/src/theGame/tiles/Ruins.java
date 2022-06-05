@@ -14,10 +14,11 @@ public class Ruins extends AbstractRoad implements Serializable{
 	private int day = 0;
 	private ArrayList<String> enteringDrop;
 	
-
 	/**
-	 * @param position
-	 * @param aliveMonster
+	 * Ruins constructor
+	 * 
+	 * @param aliveMonster : the monsters living on the tile
+	 * @param position : the coords of the tile
 	 */
 	public Ruins(ArrayList<AbstractMonster> aliveMonster,Coord position) {
 		super("pictures/Tiles/ruins.png", aliveMonster,position);

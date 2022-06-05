@@ -15,6 +15,10 @@ public class WheatFields extends AbstractRoad implements Serializable{
 
 	/**
 	 * The Wheat Fields constructor
+	 * 
+	 * @param position : the coords of the tile
+	 * @param matrix : the matrix of tile of the board
+	 * @param monsters : the monsters living on the tile.
 	 */
 	public WheatFields(Coord position,AbstractTile[][] matrix, ArrayList<AbstractMonster> monsters) {
 		super("pictures/Tiles/wheatFields.png",monsters,position);
@@ -42,6 +46,8 @@ public class WheatFields extends AbstractRoad implements Serializable{
 	
 	/**
 	 * Spawn a scarecrow in the wheatField, each four days
+	 * 
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
 	 */
 	@Override
 	public void dailyEffect(Board board) {	
@@ -53,6 +59,11 @@ public class WheatFields extends AbstractRoad implements Serializable{
 		}
 	}
 	
+	/**
+	 * Search Village around to increment the number of wheat field of this village
+	 * 
+	 * @param matrix : the matrix of tile of the board
+	 */
 	private void searchVillage(AbstractTile[][] matrix) {
 		Objects.requireNonNull(matrix);
 		ArrayList<Coord> posibilities = new ArrayList<>();
@@ -71,6 +82,9 @@ public class WheatFields extends AbstractRoad implements Serializable{
 		}	
 	}
 	
+	/**
+	 *Search village to apply them the effect, of oblivionning a wheat field
+	 */
 	@Override
 	public void removingEffect(Board board) {
 		Objects.requireNonNull(board);

@@ -19,7 +19,6 @@ public class SpiderCocoon extends AbstractTile implements Serializable{
 	 * 
 	 * @param coord : it's coordinates on the board
 	 * @param matrix : the board 
-	 * @param aliveMonster : the monsters on the cell before the card is place
 	 */
 	public SpiderCocoon(Coord position,AbstractTile[][] matrix) {
 		super("RoadSide","pictures/Tiles/SpiderCocoon.png");

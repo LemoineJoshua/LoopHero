@@ -15,8 +15,10 @@ public class Cemetery extends AbstractRoad implements Serializable{
 	
 
 	/**
-	 * @param position
-	 * @param aliveMonster
+	 * The Cemetery constructor
+	 * 	
+	 * @param aliveMonster : the monster living on the tile
+	 * @param position : the coords of the tile 
 	 */
 	public Cemetery(ArrayList<AbstractMonster> aliveMonster,Coord position) {
 		super("pictures/Tiles/cemetery.png", aliveMonster,position);

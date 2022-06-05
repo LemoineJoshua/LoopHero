@@ -105,6 +105,13 @@ public class Item implements Serializable {
 		return retour;
 	}
 	
+	/**
+	 * Choose a random rarity and create an item
+	 * 
+	 * @param loop : The loop number
+	 * 
+	 * @return a classic Item
+	 */
 	public static Item getAnItem(int loop) {
 		double prob[] = {0,0,0,0};
 		if(loop<3) {
@@ -133,6 +140,13 @@ public class Item implements Serializable {
 		return item;
 	}
 	
+	/**
+	 * Choose a between 2 and 3 and create an item
+	 * 
+	 * @param loop : The loop number
+	 * 
+	 * @return a quest item (at least rarity 2)
+	 */
 	public static Item getAQuestItem(int loop) {
 		Item item = null;
 		if (loop <3 ) {
@@ -146,6 +160,33 @@ public class Item implements Serializable {
 		}
 		return item;
 	}
+		
+	/**
+	 * Select a type of item to create (Armor-Shield-Weapon-Ring), and return the item
+	 * 
+	 * @param loop : the loop number
+	 * @param rarity : the rarirty of the item
+	 * @return the created item
+	 */
+	static private Item generalItem(int loop, int rarity) {		
+		double Itemtype = Math.random();
+		if(Itemtype>0.75) {
+			return classicItem(loop,rarity, "weapon");
+		}else if(Itemtype>0.5){
+			return classicItem(loop,rarity, "shield");
+		}else if(Itemtype>0.25) {
+			return classicItem(loop,rarity, "armor");	
+		}else {
+			return ringItem(loop, rarity);
+		}		
+	}
+	/**
+	 * Roll a stat, the item doesn't already have
+	 * 
+	 * @param statsSup : The list of stat the item already got
+	 * 
+	 * @return the list of stat with a new one
+	 */
 	static private String rollAStat(ArrayList<String> statsSup){
 		
 		ArrayList<String> statList = new ArrayList<>();
@@ -163,6 +204,14 @@ public class Item implements Serializable {
 		return newStat;
 	}
 	
+	/**
+	 * This function create an item of type weapon, armor or shield
+	 * 
+	 * @param loop : The loop number
+	 * @param rarity : the rarity of the item
+	 * @param type : the type of the item 
+	 * @return the created item
+	 */
 	static private Item classicItem(int loop, int rarity, String type) {
 		double hp = 0;
 		double strength = 0;
@@ -178,7 +227,7 @@ public class Item implements Serializable {
 		double percentage=0;
 		double rarityMultiplier=1;
 		
-		switch(rarity) {
+		switch(rarity) {				//Depending on the rarity of the item, the stats doesn't get the same multiplier
 			case 0:
 				percentage=1;
 				break;
@@ -191,7 +240,7 @@ public class Item implements Serializable {
 				rarityMultiplier=0.5;
 			}
 			
-		switch(type) {
+		switch(type) {					// Initialize the main stat of the item, depending on its type
 			case "weapon"-> {
 				strength = percentage * ((loop*4)+Math.random()*(loop*6 - loop*4));
 			}
@@ -204,13 +253,13 @@ public class Item implements Serializable {
 			}
 		}
 		
-		for(int i=0;(i<rarity&&i<2);i++) {
+		for(int i=0;(i<rarity&&i<2);i++) {		// Roll the secondary stats of the item
 			String tmp = rollAStat(newStat);
 			statSup.add(tmp);
 			newStat.add(tmp);
 		}
 		
-		if(statSup.contains("defense")) {
+		if(statSup.contains("defense")) {		// Initialize all the stats depending on the different factors
 			defense = rarityMultiplier*(loop * 1.5);
 		}
 		if(statSup.contains("counterAttack")) {
@@ -226,7 +275,7 @@ public class Item implements Serializable {
 			vampirism =0.01*rarityMultiplier*(8 + (loop - 1) * 1.5);
 		}
 		
-		if(rarity==3) {
+		if(rarity==3) {					// Initialize the stat of the rarity 3 item
 			statSup2 = rollAStat(newStat); 
 			if(statSup2.equals("defense")) {
 				defense = ((loop-2) * 1.5);
@@ -247,6 +296,13 @@ public class Item implements Serializable {
 		return new Item(hp,strength,defense,counterAttack,regen,evade,vampirism,rarity,"pictures/Stuff/"+type+""+rarity+".png",type, loop); 
 	}
 	
+	/**
+	 * This function create a ring item
+	 * 
+	 * @param loop : The loop number
+	 * @param rarity : the rarity of the item
+	 * @return the created ring
+	 */
 	static private Item ringItem(int loop, int rarity) {
 		double hp = 0;
 		double strength = 0;
@@ -303,19 +359,13 @@ public class Item implements Serializable {
 		
 	}
 	
-	static private Item generalItem(int loop, int rarity) {		
-		double Itemtype = Math.random();
-		if(Itemtype>0.75) {
-			return classicItem(loop,rarity, "weapon");
-		}else if(Itemtype>0.5){
-			return classicItem(loop,rarity, "shield");
-		}else if(Itemtype>0.25) {
-			return classicItem(loop,rarity, "armor");	
-		}else {
-			return ringItem(loop, rarity);
-		}		
-	}
-	
+	/**
+	 * Round a value
+	 * 
+	 * @param value : the value we want to round
+	 * @param places : the number of places after the dot
+	 * @return the rounded value
+	 */
 	public static double round(double value, int places) {
         if (places < 0)
             throw new IllegalArgumentException();

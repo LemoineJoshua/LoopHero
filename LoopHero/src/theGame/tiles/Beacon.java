@@ -2,6 +2,9 @@ package theGame.tiles;
 
 public class Beacon extends AbstractTile {
 
+	/**
+	 * The beacon constructor
+	 */
 	public Beacon() {
 		super("Field","pictures/Tiles/beacon.png");
 	}

@@ -14,6 +14,8 @@ public class Wastelands extends AbstractRoad implements Serializable{
 	/**
 	 * WasteLands constructor
 	 * A empty path cell, which can spawn slime
+	 * 
+	 * @param position : The coords of the tile
 	 */
 	public Wastelands(Coord position) {
 		super("pictures/Tiles/chemin.png",new ArrayList<AbstractMonster>(),position);
@@ -22,6 +24,9 @@ public class Wastelands extends AbstractRoad implements Serializable{
 	/**
 	 * WasteLands constructor
 	 * A empty path cell, which can spawn slime
+	 * 
+	 * @param monsterList : the monsters living on the tile
+	 * @param position : The coords of the tile
 	 */
 	public Wastelands(ArrayList<AbstractMonster> monsterList,Coord position) {
 		super("pictures/Tiles/chemin.png",monsterList,position);
@@ -30,15 +35,17 @@ public class Wastelands extends AbstractRoad implements Serializable{
    /**
     * Apply the daily effect of the tile each day
     * Got 5% chance to spawn a slime each day
+    * 
+    * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
     */
 	@Override
-   public void dailyEffect(Board board) {
+    public void dailyEffect(Board board) {
 		Objects.requireNonNull(board);
-	   Slime slime = new Slime(); 
-	   if (slime.doSpawn()){
-           addMob(slime);
-	   }
-   }
+	    Slime slime = new Slime(); 
+	    if (slime.doSpawn()){
+            addMob(slime);
+	    }
+    }
 	
 	
 	/**

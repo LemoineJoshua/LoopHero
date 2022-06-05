@@ -16,6 +16,11 @@ public class BattleField extends AbstractTile implements Serializable{
 	private final ArrayList<Coord> spawningTiles;
 	
 	
+	/**
+	 * The BatteField constructor
+	 * @param position : the coords of the tile 
+	 * @param matrix : the matrix of tile of the game
+	 */
 	public BattleField(Coord position,AbstractTile[][] matrix) {
 		super("RoadSide","pictures/Tiles/battleField.png");
 		
