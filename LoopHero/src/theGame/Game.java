@@ -8,11 +8,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import fight.Fight;
+
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.KeyboardKey;
 import theGame.boardGame.Board;
+import theGame.fight.Fight;
 import theGame.inventories.Item;
 
 public class Game {

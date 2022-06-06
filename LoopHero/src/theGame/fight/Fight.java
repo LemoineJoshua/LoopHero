@@ -1,4 +1,4 @@
-package fight;
+package theGame.fight;
 
 import java.util.ArrayList;
 import java.util.Objects;
