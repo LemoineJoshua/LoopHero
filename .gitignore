@@ -1,5 +1,8 @@
 /.metadata/
-.metadata/
-Rendu phase1/
-Rendu phase2/
-Rendu phase3/
+
+/Rendu phase1/
+/Rendu phase2/
+/Rendu phase3/
+/.gitignore
+/.project
+/.gitattributes
