@@ -1,0 +1,5 @@
+package theGame.entities;
+
+public class FieldOfBlade extends AbstractMonster {
+
+}

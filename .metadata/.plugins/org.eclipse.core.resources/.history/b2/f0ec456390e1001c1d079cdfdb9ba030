@@ -1,0 +1,8 @@
+package theGame.tiles;
+
+public class Beacon extends AbstractTile {
+
+	public Beacon() {
+		super("field","pictures/Tiles/beacon.png");
+	}
+}

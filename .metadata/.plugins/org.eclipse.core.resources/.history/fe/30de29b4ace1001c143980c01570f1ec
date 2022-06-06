@@ -1,0 +1,253 @@
+package fight;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import fr.umlv.zen5.ApplicationContext;
+import theGame.GameView;
+import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
+import theGame.entities.Hero;
+import theGame.entities.Skeleton;
+import theGame.entities.Vampire;
+import theGame.entities.AbstractMonster;
+import theGame.entities.Ghost;
+import theGame.inventories.CardInventory;
+import theGame.inventories.ItemInventory;
+import theGame.inventories.RessourcesInventory;
+import theGame.tiles.AbstractRoad;
+import theGame.tiles.AbstractTile;
+import theGame.tiles.BattleField;
+import theGame.tiles.VampireMansion;
+
+public class Fight {
+	private final ApplicationContext ctx;
+	private final GameView gameView;
+	private final Board board;
+	private final CardInventory cardInventory;
+	private final RessourcesInventory ressources;
+	private final ItemInventory items;
+	private final ArrayList<AbstractMonster> mobs;
+	private final Hero hero;
+	private boolean battleFieldAround = false;
+	
+	
+	/**
+	 * Constrtuctor of the class Fight
+	 * which use data such as Hero, gameView to draw, or the board
+	 * 
+	 * @param gameView : Set of functions related to graphics
+	 * @param board : The board of the game, with data such as the hero, the board matrix, or the hero position
+	 * @param cardInventory : All cards of the game, split in the deck, and the cards in the player's hand
+	 * @param ressources : All the resources collected by the hero
+	 * @param itemInventory : Inventory that contains all the equipment the hero has collected, which can now be equipped
+	 * @param ctx : Global context of the game
+	 */
+	public Fight(GameView gameView,Board board,CardInventory cardInventory,RessourcesInventory ressources,ItemInventory itemInventory,ApplicationContext ctx) {
+		this.gameView=gameView;
+		this.board=board;
+		this.cardInventory=cardInventory;
+		this.ressources=ressources;
+		this.items = itemInventory;
+		this.hero=board.hero();
+		this.ctx = ctx;
+		
+		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
+		
+		this.mobs = new ArrayList<AbstractMonster>();
+		for (AbstractMonster monster:tile.aliveMonster()) {
+			mobs.add(monster);
+		}
+		
+		//System.out.println("---------------------------------");
+		
+		
+		checkAround();
+		
+		
+	}
+	
+	private void checkAround() {
+		AbstractTile[][] matrix = board.boardMatrix();
+		ArrayList<Coord> posibilities = new ArrayList<>();
+		posibilities.add(new Coord(0,1));
+		posibilities.add(new Coord(0,-1));
+		posibilities.add(new Coord(1,0));
+		posibilities.add(new Coord(-1,0));
+		
+		
+		
+		for(Coord coord : posibilities) {
+			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
+				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof VampireMansion) {
+					mobs.add(new Vampire());
+					
+					for(AbstractMonster mob : mobs) {
+						mob.vampireNearby();
+					}
+					
+					break;
+				}
+			}
+		}
+		
+		for(Coord coord : posibilities) {
+			if((board.heroY()+coord.y()<12 && board.heroY()+coord.y()>=0) && (board.heroX()+coord.x()<21 && board.heroX()+coord.x()>=0)) {
+				if(matrix[board.heroY()+coord.y()][board.heroX()+coord.x()] instanceof BattleField) {
+					battleFieldAround=true; 
+					break;
+				}
+			}
+		}
+	}
+	/**
+	 * Main function of the class Fight, which is a loop that ends 
+	 * when either the hero is dead or all ennemies are dead.
+	 * In this loop all monsters hit the hero first and the it's time for the hero to play.
+	 * 
+	 * @return true if the hero win, and false if he loosed.
+	 */
+	public boolean doFight() {
+		AbstractRoad tile = (AbstractRoad) board.boardMatrix()[board.heroY()][board.heroX()];
+		for(AbstractMonster mob:mobs) {
+			mob.fightStats(board.loop());
+			
+		}
+		ArrayList<String> fightProgress = new ArrayList<>();
+		int lossHp=0;
+		int indexAttack = 0;
+		int vampirismRegen = 0;
+		while(true){
+			//Mobs turn
+			int monsterNumber = 1;
+			for(AbstractMonster mob:mobs) {
+				if(mob.isDead()) {
+					monsterNumber +=1;
+					continue;		
+				}	
+				fightProgress.add("=> Monstre "+monsterNumber+" attaque.");		// Every line with "fightProgress.add()" are used to stock what will be written in the little terminal on the screen
+				
+				if(!hero.doEvade()) {		// Condition to know if the hero has evade the mob attack
+					int damage=mob.damage();
+					//System.out.println("les pv du hero avant : "+hero.hp());
+					//System.out.println("les damages du mob : "+damage);
+					
+					if(hero.doCounter()) {					// If the hero counter, then the monster take their own damage
+						lossHp = mob.lossHp(damage);
+						fightProgress.add("-Le héros a contré, ");
+						fightProgress.add("Monstre "+monsterNumber+" a subi "+lossHp+" dégâts.");
+					}else {
+						lossHp = hero.lossHp(damage); 		// Else hero loss Hp, calculated with his defense and mob damage.
+						fightProgress.add("-Le héros a subi "+lossHp+" dégâts.");
+						// Possible end of fight if the hero is dead
+						if(hero.isDead()) {
+							return false;
+						}
+						vampirismRegen = mob.vampirismRegen(damage);	// Regen the monster if he got vampirism
+						//System.out.println("les pv du hero après : "+hero.hp());
+
+						if (vampirismRegen>0) {
+							fightProgress.add("-Le Monstre "+monsterNumber+" a récupéré "+vampirismRegen+" points");
+							fightProgress.add("de vie grâce à son vampirisme.");
+						}
+					}					
+					monsterNumber +=1;
+					
+				}else {				// If the hero has evade
+					fightProgress.add("-Le héros a esquivé.");
+				}
+				
+				//Draw everything that happened during the monster turn
+				drawFight(fightProgress);
+				fightProgress.clear();
+				
+			}
+			
+			
+			
+			// Hero's turn
+			AbstractMonster mob=mobs.get(indexAttack);
+
+			fightProgress.add("=> Le héros attaque le Monstre "+(indexAttack+1));
+			if(!mob.doEvade()) {			// Condition to know if the monster has evade the mob attack
+				int damage=hero.damage();
+				//System.out.println("les du mob pv avant : " + mob.hp());
+				//System.out.println("damage du hero : "+damage);
+				
+				if(mob.doCounter()) {			// If the monster counter, then the hero take his own attack
+					lossHp = hero.lossHp(damage);
+					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a contré,");
+					fightProgress.add("Le héros a subi "+lossHp+" dégâts."); 
+				}else {							// Else the monster loss Hp, calculated with his defense and hero damage.
+					lossHp = mob.lossHp(damage);
+					fightProgress.add("-Le Monstre "+(indexAttack+1)+" a subi "+lossHp+" dégâts.");
+					vampirismRegen = hero.vampirismRegen(damage);
+					if (vampirismRegen>0) {			// Regen the hero if he got vampirism
+						fightProgress.add("-Le Héros a récupéré "+vampirismRegen+" points");
+						fightProgress.add("de vie grâce à son vampirisme.");
+					}
+				}
+				
+				//System.out.println("les pv du mob après: " + mob.hp());				
+				
+			}else {				// If the hero has evade
+				fightProgress.add("-Le Monstre "+(indexAttack+1)+" a esquivé.");
+				//System.out.println("il a esquive");
+			}
+			if(mobs.get(indexAttack).isDead()) {
+				if (battleFieldAround && Math.random()>0.5 && !(mobs.get(indexAttack) instanceof Ghost ) && mobs.get(indexAttack).hasASoul()){
+					mobs.remove(indexAttack);
+					mobs.add(indexAttack, new Ghost());
+					mobs.get(indexAttack).fightStats(board.loop());
+					tile.aliveMonster().add(new Ghost());					
+				}else {
+					indexAttack++;	
+				}
+				
+			}
+			
+			//Draw everything that happened during the hero turn
+			drawFight(fightProgress);
+			fightProgress.clear();
+			
+			// Everyone regen time
+			hero.regenTurn();
+			mob.regenTurn();
+						
+			// Fight end condition
+			if (indexAttack>(mobs.size()-1)) {
+				//System.out.println("les pv du hero à la fin du combat : "+hero.hp());
+				tile.clearMob(ressources, cardInventory, items, board.loop());
+				return true;
+			}
+		}	
+	}
+	
+	/**
+	 * Function that calls the drawFight of the gameView class to draw
+	 * Then wait a little bit, to let the time to the player to read
+	 * 
+	 * @param fightProgress : A list of sentences which explain the fight progression
+	 */
+	private void drawFight(ArrayList<String> fightProgress) {
+		
+		gameView.drawFight(ctx, hero, mobs, fightProgress);
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @return true if all monsters are dead, else return false
+	 */
+	public boolean allMobDead() {
+		for(AbstractMonster mob:mobs) {
+			if(!mob.isDead()) {
+				return false;
+			}
+		}
+		return true;
+	}
+}

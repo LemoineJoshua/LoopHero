@@ -1,0 +1,6 @@
+package theGame.tiles;
+
+public class Beacon extends AbstractTile {
+
+	public Beacon()
+}

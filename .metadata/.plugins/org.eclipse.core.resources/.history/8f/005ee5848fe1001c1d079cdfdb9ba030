@@ -1,0 +1,5 @@
+package theGame.tiles;
+
+public class Beacon extends AbstractRoad {
+
+}

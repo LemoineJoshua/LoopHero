@@ -1,0 +1,30 @@
+package theGame.tiles;
+
+import java.util.ArrayList;
+
+import theGame.boardGame.Board;
+import theGame.boardGame.Coord;
+import theGame.entities.AbstractMonster;
+import theGame.entities.ScareCrow;
+
+public class OvergrownWheatField extends AbstractRoad {
+
+	private int day = 0;
+	
+	public OvergrownWheatField(ArrayList<AbstractMonster> aliveMonster, Coord position) {
+		super("picture/Tiles/overgrownWheatField.png", aliveMonster, position);	
+	}
+	
+	/**
+	 * Spawn a scarecrow in the wheatField, each four days
+	 */
+	@Override
+	public void dailyEffect(Board board) {	
+		day+=1;
+		if(day%4==0) {
+			ScareCrow scareCrow= new ScareCrow();
+			this.addMob(scareCrow);
+		}
+	}
+
+}

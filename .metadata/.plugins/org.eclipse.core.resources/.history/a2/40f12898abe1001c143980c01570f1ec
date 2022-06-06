@@ -1,0 +1,17 @@
+package theGame.tiles;
+
+import java.util.ArrayList;
+
+import theGame.boardGame.Coord;
+import theGame.entities.AbstractMonster;
+
+public class OvergrownWheatField extends AbstractRoad {
+
+	private int day = 0;
+	
+	public OvergrownWheatField(String img, ArrayList<AbstractMonster> aliveMonster, Coord position) {
+		super(img, aliveMonster, position);
+		
+	}
+
+}
