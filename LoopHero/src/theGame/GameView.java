@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.ScreenInfo;
 import theGame.boardGame.Coord;
+import theGame.cards.Card;
 import theGame.entities.AbstractEntities;
 import theGame.entities.Hero;
 import theGame.entities.AbstractMonster;
@@ -27,7 +28,6 @@ import theGame.inventories.Item;
 import theGame.inventories.ItemInventory;
 import theGame.tiles.AbstractRoad;
 import theGame.tiles.AbstractTile;
-import theGame.Cards.Card;
 
 public class GameView {
 	private final float width;

@@ -3,9 +3,9 @@ package theGame;
 import java.io.Serializable;
 import java.util.Objects;
 
-import theGame.Cards.Card;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
+import theGame.cards.Card;
 import theGame.inventories.CardInventory;
 import theGame.inventories.ItemInventory;
 import theGame.inventories.RessourcesInventory;

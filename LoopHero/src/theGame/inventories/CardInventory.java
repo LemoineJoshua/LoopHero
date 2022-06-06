@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import theGame.Cards.Card;
+import theGame.cards.Card;
 
 public class CardInventory implements Serializable {
 	private static final long serialVersionUID = -7129791130839778129L;

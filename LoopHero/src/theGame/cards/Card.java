@@ -1,4 +1,4 @@
-package theGame.Cards;
+package theGame.cards;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
