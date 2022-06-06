@@ -10,7 +10,6 @@ import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.Hero;
 import theGame.entities.PrimalMatter;
-import theGame.entities.Skeleton;
 import theGame.entities.Vampire;
 import theGame.entities.AbstractMonster;
 import theGame.entities.FieldOfBlade;

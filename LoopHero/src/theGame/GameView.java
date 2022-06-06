@@ -79,7 +79,7 @@ public class GameView {
 		if (timeData.isStopped()) {
 			BufferedImage img = stringToImage("pictures/HUD/stop.png"); 
 			drawHero(5, -1, img);
-			graphics.drawString("Mode Plannification", xPlayingZone + 6*squareSize , yPlayingZone/2 + 30 );
+			graphics.drawString("Planning Mode", xPlayingZone + 6*squareSize , yPlayingZone/2 + 30 );
 		}		
 		int fontSize = Math.round(((5*width/6) - (xPlayingZone+widthPlayingZone))/13);
 		gameData.ressourcesInventory().drawRessources(xPlayingZone+21*squareSize+5, yPlayingZone+14, graphics, squareSize, fontSize);	
@@ -119,14 +119,14 @@ public class GameView {
 		graphics.setColor(Color.WHITE);
 		int fontSize = Math.round((int)cellSize/3);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));		
-		graphics.drawString("Mon Équipement",(float) (5*width/6 +10),yPlayingZone-10);
+		graphics.drawString("My equipment",(float) (5*width/6 +10),yPlayingZone-10);
 		
 		for (int i=0; i<4;i++) {
 			graphics.drawImage(img, scaling, (int)Math.round(5*width/6  + i*width/24),yPlayingZone);
 		}
 		
 		double yStuffCell = yPlayingZone+2*cellSize;
-		graphics.drawString("Mon Inventaire",(float) (5*width/6 +10),(float) (yStuffCell-10));
+		graphics.drawString("My Inventory",(float) (5*width/6 +10),(float) (yStuffCell-10));
 		
 		for (int j=0;j<3;j++) {
 			for (int i=0; i<4;i++) {
@@ -211,7 +211,7 @@ public class GameView {
 		if (equippedStuff!=null) {
 			graphics.drawString("- "+equippedStuff.type()+", rarity "+equippedStuff.rarity()+", lvl "+equippedStuff.loop(),(float) x,(float) y+line*fontSizeTitle);
 			line++;
-			for(Map.Entry entree : equippedStuff.stats().entrySet()){
+			for(Map.Entry<String,Double> entree : equippedStuff.stats().entrySet()){
 				String statName=entree.getKey().toString();
 				Double statValue=(Double)entree.getValue();
 				if (statValue != 0) {
@@ -233,7 +233,7 @@ public class GameView {
 		Item selectionnedStuff = gameData.itemInventory().itemInventory().get(gameData.selectedItemIndex());
 		graphics.drawString("- "+selectionnedStuff.type()+", rarity "+selectionnedStuff.rarity()+", lvl "+selectionnedStuff.loop(),(float) x,(float) y+line*fontSizeTitle);
 		line++;
-		for(Map.Entry entree : selectionnedStuff.stats().entrySet()){
+		for(Map.Entry<String,Double> entree : selectionnedStuff.stats().entrySet()){
 			String statName=entree.getKey().toString();
 			Double statValue=(Double)entree.getValue();
 			if (statValue != 0) {
@@ -254,7 +254,7 @@ public class GameView {
 		graphics.setColor(Color.WHITE);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, fontSize));
 		BufferedImage img = stringToImage("pictures/HUD/Hud3.png");
-		graphics.drawString("Mes Statistiques",(float) (5*width/6 +10),(float) y-10);
+		graphics.drawString("My statistics",(float) (5*width/6 +10),(float) y-10);
 		AffineTransformOp scaling = new AffineTransformOp(AffineTransform
 				.getScaleInstance((width/6) / (double) img.getWidth(), (heigth-y) / (double) img.getHeight()),
 				AffineTransformOp.TYPE_BILINEAR);
@@ -481,7 +481,7 @@ public class GameView {
 		
 		graphics.setColor(Color.BLACK);
 		graphics.setFont(new Font("Arial Black", Font.PLAIN, 30));		
-		graphics.drawString("Boucle : "+ gameData.board().loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );	
+		graphics.drawString("Loop : "+ gameData.board().loop(), xPlayingZone + squareSize , yPlayingZone/2 + 30 );	
 		
 		img = stringToImage("pictures/HUD/Speed1.png"); 
 		drawHero(14, -1, img);

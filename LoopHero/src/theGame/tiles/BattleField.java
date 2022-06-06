@@ -3,14 +3,10 @@ package theGame.tiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import theGame.GameData;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
-import theGame.entities.AbstractMonster;
 import theGame.entities.Chest;
 import theGame.entities.Mimic;
-import theGame.entities.Spider;
 
 public class BattleField extends AbstractTile implements Serializable{
 	private final ArrayList<Coord> spawningTiles;

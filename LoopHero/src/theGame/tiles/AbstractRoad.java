@@ -3,8 +3,6 @@ package theGame.tiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import theGame.GameData;
 import theGame.TimeData;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;

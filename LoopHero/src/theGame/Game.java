@@ -1,7 +1,6 @@
 package theGame;
 
 import java.awt.geom.Point2D;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -9,14 +8,11 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-
 import fight.Fight;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.KeyboardKey;
 import theGame.boardGame.Board;
-import theGame.boardGame.Coord;
 import theGame.inventories.Item;
 
 public class Game {
