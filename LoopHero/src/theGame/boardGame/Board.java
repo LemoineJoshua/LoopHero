@@ -238,20 +238,21 @@ public class Board implements Serializable{
 	}
 	
 	public static String chooseALoop() {
-		Scanner scanner = new Scanner(System.in);
-		String fileName = "";
-		String file ="";
-		do {
-	        System.out.print("Indiquer le nom de la boucle que vous souhaitez utiliser :");
+		try (Scanner scanner = new Scanner(System.in)) {
+			String fileName = "";
+			String file ="";
+			do {
+			    System.out.print("Indiquer le nom de la boucle que vous souhaitez utiliser :");
 
-	        fileName = scanner.next();
-	        file = "functional/"+fileName;
-	        File f = new File(file);
-			if(f.isFile())
-			{ 
-				break;
-			}
-		}while(true);
-		return file;
+			    fileName = scanner.next();
+			    file = "functional/"+fileName;
+			    File f = new File(file);
+				if(f.isFile() && !file.equals("functional/save") && !file.equals("functional/timeSave"))
+				{ 
+					break;
+				}
+			}while(true);
+			return file;
+		}
 	}
 }

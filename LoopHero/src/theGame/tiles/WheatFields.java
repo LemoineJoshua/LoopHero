@@ -3,12 +3,10 @@ package theGame.tiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 import theGame.entities.ScareCrow;
-import theGame.entities.ScorchWorm;
 
 public class WheatFields extends AbstractRoad implements Serializable{
 	private static final long serialVersionUID = -5592914800072028413L;

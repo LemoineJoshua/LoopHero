@@ -34,7 +34,10 @@ public class Item implements Serializable {
 	 * @param loop: the loop number when we get the item
 	 */
 	private Item(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism,int rarity,String image,String type, int loop) {
-		this.stats=new HashMap<String,Double>() {{
+		this.stats=new HashMap<String,Double>() {
+			private static final long serialVersionUID = -3802072993927561793L;
+
+		{
 			put("maxHp",(double) Math.round(hp));
 			put("strength",(double) Math.round(strength));
 			put("defense",(double) Math.round(defense));
