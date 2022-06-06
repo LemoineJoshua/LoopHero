@@ -10,6 +10,8 @@ import theGame.entities.AbstractMonster;
 
 public class CampFire extends AbstractRoad implements Serializable{
 
+	private static final long serialVersionUID = -9156873253702853412L;
+
 	/**
 	 * The CampFire constructor
 	 * The Campfire heal the player at each loop beginning

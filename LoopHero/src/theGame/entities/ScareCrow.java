@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class ScareCrow extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = 812621217902671078L;
+
 	/**
 	 * ScareCrow constructor
 	 */

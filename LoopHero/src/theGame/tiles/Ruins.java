@@ -11,6 +11,7 @@ import theGame.entities.AbstractMonster;
 import theGame.entities.ScorchWorm;
 
 public class Ruins extends AbstractRoad implements Serializable{
+	private static final long serialVersionUID = 7640178772584982252L;
 	private int day = 0;
 	private ArrayList<String> enteringDrop;
 	

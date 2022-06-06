@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Slime extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -8857555305634651821L;
+
 	/**
 	 * Slime constructor
 	 */

@@ -11,6 +11,7 @@ import theGame.entities.AbstractMonster;
 import theGame.inventories.Item;
 
 public class Village extends AbstractRoad implements Serializable{
+	private static final long serialVersionUID = -2867379915306431867L;
 	private int wheatFieldAround=0;
 	private boolean questDelivered = false;
 	private boolean questAchieved = false;

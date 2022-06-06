@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HeroStuff implements Serializable {
+	private static final long serialVersionUID = 1514593066013996245L;
 	private final HashMap<String,Item> inventory;
 	
 	/**

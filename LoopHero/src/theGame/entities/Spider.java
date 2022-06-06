@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Spider extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -4409284828554263900L;
+
 	/**
 	 * Spider constructor
 	 */

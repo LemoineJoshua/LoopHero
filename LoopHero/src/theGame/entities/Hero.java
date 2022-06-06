@@ -7,6 +7,7 @@ import theGame.inventories.Item;
 
 public class Hero extends AbstractEntities implements Serializable{
 	
+	private static final long serialVersionUID = 5265336057491296966L;
 	private final HeroStuff stuff;
 	
 	/**

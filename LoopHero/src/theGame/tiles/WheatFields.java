@@ -11,6 +11,7 @@ import theGame.entities.ScareCrow;
 import theGame.entities.ScorchWorm;
 
 public class WheatFields extends AbstractRoad implements Serializable{
+	private static final long serialVersionUID = -5592914800072028413L;
 	private int day = 0;
 
 	/**

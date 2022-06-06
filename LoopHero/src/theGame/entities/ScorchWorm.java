@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class ScorchWorm extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = 2310854785152805768L;
+
 	/**
 	 * ScorchWorm constructor
 	 */

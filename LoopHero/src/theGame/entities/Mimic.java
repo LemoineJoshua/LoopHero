@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Mimic extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -4948128769915229792L;
+
 	/**
 	 * Mimic constructor
 	 */

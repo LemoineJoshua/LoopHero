@@ -2,6 +2,8 @@ package theGame.tiles;
 
 public class Beacon extends AbstractTile {
 
+	private static final long serialVersionUID = 8303416994688846745L;
+
 	/**
 	 * The beacon constructor
 	 */

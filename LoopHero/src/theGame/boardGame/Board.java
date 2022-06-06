@@ -21,6 +21,7 @@ import theGame.tiles.EmptyRoadSide;
 import theGame.tiles.Wastelands;
 
 public class Board implements Serializable{
+	private static final long serialVersionUID = -6201776064891272555L;
 	private int loop;
     private int position;
     private final ArrayList<Coord> coordList;

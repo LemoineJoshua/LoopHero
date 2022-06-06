@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class RatWolf extends AbstractMonster implements Serializable {
 
+	private static final long serialVersionUID = -1333887583665839591L;
+
 	/**
 	 * RatWolf constructor
 	 */

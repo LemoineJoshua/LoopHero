@@ -11,6 +11,7 @@ import theGame.entities.Skeleton;
 
 public class Cemetery extends AbstractRoad implements Serializable{
 
+	private static final long serialVersionUID = -452076734928560442L;
 	private int day = 0;
 	
 

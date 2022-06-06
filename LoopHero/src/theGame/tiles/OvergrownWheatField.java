@@ -11,6 +11,7 @@ import theGame.entities.ScareCrow;
 
 public class OvergrownWheatField extends AbstractRoad implements Serializable{
 
+	private static final long serialVersionUID = 3169380474720488185L;
 	private int day = 0;
 	
 	

@@ -12,6 +12,7 @@ import theGame.boardGame.Coord;
 import theGame.entities.AbstractMonster;
 
 public abstract class AbstractTile implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final  String type;
 	protected String pathPicture;
 	protected transient BufferedImage picture;

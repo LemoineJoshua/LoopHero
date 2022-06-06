@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class PrimalMatter extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = 5681059655910243854L;
+
 	/**
 	 * PrimalMatter constructor
 	 */

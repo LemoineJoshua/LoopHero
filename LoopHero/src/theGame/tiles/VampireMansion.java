@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class VampireMansion extends AbstractTile implements Serializable{
 	
+	private static final long serialVersionUID = 5543530654059961607L;
+
 	/**
 	 * Mansion constructor
 	 * Initialize the tile, it just have to be there

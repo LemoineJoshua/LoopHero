@@ -7,6 +7,7 @@ import java.util.Objects;
 import theGame.GameView;
 
 public class Card implements Serializable {
+	private static final long serialVersionUID = 7633905939019663426L;
 	private final String name;
 	private final String type;
 	private final String path;

@@ -11,6 +11,8 @@ import theGame.entities.AbstractMonster;
 import theGame.entities.RatWolf;
 
 public class Grove extends AbstractRoad implements Serializable{
+
+	private static final long serialVersionUID = -1881985447430094173L;
 	private final int position;
 	private int day = 0;
 	

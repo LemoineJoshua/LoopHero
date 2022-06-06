@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class GhostOfGhost extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -9008454403167128430L;
+
 	/**
 	 * GhostOfGhost constructor
 	 */

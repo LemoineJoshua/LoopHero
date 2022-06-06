@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import theGame.GameData;
 import theGame.boardGame.Board;
 import theGame.boardGame.Coord;
-import theGame.entities.AbstractMonster;
 import theGame.entities.Spider;
 
 public class SpiderCocoon extends AbstractTile implements Serializable{
+	private static final long serialVersionUID = -2193784652844659397L;
 	private final ArrayList<Coord> spawningTiles;
 	
 	/**

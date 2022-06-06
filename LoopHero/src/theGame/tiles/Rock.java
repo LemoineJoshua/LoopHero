@@ -6,6 +6,7 @@ import theGame.boardGame.Board;
 
 public class Rock extends AbstractTile implements Serializable{
 
+	private static final long serialVersionUID = -399593308381128305L;
 	int x;
 	int y;
 	/**

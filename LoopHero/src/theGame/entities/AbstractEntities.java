@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public abstract class AbstractEntities implements Serializable{
-	
+	private static final long serialVersionUID = -8994249020142053268L;
 	protected final HashMap<String,Double> stats;
 	
 
@@ -20,7 +20,12 @@ public abstract class AbstractEntities implements Serializable{
 	 * @param vampirism : The entity vampirism percentage
 	 */
 	public AbstractEntities(double hp, double strength, double defense, double counterAttack, double regen,double evade,double vampirism) {
-		this.stats=new HashMap<String,Double>() {{
+		this.stats=new HashMap<String,Double>() {/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4465607185025922058L;
+
+		{
 			put("maxHp",hp);
 			put("hp",hp);
 			put("strength",strength);

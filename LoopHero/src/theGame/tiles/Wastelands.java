@@ -11,6 +11,9 @@ import theGame.entities.Slime;
 
 public class Wastelands extends AbstractRoad implements Serializable{
 	
+	private static final long serialVersionUID = -2214596648468838296L;
+
+
 	/**
 	 * WasteLands constructor
 	 * A empty path cell, which can spawn slime

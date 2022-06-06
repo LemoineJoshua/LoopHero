@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Chest extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -3746162454918473283L;
+
 	/**
 	 * Chest constructor
 	 */

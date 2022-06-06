@@ -3,6 +3,7 @@ package theGame;
 import java.io.Serializable;
 
 public class TimeData implements Serializable{
+	private static final long serialVersionUID = 9099224189286778991L;
 	private long tick = System.currentTimeMillis();
 	private long elapsedHero = 0; 	
 	private long elapsedDay = 0;

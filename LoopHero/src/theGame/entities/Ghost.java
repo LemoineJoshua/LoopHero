@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Ghost extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = 6485040656708639498L;
+
 	/**
 	 * Ghost constructor
 	 */

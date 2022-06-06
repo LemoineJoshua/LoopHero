@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Vampire extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -7831595932317950173L;
+
 	/**
 	 * Vampire constructor
 	 */

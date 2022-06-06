@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class RessourcesInventory implements Serializable{
-    private final ArrayList<String> inventaireRessourceName;
+	private static final long serialVersionUID = -8805450551937773451L;
+	private final ArrayList<String> inventaireRessourceName;
 	private final ArrayList<Integer> inventaireRessourceQuantity;
 	private int score;
 	

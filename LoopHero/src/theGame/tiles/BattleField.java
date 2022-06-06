@@ -9,6 +9,7 @@ import theGame.entities.Chest;
 import theGame.entities.Mimic;
 
 public class BattleField extends AbstractTile implements Serializable{
+	private static final long serialVersionUID = 7728425123449194094L;
 	private final ArrayList<Coord> spawningTiles;
 	
 	

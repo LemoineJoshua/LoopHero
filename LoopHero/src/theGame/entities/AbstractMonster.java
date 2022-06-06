@@ -9,7 +9,8 @@ import theGame.GameView;
 
 public abstract class AbstractMonster extends AbstractEntities implements Serializable{
 	
-    private final float chanceSpawn;
+	private static final long serialVersionUID = 6897548213687074948L;
+	private final float chanceSpawn;
     private final float chanceCard;
     protected final ArrayList<String> drop;
     private final String pathPicture;

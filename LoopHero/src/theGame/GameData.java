@@ -26,6 +26,7 @@ import theGame.tiles.Wastelands;
 import theGame.tiles.WheatFields;
 
 public class GameData implements Serializable{
+	private static final long serialVersionUID = 2476007674474374208L;
 	private final Board board;
 	private final CardInventory cardInventory = new CardInventory();
 	private final RessourcesInventory ressourcesInventory = new RessourcesInventory();

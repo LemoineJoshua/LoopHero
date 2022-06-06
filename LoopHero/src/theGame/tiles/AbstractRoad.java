@@ -14,6 +14,7 @@ import theGame.inventories.RessourcesInventory;
 
 public class AbstractRoad extends AbstractTile implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	protected final ArrayList<AbstractMonster> aliveMonster;
 	protected final Coord position;
 	

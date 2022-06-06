@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class Item implements Serializable {
 	
+	private static final long serialVersionUID = -3780443853060191232L;
 	private final HashMap<String,Double> stats;
 	private final int rarity;
 	private final String image;

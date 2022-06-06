@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class FieldOfBlade extends AbstractMonster implements Serializable{
 
+	private static final long serialVersionUID = -7751727449995965213L;
+
 	/**
 	 * FieldOfBlade constructor
 	 */

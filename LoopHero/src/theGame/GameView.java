@@ -705,7 +705,7 @@ public class GameView {
 		if(newGame) {
 			graphics.setFont(new Font("Arial Black", Font.PLAIN, 15));
 			graphics.setColor(Color.white);
-			graphics.drawString("Choisissez une carte depuis le terminal", (int)Math.round(width/2.35),(int)Math.round(heigth/1.68) );
+			graphics.drawString("Choose a loop in the console", (int)Math.round(width/2.35),(int)Math.round(heigth/1.68) );
 		}
 		
 	}

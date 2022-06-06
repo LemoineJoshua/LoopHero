@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ItemInventory implements Serializable{
+	private static final long serialVersionUID = -8227853852813932747L;
 	private final ArrayList<Item> inventory;
 	
 	/**

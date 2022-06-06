@@ -7,6 +7,7 @@ import theGame.GameView;
 import theGame.boardGame.Board;
 
 public class Meadow extends AbstractTile implements Serializable{
+	private static final long serialVersionUID = -1278202109347068720L;
 	private int heal = 2;
 	
 	

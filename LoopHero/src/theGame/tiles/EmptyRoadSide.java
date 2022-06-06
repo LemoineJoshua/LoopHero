@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 public class EmptyRoadSide extends AbstractTile implements Serializable{
 	
+	private static final long serialVersionUID = -7458113470512903928L;
+
+
 	/**
 	 * EmptyRoadSide constructor 
 	 * This is a Tile next to a road without any card on it
